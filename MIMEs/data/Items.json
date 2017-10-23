@@ -1,0 +1,61 @@
+﻿{
+    "d": {
+        "results": [
+            {
+                "ResourceId": "a",
+                "Name": "",
+                "StartDate": "2015-04-30 10:00",
+                "EndDate": "2015-04-30 11:00",
+                "Group" :  "Servicio"
+            },
+            {
+                "ResourceId": "e",
+                "Name": "",
+                "StartDate": "2015-04-30 11:30",
+                "EndDate": "2015-04-30 12:00"
+            },
+            {
+                "ResourceId": "b",
+                "Name": "",
+                "StartDate": "2015-04-30 9:00",
+                "EndDate": "2015-04-30 10:00"
+            },
+            {
+                "ResourceId": "b",
+                "Name": "",
+                "StartDate": "2015-04-30 11:45",
+                "EndDate": "2015-04-30 13:00"
+            },
+            {
+                "ResourceId": "b",
+                "Name": "",
+                "StartDate": "2015-04-30 13:30",
+                "EndDate": "2015-04-30 15:00"
+            },
+            {
+                "ResourceId": "c",
+                "Name": "",
+                "StartDate": "2015-04-30 9:30",
+                "EndDate": "2015-04-30 10:30"
+            },
+            {
+                "ResourceId": "c",
+                "Name": "",
+                "StartDate": "2015-04-30 11:00",
+                "EndDate": "2015-04-30 12:00"
+            },
+            {
+                "ResourceId": "d",
+                "Name": "",
+                "StartDate": "2015-04-30 12:30",
+                "EndDate": "2015-04-30 14:00"
+            },
+            {
+                "ResourceId": "e",
+                "Name": "",
+                "StartDate": "2015-04-30 9:30",
+                "EndDate": "2015-04-30 10:00"
+            }
+        ]
+    }
+}

@@ -1,0 +1,30 @@
+{
+  "d": {
+    "results": [
+      {
+        "loadHour": "09:00",
+        "loadNumber": "0001",
+        "volumen": "100",
+        "techdesc": "XXXXXX",
+        "jobSite": "Site 1",
+        "timeTravel": "00/00/00 01-01-2017"
+      },
+      {
+        "loadHour": "09:30",
+        "loadNumber": "0002",
+        "volumen": "100",
+        "techdesc": "XXXXXX",
+        "jobSite": "Site 2",
+        "timeTravel": "00/00/00 01-01-2017"
+      },
+      {
+        "loadHour": "10:00",
+        "loadNumber": "0003",
+        "volumen": "100",
+        "techdesc": "XXXXXX",
+        "jobSite": "Site 3",
+        "timeTravel": "00/00/00 01-01-2017"
+      }
+    ]
+  }
+}         

@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <title>Load Agenda</title>
+    <!-- <x-compile> -->
+    <!-- <x-bootstrap> -->
+    <!--<link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="resources/css/sch-all.css" />
+    <script src="ext/ext-dev.js"></script>
+    <script src="bootstrap.js"></script>-->
+    <!-- </x-bootstrap> -->
+    <!--<script src="app.js?v=2"></script>-->
+    <!-- </x-compile> -->
+
+    <script type="text/javascript">
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\[").replace(/[\]]/, "\]");
+            var regex = new RegExp("[\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        var gw = getParameterByName('gw');
+
+        if (gw == "X") {
+            var extScript;
+            var appScript;
+
+            document.writeln('<link rel="stylesheet" type="text/css" href="../../ZCXBS_1045_EXTJ/ext-4.2.2.1144/resources/css/ext-all.css">');
+            document.writeln('<link rel="stylesheet" type="text/css" href="../../ZCXBS_1045_EXTJ/Sch/resources/css/sch-all.css">');
+            document.writeln('<!-- LIBS -->');
+
+            extScript = document.createElement("script");
+            extScript.src = "../../ZCXBS_1045_EXTJ/ext-4.2.2.1144/ext-all-debug.js";
+            extScript.type = "text/javascript";
+
+            document.writeln(extScript.outerHTML);
+
+            //var locScript = document.createElement("script");
+            //locScript.src = "../translations/locale.js";
+            //locScript.type = "text/javascript";
+            //document.writeln(locScript.outerHTML);
+            document.writeln('<!-- APP -->');
+
+            appScript = document.createElement("script");
+            appScript.src = "../app.js";
+            appScript.type = "text/javascript";
+            document.writeln(appScript.outerHTML);
+        }
+        else {
+            var extScript;
+            var appScript;
+            var bootstrap;
+
+            document.writeln('<link rel="stylesheet" type="text/css" href="resources/css/sch-all.css">');
+            document.writeln('<link rel="stylesheet" type="text/css" href="bootstrap.css">');
+            document.writeln('<!-- LIBS -->');
+
+            extScript = document.createElement("script");
+            extScript.src = "ext/ext-all-debug.js";
+            extScript.type = "text/javascript";
+            document.writeln(extScript.outerHTML);
+            //var locScript = document.createElement("script");
+            //locScript.src = "./translations/locale.js";
+            //locScript.type = "text/javascript";
+            //document.writeln(locScript.outerHTML);
+            document.writeln('<!-- APP -->');
+
+            appScript = document.createElement("script");
+            appScript.src = "app.js";
+            appScript.type = "text/javascript";
+            document.writeln(appScript.outerHTML);
+        }
+
+    </script>
+
+</head>
+<body>
+</body>
+</html>
