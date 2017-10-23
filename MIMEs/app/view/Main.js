@@ -24,6 +24,8 @@ Ext.create('Ext.data.Store', {
     }
 });
 
+//Comment
+
 Ext.create('Ext.data.Store', {
     storeId:'Load3',
     fields:['SessionId', 'Order', 'Item','SimuLoadflg','LoadDate', 'LoadTime', 'Posex','Quantity', 'Status', 'MatNum','MatDesc', 'ReqDate', 'ReqTime', 'Plant', 'Customer', 'CustoDesc', 'Jobsite', 'JobstDesc','TravelTime'],
