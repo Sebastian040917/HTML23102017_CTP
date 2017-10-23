@@ -37,20 +37,7 @@ Ext.define('Test43.controller.Main', {
             ref: 'MepView',
             selector: 'mepView'
         }
-    ],   refs: [
-        {
-            ref: 'DispatchTree',
-            selector: 'dispatchTree'
-        },
-        {
-            ref: 'GraphView',
-            selector: 'graphView'
-        },
-        {
-            ref: 'MepView',
-            selector: 'mepView'
-        }
-    ],
+    ], 
     date: '',
     time: '',
     dateload: '',
