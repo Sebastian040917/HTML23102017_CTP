@@ -1,44 +1,3 @@
-Ext.create('Ext.data.Store', {
-    storeId:'Load1',
-    fields:['SessionId', 'Order', 'Item','SimuLoadflg','LoadDate', 'LoadTime', 'Posex','Quantity', 'Status', 'MatNum','MatDesc', 'ReqDate', 'ReqTime', 'Plant', 'Customer', 'CustoDesc', 'Jobsite', 'JobstDesc','TravelTime'],
-    data:{'items':[]},
-    proxy: {
-        type: 'memory',
-        reader: {
-            type: 'json',
-            root: 'items'
-        }
-    }
-});
-
-Ext.create('Ext.data.Store', {
-    storeId:'Load2',
-    fields:['SessionId', 'Order', 'Item','SimuLoadflg','LoadDate', 'LoadTime', 'Posex','Quantity', 'Status', 'MatNum','MatDesc', 'ReqDate', 'ReqTime', 'Plant', 'Customer', 'CustoDesc', 'Jobsite', 'JobstDesc','TravelTime'],
-    data:{'items':[]},
-    proxy: {
-        type: 'memory',
-        reader: {
-            type: 'json',
-            root: 'items'
-        }
-    }
-});
-
-//Comment
-
-Ext.create('Ext.data.Store', {
-    storeId:'Load3',
-    fields:['SessionId', 'Order', 'Item','SimuLoadflg','LoadDate', 'LoadTime', 'Posex','Quantity', 'Status', 'MatNum','MatDesc', 'ReqDate', 'ReqTime', 'Plant', 'Customer', 'CustoDesc', 'Jobsite', 'JobstDesc','TravelTime'],
-    data:{'items':[]},
-    proxy: {
-        type: 'memory',
-        reader: {
-            type: 'json',
-            root: 'items'
-        }
-    }
-});
-
 Ext.util.CSS.createStyleSheet(
     '.some-row-class {font-size: 9px;}'
 );
@@ -47,17 +6,9 @@ Ext.util.CSS.createStyleSheet(
     '.naranja .x-grid-cell {background-color: #FF9900;}'
 );
 
-Ext.util.CSS.createStyleSheet(
-    '.dashed {font-size: 9px;border-bottom: 1px #0000FF dashed; }'
-);
-
-Ext.util.CSS.createStyleSheet(
-    '.double {font-size: 9px;border-style: double; border-top: none; border-left: none;border-right: none;border-bottom-color: #ff0000;}'
-);
-
-Ext.util.CSS.createStyleSheet(
-    '.underline {border-bottom: 2px solid currentColor;display: inline-block;line-height: 0.85;text-shadow: 2px 2px white, 2px -2px white, -2px 2px white, -2px -2px white;}'
-);
+var tip = Ext.create('Ext.tip.ToolTip', {
+ trackMouse: true
+});
 
 Ext.define('Test43.view.Main', {
     extend: 'Ext.container.Container',
@@ -298,7 +249,7 @@ Ext.define('Test43.view.Main', {
                                                 },
                                                 listeners: {
                                                         itemmouseenter: function(view, record, item) {
-					                        Ext.fly(item).set({'data-qtip': '<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">'+ translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">'+ translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">'	+ translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadCliente + '</td><td width="50%">'+ record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadObra + '</td><td width="50%">'+ record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>'},{'data-qwidth':'600px'},{'data-qeight':'600px'});
+Ext.fly(item).set({'data-qtip': '<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">'+ translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">'+ translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">'	+ translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadCliente + '</td><td width="50%">'+ record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadObra + '</td><td width="50%">'+ record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>'},{'data-qwidth':'600px'},{'data-qeight':'600px'});
                                                         }
                                                     }
                                     },
@@ -309,7 +260,7 @@ Ext.define('Test43.view.Main', {
 					    width: '34%',
                                             height: 223,
 					    enableColumnHide:false,
-                                                store: 'Load2',
+                                            //store: 'Load2',
                                                         margins: { top: 0, left: 0, right: 0, bottom: 0 },
                                                             padding: { top: 0, left: 0, right: 0, bottom: 0 },
                                                 columns: [
@@ -342,6 +293,8 @@ Ext.define('Test43.view.Main', {
 					        //{text: "Col1", hidden:true, width: 100, dataIndex: 'Col1', sortable: true, autoSizeColumn: false, maxWidth: 65},
                                                 ],
 						viewConfig: {
+						    enableTextSelection: true,
+
                                                     getRowClass: function (record, index) {
                                                         if (record.get('SimuLoadflg') == "") {
                                                             return "dashed";
@@ -372,7 +325,7 @@ Ext.define('Test43.view.Main', {
 					    width: '33%',
                                             height: 223,
 					    enableColumnHide:false,
-                                                store: 'Load3',
+                                            //store: 'Load3',
                                                         margins: { top: 0, left: 0, right: 0, bottom: 0 },
                                                         padding: { top: 0, left: 0, right: 0, bottom: 0 },
                                                 columns: [
@@ -405,6 +358,8 @@ Ext.define('Test43.view.Main', {
 					        //{text: "Col1", hidden:true, width: 100, dataIndex: 'Col1', sortable: true, autoSizeColumn: false, maxWidth: 65},
                                                 ],
 						viewConfig: {
+						    enableTextSelection: true,
+
                                                     getRowClass: function (record, index) {
                                                         if (record.get('SimuLoadflg') == "") {
                                                             return "blanco";
