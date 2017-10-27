@@ -6,10 +6,6 @@ Ext.util.CSS.createStyleSheet(
     '.naranja .x-grid-cell {background-color: #FF9900;}'
 );
 
-var tip = Ext.create('Ext.tip.ToolTip', {
- trackMouse: true
-});
-
 Ext.define('Test43.view.Main', {
     extend: 'Ext.container.Container',
     xtype: 'app-main',
@@ -186,7 +182,7 @@ Ext.define('Test43.view.Main', {
 		            margins: { top: 0, left: 0, right: 0, bottom: 0 },
                     	    padding: { top: 0, left: 3, right: 2, bottom: 0 },
                     items: [
-                                {
+				{
                                         xtype: 'gridpanel',
                                         id: 'gridLoadPerHour1',	
                                         //title: "8:00 hrs to 9:00 hrs",
@@ -247,11 +243,30 @@ Ext.define('Test43.view.Main', {
                                                         //}
                                                     }
                                                 },
-                                                listeners: {
-                                                        itemmouseenter: function(view, record, item) {
-Ext.fly(item).set({'data-qtip': '<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">'+ translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">'+ translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">'	+ translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadCliente + '</td><td width="50%">'+ record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadObra + '</td><td width="50%">'+ record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>'},{'data-qwidth':'600px'},{'data-qeight':'600px'});
-                                                        }
-                                                    }
+
+						listeners:
+						{
+  							itemmouseenter: function(view, record, item, index, e, options)
+                  					{
+                    					var remarks = record.get('remarks');
+                    					var view = this.getView();
+                    					view.tip = Ext.create('Ext.tip.ToolTip',{
+                                   					delegate: view.itemSelector,
+                                   					trackMouse: true,
+                                   					renderTo: Ext.getBody(),
+                                   					target: view.el,
+				   					dismissDelay: 0,
+                                   					listeners:
+                                   					{
+                                     						beforeshow: function updateTipBody(tip)
+                                                 				{
+                                                   					tip.update('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">'+ translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">'+ translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">'	+ translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadCliente + '</td><td width="50%">'+ record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadObra + '</td><td width="50%">'+ record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>');
+                                                 				}   
+                                   					}
+                                 					}
+                               						);   
+                  					}                                             
+						}
                                     },
                                     {
                                             xtype: 'gridpanel',
@@ -311,12 +326,31 @@ Ext.fly(item).set({'data-qtip': '<body><table width="350px" eight="250px"><tr st
                                                         //}
                                                     }
                                                 },
-                                                listeners: {
-                                                        itemmouseenter: function(view, record, item) {
-                                            		Ext.fly(item).set({'data-qtip': '<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">'+ translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">'+ translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">'	+ translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadCliente + '</td><td width="50%">'+ record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadObra + '</td><td width="50%">'+ record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>'},{'data-qwidth':'600px'},{'data-qeight':'600px'});
 
-                                                            }
-                                                        }
+						listeners:
+						{
+  							itemmouseenter: function(view, record, item, index, e, options)
+                  					{
+                    					var remarks = record.get('remarks');
+                    					var view = this.getView();
+                    					view.tip = Ext.create('Ext.tip.ToolTip',{
+                                   					delegate: view.itemSelector,
+                                   					trackMouse: true,
+                                   					renderTo: Ext.getBody(),
+                                   					target: view.el,
+				   					dismissDelay: 0,
+                                   					listeners:
+                                   					{
+                                     						beforeshow: function updateTipBody(tip)
+                                                 				{
+                                                   					tip.update('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">'+ translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">'+ translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">'	+ translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadCliente + '</td><td width="50%">'+ record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadObra + '</td><td width="50%">'+ record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>');
+                                                 				}   
+                                   					}
+                                 					}
+                               						);   
+                  					}                                             
+						}
+
                                     },
                                     {
                                             xtype: 'gridpanel',
@@ -376,11 +410,31 @@ Ext.fly(item).set({'data-qtip': '<body><table width="350px" eight="250px"><tr st
                                                         //}
                                                     }
                                                 },
-                                                listeners: {
-                                                        itemmouseenter: function(view, record, item) {
-                                           			Ext.fly(item).set({'data-qtip': '<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">'+ translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">'+ translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">'	+ translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadCliente + '</td><td width="50%">'+ record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadObra + '</td><td width="50%">'+ record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>'},{'data-qwidth':'600px'},{'data-qeight':'600px'});
-                                                            }
-                                                        }
+
+						listeners:
+						{
+  							itemmouseenter: function(view, record, item, index, e, options)
+                  					{
+                    					var remarks = record.get('remarks');
+                    					var view = this.getView();
+                    					view.tip = Ext.create('Ext.tip.ToolTip',{
+                                   					delegate: view.itemSelector,
+                                   					trackMouse: true,
+                                   					renderTo: Ext.getBody(),
+                                   					target: view.el,
+				   					dismissDelay: 0,
+                                   					listeners:
+                                   					{
+                                     						beforeshow: function updateTipBody(tip)
+                                                 				{
+                                                   					tip.update('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">'+ translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">'+ translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">'+ translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">'+ translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">'+ translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">'	+ translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">'+ translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">'+ translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadCliente + '</td><td width="50%">'+ record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">'+ translations.loadObra + '</td><td width="50%">'+ record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>');
+                                                 				}   
+                                   					}
+                                 					}
+                               						);   
+                  					}                                             
+						}
+
                                     }          
                                 ]			
                             }
@@ -388,6 +442,7 @@ Ext.fly(item).set({'data-qtip': '<body><table width="350px" eight="250px"><tr st
         }
     ]
 });
+
 
 
 
