@@ -1,25 +1,5 @@
-window.filterPlant="";
-window.filterName="";
-var storeLoadsPerHour1 = Ext.create('Ext.data.Store', {
-	alias: 'store.PruebaStore',
-        autoLoad: false,
-        fields:['SessionId', 'Order', 'Item','SimuLoadflg','LoadDate', 'LoadTime', 'Posex','Quantity', 'Status', 'MatNum','MatDesc', 'ReqDate', 'ReqTime', 'Plant', 'Customer', 'CustoDesc', 'Jobsite', 'JobstDesc','TravelTime','StatusDesc','SimuLoadflg'],
-	data: []
-});
-
-var storeLoadsPerHour2 = Ext.create('Ext.data.Store', {
-	alias: 'store.PruebaStore',
-        autoLoad: false,
-        fields:['SessionId', 'Order', 'Item','SimuLoadflg','LoadDate', 'LoadTime', 'Posex','Quantity', 'Status', 'MatNum','MatDesc', 'ReqDate', 'ReqTime', 'Plant', 'Customer', 'CustoDesc', 'Jobsite', 'JobstDesc','TravelTime','StatusDesc','SimuLoadflg'],
-	data: []
-});
-
-var storeLoadsPerHour3 = Ext.create('Ext.data.Store', {
-	alias: 'store.PruebaStore',
-        autoLoad: false,
-        fields:['SessionId', 'Order', 'Item','SimuLoadflg','LoadDate', 'LoadTime', 'Posex','Quantity', 'Status', 'MatNum','MatDesc', 'ReqDate', 'ReqTime', 'Plant', 'Customer', 'CustoDesc', 'Jobsite', 'JobstDesc','TravelTime','StatusDesc','SimuLoadflg'],
-	data: []
-});
+window.filterPlant = "";
+window.filterName = "";
 
 Ext.define('Test43.controller.Main', {
     extend: 'Ext.app.Controller',
@@ -37,7 +17,7 @@ Ext.define('Test43.controller.Main', {
             ref: 'MepView',
             selector: 'mepView'
         }
-    ], 
+    ],
     date: '',
     time: '',
     dateload: '',
@@ -55,10 +35,11 @@ Ext.define('Test43.controller.Main', {
     init: function (application) {
         me = this;
         this.loadUserData(params.sessionId);
-	
+
     },
 
     putMEP: function (sessionId, header, isInit, addPlant, selectPlant, morePlants, changeDateTime, pumpId) {
+      
         var data;
         var headers;
 
@@ -80,8 +61,8 @@ Ext.define('Test43.controller.Main', {
 
         data = {
             sessionId: sessionId,
-	    dateload: me.date,
-            timeload: me.time, 
+            dateload: me.date,
+            timeload: me.time,
             IsInit: isInit,
             plantAdded: addPlant,
             plantSelected: selectPlant,
@@ -100,7 +81,7 @@ Ext.define('Test43.controller.Main', {
         }
 
         headers = { 'x-csrf-token': header, 'Content-Type': 'application/atom+xml', 'type': 'entry' };
-
+       
         Ext.Ajax.request({
             url: params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + sessionId + "')",
             params: generateMepXML(data),
@@ -132,13 +113,7 @@ Ext.define('Test43.controller.Main', {
                     if (s.responseXML.getElementsByTagName('message')[0]) {
                         Ext.MessageBox.alert('Error', s.responseXML.getElementsByTagName('message')[0].text, "");
                     }
-
                     me.getMEP(me.sessionId, me.header, isInit);
-		    
-
-                    //Ext.getCmp('mepView').setLoading(false);
-                    //Ext.getCmp('schMain').setLoading(false);
-                    //Ext.getCmp('pnlGrafica').setLoading(false);
                 }
             }
         });
@@ -151,35 +126,27 @@ Ext.define('Test43.controller.Main', {
         genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + sessionId + "')?$expand=MEP_List,Chart_Elements,Pump_List,AssignPump_List&$format=json";
 
         genStore.load({
-            callback: function (rec, ob, s) {
-                var controller;
-                var data;
-                var aux;
-                var dateAux;
-
-                controller = Ext.getStore('UserPlantStore');
-                controllerLoads = Ext.getStore('LoadsPerHourStore');
-
-                data = [];
-
-                if (rec && rec.length > 0) {
-
-                    dateAux = new Date(parseInt(rec[0].data.Date.split('(')[1].split(')')[0]));
+            callback: function (rec, ob, s) {         
+                if (rec && rec.length > 0) {                    
+                    var PumpDataRec=rec[0].data;
+                    var dateAux = new Date(parseInt(PumpDataRec.Date.split('(')[1].split(')')[0]));
 
                     me.dateTime = new Date(dateAux.getUTCFullYear(),
                         dateAux.getUTCMonth(),
                         dateAux.getUTCDate(),
-                        parseInt(trimStart(rec[0].data.Time.replace('PT', '').split('H')[0], '0')),
-                        parseInt(trimStart(rec[0].data.Time.replace('PT', '').split('H')[1].split('M')[0]), '0'));
+                        parseInt(trimStart(PumpDataRec.Time.replace('PT', '').split('H')[0], '0')),
+                        parseInt(trimStart(PumpDataRec.Time.replace('PT', '').split('H')[1].split('M')[0]), '0'));
 
                     me.date = dateAux.getUTCFullYear() + '-' +
                         ((dateAux.getUTCMonth() + 1) < 10 ? '0' + (dateAux.getUTCMonth() + 1) : (dateAux.getUTCMonth() + 1).toString()) +
                         '-' + (dateAux.getUTCDate() < 10 ? '0' + dateAux.getUTCDate() : dateAux.getUTCDate().toString());
-                    me.time = rec[0].data.Time;
+                    me.time = PumpDataRec.Time;
 
-                    if (rec[0].MepList().data.length) {
-                        for (var i = 0; i < rec[0].MepList().data.length; i++) {
-                            aux = rec[0].MepList().data.items[i].data;
+                    var mepCount = rec[0].MepList().data.length;
+                    if (mepCount) {  
+                        var data = [];                      
+                        for (var i = 0; i < mepCount; i++) {
+                           var aux = rec[0].MepList().data.items[i].data;
                             data.push({
                                 plant: aux.Plant,
                                 plant_name: aux.PlantName,
@@ -193,11 +160,18 @@ Ext.define('Test43.controller.Main', {
 
                             if (data[i].isselected) {
                                 me.selPlant = data[i];
-                                setTimeout(me.getGrafica, 10, data[i]);
+                                //setTimmeout(me.getGrafica, 1, data[i]);
+                                me.getGrafica(me.selPlant);
                             }
                             else {
                                 Ext.getCmp('pnlGrafica').setLoading(false);
                             }
+                        }
+                        var controller = Ext.getStore('UserPlantStore');
+                        controller.loadData(data);
+
+                        if (Ext.getCmp('mepView')) {
+                            Ext.getCmp('mepView').setLoading(false);
                         }
                     }
                     else {
@@ -205,58 +179,49 @@ Ext.define('Test43.controller.Main', {
                     }
 
                     me.pumpService = {
-                        ResourceId: (rec[0].data.PumpId ? rec[0].data.PumpId : 001),
+                        ResourceId: (PumpDataRec.PumpId ? PumpDataRec.PumpId : 001),
                         Name: '',
-                        StartDate: getFormatedDateTime(rec[0].data.PumpStartDate, rec[0].data.PumpStartTime),
-                        EndDate: getFormatedDateTime(rec[0].data.PumpEndDate, rec[0].data.PumpEndTime),
+                        StartDate: getFormatedDateTime(PumpDataRec.PumpStartDate,PumpDataRec.PumpStartTime),
+                        EndDate: getFormatedDateTime(PumpDataRec.PumpEndDate, PumpDataRec.PumpEndTime),
                         Color: '',
                         Group: "Servicio"
                     }
 
-                    me.resourceName = rec[0].data.PumpDescript;
-
-                    controller.loadData(data);
+                    me.resourceName = PumpDataRec.PumpDescript;
 
                     Ext.getCmp('txtHour').setValue(me.dateTime);
 
                     Ext.getCmp('txtFrom').setValue(new Date(me.dateTime));
 
-                    me.hasConcrete = rec[0].data.HasConcrete == 'X';
-                    me.hasPump = rec[0].data.HasPumping == 'X';
+                    me.hasConcrete = PumpDataRec.HasConcrete == 'X';
+                    me.hasPump = PumpDataRec.HasPumping == 'X';
 
                     if (me.hasPump) {
                         Ext.getCmp('schMain').setVisible(true);
                         setTimeout(me.loadSch, 10);
                     }
-
                     me.setHasConcrete();
                 }
-
-                if (Ext.getCmp('mepView')) {
-                    Ext.getCmp('mepView').setLoading(false);
-                }
-
             }
         });
     },
 
     getLoadPerHour: function (hour) {
-	me.putLoads(hour, me.header);
-      },
+        me.putLoads(hour, me.header);
+    },
 
     getLoadPerHourSimple: function (hour) {
-	me.putLoadsSimple(hour, me.header);
-      },
+        me.putLoadsSimple(hour, me.header);
+    },
 
 
 
-    putLoads: function (hour, header)
-    {
+    putLoads: function (hour, header) {
 
-	    var setDetailHours = true;
+        var setDetailHours = true;
         data = {
             SetDetailsHour: setDetailHours,
-            DetailsHour: hour                
+            DetailsHour: hour
         };
 
         headers = { 'x-csrf-token': header, 'Content-Type': 'application/atom+xml', 'type': 'entry' };
@@ -267,21 +232,20 @@ Ext.define('Test43.controller.Main', {
             method: 'PUT',
             headers: headers,
             callback: function (res, o, s) {
-               
-                if(data.SetDetailsHour){
-                    me.getLoads(hour,header);
+
+                if (data.SetDetailsHour) {
+                    me.getLoads(hour, header);
                 }
             }
         });
     },
 
-    putLoadsSimple: function (hour, header)
-    {
+    putLoadsSimple: function (hour, header) {
 
-	    var setDetailHours = true;
+        var setDetailHours = true;
         data = {
             SetDetailsHour: setDetailHours,
-            DetailsHour: hour                
+            DetailsHour: hour
         };
 
         headers = { 'x-csrf-token': header, 'Content-Type': 'application/atom+xml', 'type': 'entry' };
@@ -292,278 +256,270 @@ Ext.define('Test43.controller.Main', {
             method: 'PUT',
             headers: headers,
             callback: function (res, o, s) {
-               
-                if(data.SetDetailsHour){
-                    me.getLoadsSimple(hour,header);
+
+                if (data.SetDetailsHour) {
+                    me.getLoadsSimple(hour, header);
                 }
             }
         });
     },
 
 
-    getLoads: function (hour,header) 
-    {
+    getLoads: function (hour, header) {
         var genStore;
         var befHour = hour - 1;
         var aftHour = befHour + 2;
-	var aft2Hour = befHour + 3;
+        var aft2Hour = befHour + 3;
 
-	if (hour == '00' || hour == '24'){
-		befHour = '23';
-		aftHour = '01';
-		aft2Hour = '02';
-	}
+        if (hour == '00' || hour == '24') {
+            befHour = '23';
+            aftHour = '01';
+            aft2Hour = '02';
+        }
 
-	if (hour == '22'){
-		aft2Hour = '00';
-	}
+        if (hour == '22') {
+            aft2Hour = '00';
+        }
 
-	if (hour == '23'){
-		aftHour = '00';
-		aft2Hour = '01';
-	}
-            
-            genStore = Ext.getStore("LoadsPerHourStore");
-            genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=LoadDetail_List&$format=json";
-            //genStore = Ext.getStore("SessionDataStore");
-            //genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=MEP_List,Chart_Elements,Pump_List,AssignPump_List,LoadDetail_List&$format=json";
-    
-            genStore.load({
-                callback: function (rec, ob, s) {
-    
-                    controllerLoads = Ext.getStore('LoadsPerHourStore');
-        
-                    data = [];
-                    
-                                    if (rec && rec.length > 0) {
-                                        var a;
-                                    }
-        
-                }
-            });
+        if (hour == '23') {
+            aftHour = '00';
+            aft2Hour = '01';
+        }
+
+        genStore = Ext.getStore("LoadsPerHourStore");
+        genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=LoadDetail_List&$format=json";
+        //genStore = Ext.getStore("SessionDataStore");
+        //genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=MEP_List,Chart_Elements,Pump_List,AssignPump_List,LoadDetail_List&$format=json";
+
+         genStore.load({
+        //     callback: function (rec, ob, s) {
+
+        //         controllerLoads = Ext.getStore('LoadsPerHourStore');
+
+        //         data = [];
+
+        //         if (rec && rec.length > 0) {
+        //             var a;
+        //         }
+
+        //     }
+         });
 
 
         var objgrid1 = Ext.getCmp('gridLoadPerHour1');
         var objgrid2 = Ext.getCmp('gridLoadPerHour2');
         var objgrid3 = Ext.getCmp('gridLoadPerHour3');
 
-        if(objgrid1 && objgrid2 && objgrid3 && genStore.proxy.reader.rawData != undefined)
-        {
-        var objLoads = Ext.getCmp('hboxLoads');
-        var objPump = Ext.getCmp('panelPump');
-        //var objbuttonClose = Ext.getCmp('hboxbuttonClose');
-	
-    	//Show Controls
-        if(objLoads){objLoads.setVisible(true);}
-        else{objLoads.setVisible(false);}
-    
-        //if(objbuttonClose){objbuttonClose.setVisible(true);}
-        //else{objbuttonClose.setVisible(false);}
-    
-        if(objPump){objPump.setVisible(false);}
-            else{objPump.setVisible(true);}
+        if (objgrid1 && objgrid2 && objgrid3 && genStore.proxy.reader.rawData != undefined) {
+            var objLoads = Ext.getCmp('hboxLoads');
+            var objPump = Ext.getCmp('panelPump');
+            //var objbuttonClose = Ext.getCmp('hboxbuttonClose');
 
-	//Clean Store
-	storeLoadsPerHour1.loadData([],false);
-        storeLoadsPerHour2.loadData([],false);
-        storeLoadsPerHour3.loadData([],false);
+            //Show Controls
+            if (objLoads) { objLoads.setVisible(true); }
+            else { objLoads.setVisible(false); }
 
-	objgrid1.store.removeAll(true);
-        objgrid2.store.removeAll(true);
-        objgrid3.store.removeAll(true);
+            //if(objbuttonClose){objbuttonClose.setVisible(true);}
+            //else{objbuttonClose.setVisible(false);}
 
-	//Rename Grids
-	objgrid1.setTitle('<div style="text-align:center;">' + befHour + ':00 hrs '+ translations.loadA + ' ' + hour + ':00 hrs' + '</div>');
-	objgrid2.setTitle('<div style="text-align:center;">' + hour + ':00 hrs '+ translations.loadA + ' ' + aftHour + ':00 hrs' + '</div>');
-	objgrid3.setTitle('<div style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + aftHour + ':00 hrs '+ translations.loadA + ' ' + aft2Hour + ':00 hrs' + '<a style ="color: gray; text-decoration:none; font-size: 12px" href="#" onclick="closeLoadsPerHour();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + 'x' + '</a></div>');
+            if (objPump) { objPump.setVisible(false); }
+            else { objPump.setVisible(true); }
 
-  
-        if (genStore.proxy.reader.rawData != undefined)
-        {
-    
-        var lenGenStore = genStore.proxy.reader.rawData.d.LoadDetail_List.results.length;
-        if(lenGenStore)
-        {
-    
-            for (var i = 0; i < lenGenStore; i++) 
-            {
+            //Clean Store
+            var storeLoadsPerHour1 = createExtStore();
+            var storeLoadsPerHour2 = createExtStore();
+            var storeLoadsPerHour3 = createExtStore();
+            // storeLoadsPerHour1.loadData([], false);
+            // storeLoadsPerHour2.loadData([], false);
+            // storeLoadsPerHour3.loadData([], false);
 
-        var orderItem = genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Order; 
-        
-        if (orderItem != '')
-            {
-                var loadDateCom = getFormatedDateShort(genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadDate);
-                var reqDateCom = getFormatedDateShort(genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqDate);
-                var delDateCom = getFormatedDateShort(genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqDate);
-            }else{
-                var loadDateCom = "";
-                var reqDateCom = "";
-                var delDateCom = "";
-            }
+            objgrid1.store.removeAll(true);
+            objgrid2.store.removeAll(true);
+            objgrid3.store.removeAll(true);
 
-		var loadTime = genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadTime;
-        	var hourItem = loadTime.replace('PT','').split('H')[0];
-		var minItem = loadTime.replace('PT','').split('H')[1].split('M')[0];
+            //Rename Grids
+            objgrid1.setTitle('<div style="text-align:center;">' + befHour + ':00 hrs ' + translations.loadA + ' ' + hour + ':00 hrs' + '</div>');
+            objgrid2.setTitle('<div style="text-align:center;">' + hour + ':00 hrs ' + translations.loadA + ' ' + aftHour + ':00 hrs' + '</div>');
+            objgrid3.setTitle('<div style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + aftHour + ':00 hrs ' + translations.loadA + ' ' + aft2Hour + ':00 hrs' + '<a style ="color: gray; text-decoration:none; font-size: 12px" href="#" onclick="closeLoadsPerHour();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + 'x' + '</a></div>');
 
-		var reqTime = genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqTime;
-        	var hourReq = reqTime.replace('PT','').split('H')[0];
-		var minReq = reqTime.replace('PT','').split('H')[1].split('M')[0];
 
-		var TT = genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].TravelTime;
-		var hourTT = TT.replace('PT','').split('H')[0];
-		var minTT = TT.replace('PT','').split('H')[1].split('M')[0];
+            if (genStore.proxy.reader.rawData != undefined) {
 
-		
+                var lenGenStoreCount = genStore.proxy.reader.rawData.d.LoadDetail_List.results.length;
+                if (lenGenStoreCount) {
+                    for (var i = 0; i < lenGenStoreCount; i++) {
+                        var lenGenStore = genStore.proxy.reader.rawData.d.LoadDetail_List.results[i];
 
-		//Items per hour
-                if (hourItem == befHour)
-                {
-                    storeLoadsPerHour1.add({
-                    SessionId: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].SessionId, 
-                    Order: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Order,
-                    Item: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Item,
-                    SimuLoadflg: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].SimuLoadflg,
-                    //LoadDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadDate,
-                    //LoadTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadTime,
-		    LoadDate: loadDateCom,
-                    LoadTime: hourItem + ':' + minItem,
-                    Posex: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Posex,
-                    Quantity: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Quantity,
-                    Status: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Status,
-                    MatNum: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].MatNum,
-                    MatDesc: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].MatDesc,
-                    //ReqDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqDate,
-                    //ReqTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqTime,
-		    ReqDate: reqDateCom,
-		    ReqTime: hourReq + ':' + minReq,
-                    Plant: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Plant,
-                    Customer: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Customer,
-                    CustoDesc: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].CustoDesc,
-                    Jobsite: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Jobsite,
-                    JobstDesc: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].JobstDesc,
-		    StatusDesc: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].StatusDesc,
-		    SimuLoadflg: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].SimuLoadflg,
-		    TravelTime: hourTT + ':' + minTT
-			
-                    });
-                }
+                        var orderItem = lenGenStore.Order;
 
-                if (hourItem == hour)
-                    {
-                        storeLoadsPerHour2.add({
-                        SessionId: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].SessionId, 
-                        Order: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Order,
-                        Item: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Item,
-                        SimuLoadflg: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].SimuLoadflg,
-                        //LoadDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadDate,
-                        //LoadTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadTime,
-		        LoadDate: loadDateCom,
-                        LoadTime: hourItem + ':' + minItem,
-                        Posex: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Posex,
-                        Quantity: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Quantity,
-                        Status: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Status,
-                        MatNum: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].MatNum,
-                        MatDesc: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].MatDesc,
-                        //ReqDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqDate,
-                    	//ReqTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqTime,
-		    	ReqDate: reqDateCom,
-		    	ReqTime: hourReq + ':' + minReq,
-                        Plant: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Plant,
-                        Customer: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Customer,
-                        CustoDesc: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].CustoDesc,
-                        Jobsite: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Jobsite,
-                    	JobstDesc: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].JobstDesc,
-		    	StatusDesc: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].StatusDesc,
-		        SimuLoadflg: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].SimuLoadflg,
-		        TravelTime: hourTT + ':' + minTT
-                        });
-                    }
+                        if (orderItem != '') {
+                            var loadDateCom = getFormatedDateShort(lenGenStore.LoadDate);
+                            var reqDateCom = getFormatedDateShort(lenGenStore.ReqDate);
+                            var delDateCom = getFormatedDateShort(lenGenStore.ReqDate);
+                        } else {
+                            var loadDateCom = "";
+                            var reqDateCom = "";
+                            var delDateCom = "";
+                        }
 
-                    if (hourItem == aftHour)
-                        {
-                            storeLoadsPerHour3.add({
-                            SessionId: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].SessionId, 
-                            Order: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Order,
-                            Item: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Item,
-                            SimuLoadflg: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].SimuLoadflg,
-                            //LoadDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadDate,
-                    	    //LoadTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadTime,
-		            LoadDate: loadDateCom,
-                            LoadTime: hourItem + ':' + minItem,
-                            Posex: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Posex,
-                            Quantity: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Quantity,
-                            Status: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Status,
-                            MatNum: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].MatNum,
-                            MatDesc: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].MatDesc,
-                            //ReqDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqDate,
-                    	    //ReqTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqTime,
-		            ReqDate: reqDateCom,
-		            ReqTime: hourReq + ':' + minReq,
-                            Plant: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Plant,
-                            Customer: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Customer,
-                            CustoDesc: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].CustoDesc,
-                            Jobsite: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].Jobsite,
-                            JobstDesc: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].JobstDesc,
-			    StatusDesc: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].StatusDesc,
-		    	    SimuLoadflg: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].SimuLoadflg,
-		            TravelTime: hourTT + ':' + minTT
+                        var loadTime = lenGenStore.LoadTime;
+                        var hourItem = loadTime.replace('PT', '').split('H')[0];
+                        var minItem = loadTime.replace('PT', '').split('H')[1].split('M')[0];
+
+                        var reqTime = lenGenStore.ReqTime;
+                        var hourReq = reqTime.replace('PT', '').split('H')[0];
+                        var minReq = reqTime.replace('PT', '').split('H')[1].split('M')[0];
+
+                        var TT = lenGenStore.TravelTime;
+                        var hourTT = TT.replace('PT', '').split('H')[0];
+                        var minTT = TT.replace('PT', '').split('H')[1].split('M')[0];
+
+
+
+                        //Items per hour
+                        if (hourItem == befHour) {
+                            storeLoadsPerHour1.add({
+                                SessionId: lenGenStore.SessionId,
+                                Order: lenGenStore.Order,
+                                Item: lenGenStore.Item,
+                                SimuLoadflg: lenGenStore.SimuLoadflg,
+                                //LoadDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadDate,
+                                //LoadTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadTime,
+                                LoadDate: loadDateCom,
+                                LoadTime: hourItem + ':' + minItem,
+                                Posex: lenGenStore.Posex,
+                                Quantity: lenGenStore.Quantity,
+                                Status: lenGenStore.Status,
+                                MatNum: lenGenStore.MatNum,
+                                MatDesc: lenGenStore.MatDesc,
+                                //ReqDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqDate,
+                                //ReqTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqTime,
+                                ReqDate: reqDateCom,
+                                ReqTime: hourReq + ':' + minReq,
+                                Plant: lenGenStore.Plant,
+                                Customer: lenGenStore.Customer,
+                                CustoDesc: lenGenStore.CustoDesc,
+                                Jobsite: lenGenStore.Jobsite,
+                                JobstDesc: lenGenStore.JobstDesc,
+                                StatusDesc: lenGenStore.StatusDesc,
+                                SimuLoadflg: lenGenStore.SimuLoadflg,
+                                TravelTime: hourTT + ':' + minTT
+
                             });
                         }
 
-                    
+                        if (hourItem == hour) {
+                            storeLoadsPerHour2.add({
+                                SessionId: lenGenStore.SessionId,
+                                Order: lenGenStore.Order,
+                                Item: lenGenStore.Item,
+                                SimuLoadflg: lenGenStore.SimuLoadflg,
+                                //LoadDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadDate,
+                                //LoadTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadTime,
+                                LoadDate: loadDateCom,
+                                LoadTime: hourItem + ':' + minItem,
+                                Posex: lenGenStore.Posex,
+                                Quantity: lenGenStore.Quantity,
+                                Status: lenGenStore.Status,
+                                MatNum: lenGenStore.MatNum,
+                                MatDesc: lenGenStore.MatDesc,
+                                //ReqDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqDate,
+                                //ReqTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqTime,
+                                ReqDate: reqDateCom,
+                                ReqTime: hourReq + ':' + minReq,
+                                Plant: lenGenStore.Plant,
+                                Customer: lenGenStore.Customer,
+                                CustoDesc: lenGenStore.CustoDesc,
+                                Jobsite: lenGenStore.Jobsite,
+                                JobstDesc: lenGenStore.JobstDesc,
+                                StatusDesc: lenGenStore.StatusDesc,
+                                SimuLoadflg: lenGenStore.SimuLoadflg,
+                                TravelTime: hourTT + ':' + minTT
+                            });
+                        }
+
+                        if (hourItem == aftHour) {
+                            storeLoadsPerHour3.add({
+                                SessionId: lenGenStore.SessionId,
+                                Order: lenGenStore.Order,
+                                Item: lenGenStore.Item,
+                                SimuLoadflg: lenGenStore.SimuLoadflg,
+                                //LoadDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadDate,
+                                //LoadTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadTime,
+                                LoadDate: loadDateCom,
+                                LoadTime: hourItem + ':' + minItem,
+                                Posex: lenGenStore.Posex,
+                                Quantity: lenGenStore.Quantity,
+                                Status: lenGenStore.Status,
+                                MatNum: lenGenStore.MatNum,
+                                MatDesc: lenGenStore.MatDesc,
+                                //ReqDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqDate,
+                                //ReqTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqTime,
+                                ReqDate: reqDateCom,
+                                ReqTime: hourReq + ':' + minReq,
+                                Plant: lenGenStore.Plant,
+                                Customer: lenGenStore.Customer,
+                                CustoDesc: lenGenStore.CustoDesc,
+                                Jobsite: lenGenStore.Jobsite,
+                                JobstDesc: lenGenStore.JobstDesc,
+                                StatusDesc: lenGenStore.StatusDesc,
+                                SimuLoadflg: lenGenStore.SimuLoadflg,
+                                TravelTime: hourTT + ':' + minTT
+                            });
+                        }
 
 
-             }
-        }
-        }   
+
+
+                    }
+                }
+            }
             objgrid1.getView().bindStore(storeLoadsPerHour1);
             objgrid2.getView().bindStore(storeLoadsPerHour2);
             objgrid3.getView().bindStore(storeLoadsPerHour3);
 
             objgrid1.getView().refresh();
             objgrid2.getView().refresh();
-            objgrid3.getView().refresh();	    
+            objgrid3.getView().refresh();
         }
     },
 
 
-getLoadsSimple: function (hour,header) 
-    {
+    getLoadsSimple: function (hour, header) {
         var genStore;
         var befHour = hour - 1;
         var aftHour = befHour + 2;
-	var aft2Hour = befHour + 3;
-            
-            genStore = Ext.getStore("LoadsPerHourStore");
-            genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=LoadDetail_List&$format=json";
-            //genStore = Ext.getStore("SessionDataStore");
-            //genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=MEP_List,Chart_Elements,Pump_List,AssignPump_List,LoadDetail_List&$format=json";
-    
-            genStore.load({
-                callback: function (rec, ob, s) {
-    
-                    controllerLoads = Ext.getStore('LoadsPerHourStore');
-        
-                    data = [];
-                    
-                                    if (rec && rec.length > 0) {
-					var a;
-                                        //console.log('alert');
-                                    }
-        
-                }
-            });
+        var aft2Hour = befHour + 3;
+
+        genStore = Ext.getStore("LoadsPerHourStore");
+        genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=LoadDetail_List&$format=json";
+        //genStore = Ext.getStore("SessionDataStore");
+        //genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=MEP_List,Chart_Elements,Pump_List,AssignPump_List,LoadDetail_List&$format=json";
+
+        genStore.load({
+            callback: function (rec, ob, s) {
+
+                // controllerLoads = Ext.getStore('LoadsPerHourStore');
+
+                // data = [];
+
+                // if (rec && rec.length > 0) {
+                //     var a;
+                //     //console.log('alert');
+                // }
+
+            }
+        });
 
 
         var objgrid1 = Ext.getCmp('gridLoadPerHour1');
         var objgrid2 = Ext.getCmp('gridLoadPerHour2');
         var objgrid3 = Ext.getCmp('gridLoadPerHour3');
 
-        if(objgrid1 && objgrid2 && objgrid3 && genStore.proxy.reader.rawData != undefined)
-        {
-		//console.log('loads');
-		var b;
-        }
+        // if (objgrid1 && objgrid2 && objgrid3 && genStore.proxy.reader.rawData != undefined) {
+        //     //console.log('loads');
+        //     var b;
+        // }
     },
 
 
@@ -575,32 +531,28 @@ getLoadsSimple: function (hour,header)
 
         genStore.load({
             callback: function (rec, ob, s) {
-                var controller;
-                var aux;
                 var dateAux;
-
-                data = [];
-
                 if (rec && rec.length > 0) {
+                    var simpleData = rec[0].data;
 
-                    dateAux = new Date(parseInt(rec[0].data.Date.split('(')[1].split(')')[0]));
+                    dateAux = new Date(parseInt(simpleData.Date.split('(')[1].split(')')[0]));
 
                     me.dateTime = new Date(dateAux.getUTCFullYear(),
                         dateAux.getUTCMonth(),
                         dateAux.getUTCDate(),
-                        parseInt(trimStart(rec[0].data.Time.replace('PT', '').split('H')[0], '0')),
-                        parseInt(trimStart(rec[0].data.Time.replace('PT', '').split('H')[1].split('M')[0]), '0'));
+                        parseInt(trimStart(simpleData.Time.replace('PT', '').split('H')[0], '0')),
+                        parseInt(trimStart(simpleData.Time.replace('PT', '').split('H')[1].split('M')[0]), '0'));
 
                     me.date = dateAux.getUTCFullYear() + '-' +
                         ((dateAux.getUTCMonth() + 1) < 10 ? '0' + (dateAux.getUTCMonth() + 1) : (dateAux.getUTCMonth() + 1).toString()) +
                         '-' + (dateAux.getUTCDate() < 10 ? '0' + dateAux.getUTCDate() : dateAux.getUTCDate().toString());
-                    me.time = rec[0].data.Time;
+                    me.time = simpleData.Time;
 
                     Ext.getCmp('txtHour').setValue(me.dateTime);
                     Ext.getCmp('txtFrom').setValue(new Date(me.dateTime));
 
-                    me.hasConcrete = rec[0].data.HasConcrete == 'X';
-                    me.hasPump = rec[0].data.HasPumping == 'X';
+                    me.hasConcrete = simpleData.HasConcrete == 'X';
+                    me.hasPump = simpleData.HasPumping == 'X';
                 }
             }
         });
@@ -618,40 +570,35 @@ getLoadsSimple: function (hour,header)
         var loadTime;
         var auxTime;
 
-        if (!plant) {
-            plant = me.selPlant;
-        }
+        if (!plant) { plant = me.selPlant; }
 
         genStore = Ext.getStore("GraphStore");
         sessionStore = Ext.getStore("SessionDataStore");
         charData = [];
 
-        //loadTime = me.dateTime.getHours() + (me.dateTime.getMinutes() * 0.01666);
-
         if (Ext.getStore('SessionDataStore').data.items.length) {
             auxData = Ext.getStore('SessionDataStore').data.items[0].ChartList().data.items;
+            var auxCount=auxData.length;
 
-            for (var i = 0; i < auxData.length; i++) {
+            for (var i = 0; i < auxCount; i++) {
                 if (auxData[i].data.Plant == plant.plant) {
+                    auxItemData = auxData[i].data;
 
-                    auxTime = auxData[i].data.Time.replace('PT', '').split('H');
+                    auxTime = auxItemData.Time.replace('PT', '').split('H');
                     timeAux = parseFloat(auxTime[0]) + (auxTime[1].split('M')[0] * 0.01666);
-
-                    //if ((Math.floor(timeAux) > (Math.floor(loadTime) - 4)) && (Math.floor(timeAux) < (Math.floor(loadTime) + 4))) {
 
                     charData.push(
                         {
                             time: timeAux,
-                            loads_per_hour_avail: auxData[i].data.LoadsPerHourAvail,
-                            available_vehicles: auxData[i].data.VehicleAvail,
-                            simulated_loads: auxData[i].data.SimulatedLoads,
-                            existing_loads: auxData[i].data.ExistingLoads,
-                            vehicle_count: auxData[i].data.VehicleCount,
-                            plant: auxData[i].data.Plant,
-                            loadAdded: auxData[i].data.SimultaneousLoads,
+                            loads_per_hour_avail:auxItemData.LoadsPerHourAvail,
+                            available_vehicles: auxItemData.VehicleAvail,
+                            simulated_loads: auxItemData.SimulatedLoads,
+                            existing_loads: auxItemData.ExistingLoads,
+                            vehicle_count: auxItemData.VehicleCount,
+                            plant: auxItemData.Plant,
+                            loadAdded: auxItemData.SimultaneousLoads,
                             baseLine: 0
                         });
-                    //}
                 }
             }
 
@@ -661,7 +608,8 @@ getLoadsSimple: function (hour,header)
             Test43.app.getController('Main').setGraphTitle(plant.plant + ' - ' + plant.plant_name);
 
 
-            setTimeout(me.resumeGraphEvents, 10);
+            //setTimeout(me.resumeGraphEvents, 10);
+            me.resumeGraphEvents();
 
         }
     },
@@ -714,8 +662,8 @@ getLoadsSimple: function (hour,header)
 
     changeDateTime: function (date, time) {
         me.date = date.getFullYear() + '-' +
-                       ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1).toString()) +
-                       '-' + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate().toString());
+            ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1).toString()) +
+            '-' + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate().toString());
         me.time = 'PT' + time.getHours() + 'H' + time.getMinutes() + 'M00S';
 
         this.putMEP(this.sessionId, this.header, false, '', '', false, true);
@@ -726,11 +674,6 @@ getLoadsSimple: function (hour,header)
     },
 
     loadUserData: function (sessionId) {
-        var genStore;
-
-        genStore = Ext.getStore("UserDataStore");
-        genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_INITLOAD/Settings('" + sessionId + "')?$expand=Plant_List&$format=json";
-
         Ext.Ajax.request(
             {
                 url: params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_INITLOAD/Settings('" + sessionId + "')?$expand=Plant_List&$format=json",
@@ -742,6 +685,7 @@ getLoadsSimple: function (hour,header)
                     var response;
                     var genStore;
                     var plants;
+                    var _description = "";
 
                     if (!o) {
                         return;
@@ -752,27 +696,17 @@ getLoadsSimple: function (hour,header)
                     genStore = Ext.getStore("PlantStore");
                     plants = [];
 
-                    for (var i = 0; i < response.Plant_List.results.length; i++) {
-                        if (response.Plant_List.results[i].Descr == "") {
-                            plants.push({
-                                Id: response.Plant_List.results[i].PlantCode,
-                                Name: response.raw.Plant_List.results[i].PlantCode
-                            });
-                        }
-                        else {
-                            if (response.Plant_List.results[i].Descr.length > 13) {
-                                plants.push({
-                                    Id: response.Plant_List.results[i].PlantCode,
-                                    Name: response.Plant_List.results[i].PlantCode + ' - ' + response.Plant_List.results[i].Descr.substring(0, 13) + "..."
-                                });
-                            }
-                            else {
-                                plants.push({
-                                    Id: response.Plant_List.results[i].PlantCode,
-                                    Name: response.Plant_List.results[i].PlantCode + ' - ' + response.Plant_List.results[i].Descr
-                                });
-                            }
-                        }
+                    var ResLength = response.Plant_List.results.length;
+                    for (var i = 0; i < ResLength; i++) {
+                        var data = response.Plant_List.results[i];
+
+                        _description =  data.Descr == "" ? _description :
+                                        data.Descr.length > 13 ? data.Descr.substring(0, 13) + "..." :
+                                        ' - ' + data.Descr;                                        
+                        plants.push({
+                            Id: data.PlantCode,
+                            Name: data.PlantCode + _description
+                        });
                     }
 
                     genStore.loadData(plants);
@@ -788,11 +722,6 @@ getLoadsSimple: function (hour,header)
                     }
 
                     me.setBatcherMode(params.isBatcher);
-
-		    //--Cambio
-                    //me.setModeReadOnly(params.isBatcher);
-                    //--Cambio
-
                     me.putMEP(sessionId, header, true);
                 }
             });
@@ -884,43 +813,43 @@ getLoadsSimple: function (hour,header)
         data = [];
         itemsData = [];
         zone = [];
-		
+
         data.push({
             Id: 001,
             Name: me.resourceName,
             Status: "",
-			iPlant:""
+            iPlant: ""
         });
 
         if (genStore.data.items[0].PumpListStore.data.items.length) {
             aux = genStore.data.items[0].PumpListStore.data.items;
-			
+
             for (var i = 0; i < aux.length; i++) {
                 data.push({
                     Id: aux[i].data.EquipId,
                     Name: aux[i].data.EquipName,
                     Status: aux[i].data.Status,
-					iPlant: aux[i].data.Plant
+                    iPlant: aux[i].data.Plant
                 });
-				
+
             }
         }
 
         //ns.suspendEvents(true);
-		
+
         ns.loadData(data);
-		var resourceStorev=Ext.getStore("ResourceStore");
-		if(window.filterName=="" && window.filterPlant==""){
-			resourceStorev.clearFilter();
-		} else {
-			resourceStorev.filterBy(function(rec, id) {
-			if((rec.raw['Name'].indexOf(window.filterName)>= 0 && rec.raw['iPlant'].indexOf(window.filterPlant)>=0) || rec.raw['iPlant']=='') {
-				return true;
-			} else {
-				return false;
-			}
-			});
-		}
+        var resourceStorev = Ext.getStore("ResourceStore");
+        if (window.filterName == "" && window.filterPlant == "") {
+            resourceStorev.clearFilter();
+        } else {
+            resourceStorev.filterBy(function (rec, id) {
+                if ((rec.raw['Name'].indexOf(window.filterName) >= 0 && rec.raw['iPlant'].indexOf(window.filterPlant) >= 0) || rec.raw['iPlant'] == '') {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        }
         //ns.resumeEvents();
 
         aux = genStore.data.items[0].AssignPumpStore.data.items;
@@ -933,7 +862,7 @@ getLoadsSimple: function (hour,header)
             itemsData.push({
                 ResourceId: 001,
                 Name: '',
-				iPlant:"OLA",
+                iPlant: "OLA",
                 StartDate: me.dateTime,
                 EndDate: addMinutes(me.dateTime, 30),
                 Color: '',
@@ -946,7 +875,7 @@ getLoadsSimple: function (hour,header)
                 itemsData.push({
                     ResourceId: aux[i].data.EquipId,
                     Name: '',
-					iPlant: 'OLA',
+                    iPlant: 'OLA',
                     StartDate: getFormatedDateTime(aux[i].data.FromDate, aux[i].data.FromTime),
                     EndDate: getFormatedDateTime(aux[i].data.ToDate, aux[i].data.ToTime),
                     Color: aux[i].data.Color
@@ -1069,27 +998,36 @@ function getFormatedTime(time) {
 
 
 function closeLoadsPerHour() {
-   var objLoads = Ext.getCmp('hboxLoads');
-   var objPump = Ext.getCmp('panelPump');
-   var objbuttonClose = Ext.getCmp('hboxbuttonClose');
+    var objLoads = Ext.getCmp('hboxLoads');
+    var objPump = Ext.getCmp('panelPump');
+    var objbuttonClose = Ext.getCmp('hboxbuttonClose');
 
-   if(objLoads){objLoads.setVisible(false);}
-   else{objLoads.setVisible(true);}
-  
-   if(objPump){objPump.setVisible(true);}
-   else{objPump.setVisible(false);}
+    if (objLoads) { objLoads.setVisible(false); }
+    else { objLoads.setVisible(true); }
 
-   var objgrid1 = Ext.getCmp('gridLoadPerHour1');
-   var objgrid2 = Ext.getCmp('gridLoadPerHour2');
-   var objgrid3 = Ext.getCmp('gridLoadPerHour3');
+    if (objPump) { objPump.setVisible(true); }
+    else { objPump.setVisible(false); }
+
+    var objgrid1 = Ext.getCmp('gridLoadPerHour1');
+    var objgrid2 = Ext.getCmp('gridLoadPerHour2');
+    var objgrid3 = Ext.getCmp('gridLoadPerHour3');
 
 
-	//Clean Store
-	storeLoadsPerHour1.loadData([],false);
-        storeLoadsPerHour2.loadData([],false);
-        storeLoadsPerHour3.loadData([],false);
+    //Clean Store
+    storeLoadsPerHour1.loadData([], false);
+    storeLoadsPerHour2.loadData([], false);
+    storeLoadsPerHour3.loadData([], false);
 
-	objgrid1.store.removeAll(true);
-        objgrid2.store.removeAll(true);
-        objgrid3.store.removeAll(true);
+    objgrid1.store.removeAll(true);
+    objgrid2.store.removeAll(true);
+    objgrid3.store.removeAll(true);
+}
+
+function createExtStore(){
+    return Ext.create('Ext.data.Store', {
+        alias: 'store.PruebaStore',
+            autoLoad: false,
+            fields:['SessionId', 'Order', 'Item','SimuLoadflg','LoadDate', 'LoadTime', 'Posex','Quantity', 'Status', 'MatNum','MatDesc', 'ReqDate', 'ReqTime', 'Plant', 'Customer', 'CustoDesc', 'Jobsite', 'JobstDesc','TravelTime','StatusDesc','SimuLoadflg'],
+        data: []
+    });
 }

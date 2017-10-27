@@ -45,6 +45,7 @@
             extScript = document.createElement("script");
             extScript.src = "../../ZCXBS_1045_EXTJ/ext-4.2.2.1144/ext-all.js";
             extScript.type = "text/javascript";
+            extScript.async = true;
             document.writeln(extScript.outerHTML);
 
             document.writeln('<!-- APP -->');
@@ -52,21 +53,25 @@
             appScript = document.createElement("script");
             appScript.src = "../app.js";
             appScript.type = "text/javascript";
+            appScript.async = true;
             document.writeln(appScript.outerHTML);
 
             schScript = document.createElement("script");
             schScript.src = "../../ZCXBS_1045_EXTJ/Sch/sch-all.js";
             schScript.type = "text/javascript";
+            schScript.async = true;
             document.writeln(schScript.outerHTML);
 
             extLocale = document.createElement("script");
             extLocale.src = "../../ZCXBS_1045_EXTJ/ext-4.2.2.1144/locale/ext-lang-" + lang + ".js";
             extLocale.type = "text/javascript";
+            extLocale.async = true;
             document.writeln(extLocale.outerHTML);
 
             appLocale = document.createElement("script");
             appLocale.src = "../locale/" + lang + ".js";
             appLocale.type = "text/javascript";
+            appLocale.async = true;
             document.writeln(appLocale.outerHTML);
         }
         else {
@@ -77,6 +82,7 @@
             extScript = document.createElement("script");
             extScript.src = "ext/ext-all.js";
             extScript.type = "text/javascript";
+            extScript.async = true;
             document.writeln(extScript.outerHTML);
 
             document.writeln('<!-- APP -->');
@@ -84,21 +90,25 @@
             appScript = document.createElement("script");
             appScript.src = "app.js";
             appScript.type = "text/javascript";
+            appScript.async = true;
             document.writeln(appScript.outerHTML);
 
             schScript = document.createElement("script");
             schScript.src = "Sch/sch-all.js";
             schScript.type = "text/javascript";
+            schScript.async = true;
             document.writeln(schScript.outerHTML);
 
             extLocale = document.createElement("script");
             extLocale.src = "ext/locale/ext-lang-" + lang + ".js";
             extLocale.type = "text/javascript";
+            extLocale.async = true;
             document.writeln(extLocale.outerHTML);
 
             appLocale = document.createElement("script");
             appLocale.src = "locale/" + lang + ".js";
             appLocale.type = "text/javascript";
+            appLocale.async = true;
             document.writeln(appLocale.outerHTML);
         }
 

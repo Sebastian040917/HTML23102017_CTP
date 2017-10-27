@@ -35,6 +35,7 @@
             extScript = document.createElement("script");
             extScript.src = "../../ZCXBS_1045_EXTJ/ext-4.2.2.1144/ext-all-debug.js";
             extScript.type = "text/javascript";
+            extScript.async = true;
 
             document.writeln(extScript.outerHTML);
 
@@ -47,6 +48,7 @@
             appScript = document.createElement("script");
             appScript.src = "../app.js";
             appScript.type = "text/javascript";
+            appScript.async = true;
             document.writeln(appScript.outerHTML);
         }
         else {
@@ -61,6 +63,7 @@
             extScript = document.createElement("script");
             extScript.src = "ext/ext-all-debug.js";
             extScript.type = "text/javascript";
+            extScript.async = true;
             document.writeln(extScript.outerHTML);
             //var locScript = document.createElement("script");
             //locScript.src = "./translations/locale.js";
@@ -71,6 +74,7 @@
             appScript = document.createElement("script");
             appScript.src = "app.js";
             appScript.type = "text/javascript";
+            appScript.async = true;
             document.writeln(appScript.outerHTML);
         }
 
