@@ -44,6 +44,7 @@ Ext.define('Test43.controller.Main', {
     timeload: '',
     hasLoadPerHour: true,
     dateTime: new Date(),
+    //Frecuency: '',
     header: '',
     sessionId: '',
     pumpService: null,
@@ -594,10 +595,13 @@ getLoadsSimple: function (hour,header)
                     me.date = dateAux.getUTCFullYear() + '-' +
                         ((dateAux.getUTCMonth() + 1) < 10 ? '0' + (dateAux.getUTCMonth() + 1) : (dateAux.getUTCMonth() + 1).toString()) +
                         '-' + (dateAux.getUTCDate() < 10 ? '0' + dateAux.getUTCDate() : dateAux.getUTCDate().toString());
-                    me.time = rec[0].data.Time;
+                    me.time = rec[0].data.Time;;
+
+                    //me.Frecuency = parseInt(rec[0].data.Frecuency)
 
                     Ext.getCmp('txtHour').setValue(me.dateTime);
                     Ext.getCmp('txtFrom').setValue(new Date(me.dateTime));
+                    //Ext.getCmp('txtFrecuencia').setValue(me.Frecuency);
 
                     me.hasConcrete = rec[0].data.HasConcrete == 'X';
                     me.hasPump = rec[0].data.HasPumping == 'X';
