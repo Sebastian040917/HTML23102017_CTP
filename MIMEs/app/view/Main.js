@@ -1,11 +1,3 @@
-Ext.util.CSS.createStyleSheet(
-    '.some-row-class {font-size: 9px;}'
-);
-
-Ext.util.CSS.createStyleSheet(
-    '.naranja .x-grid-cell {background-color: #FF9900;}'
-);
-
 Ext.define('Test43.view.Main', {
     extend: 'Ext.container.Container',
     xtype: 'app-main',

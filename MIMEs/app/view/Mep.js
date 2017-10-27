@@ -151,10 +151,19 @@
                                 getRowClass: function (record, index) {
                                     if (record.get('Color') == "#FFFFFF") {
                                         return "blanco";
-                                    }
-                                    else {
+                                    } else if (record.get('Color') == "#30A0D0") {
+                                        return "azul";
+                                    } else if (record.get('Color') == "#FFB000") {
+                                        return "naranja";
+                                    } else if (record.get('Color') == "#FFFF40") {
+                                        return "amarillo";
+                                    } else if (record.get('Color') == "#FF4040") {
                                         return "rojo";
-                                    }
+                                    } else if (record.get('Color') == "#E0E0E0") {
+                                        return "gris";
+                                    } else {
+					                    return "blanco";
+				                    }
                                 }
                             }
                         },
