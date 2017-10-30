@@ -1033,3 +1033,9 @@ function createExtStore(){
         data: []
     });
 }
+
+function pruebanumerouno(){
+    console.log("datos de prueba");
+    var d=["1","2","3"];
+    
+}
