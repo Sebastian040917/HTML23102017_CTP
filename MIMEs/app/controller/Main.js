@@ -40,7 +40,7 @@ Ext.define('Test43.controller.Main', {
     },
 
     putMEP: function (sessionId, header, isInit, addPlant, selectPlant, morePlants, changeDateTime, pumpId) {
-      
+
         var data;
         var headers;
 
@@ -82,7 +82,7 @@ Ext.define('Test43.controller.Main', {
         }
 
         headers = { 'x-csrf-token': header, 'Content-Type': 'application/atom+xml', 'type': 'entry' };
-       
+
         Ext.Ajax.request({
             url: params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + sessionId + "')",
             params: generateMepXML(data),
@@ -127,9 +127,9 @@ Ext.define('Test43.controller.Main', {
         genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + sessionId + "')?$expand=MEP_List,Chart_Elements,Pump_List,AssignPump_List&$format=json";
 
         genStore.load({
-            callback: function (rec, ob, s) {         
-                if (rec && rec.length > 0) {                    
-                    var PumpDataRec=rec[0].data;
+            callback: function (rec, ob, s) {
+                if (rec && rec.length > 0) {
+                    var PumpDataRec = rec[0].data;
                     var dateAux = new Date(parseInt(PumpDataRec.Date.split('(')[1].split(')')[0]));
 
                     me.dateTime = new Date(dateAux.getUTCFullYear(),
@@ -144,10 +144,10 @@ Ext.define('Test43.controller.Main', {
                     me.time = PumpDataRec.Time;
 
                     var mepCount = rec[0].MepList().data.length;
-                    if (mepCount) {  
-                        var data = [];                      
+                    if (mepCount) {
+                        var data = [];
                         for (var i = 0; i < mepCount; i++) {
-                           var aux = rec[0].MepList().data.items[i].data;
+                            var aux = rec[0].MepList().data.items[i].data;
                             data.push({
                                 plant: aux.Plant,
                                 plant_name: aux.PlantName,
@@ -182,7 +182,7 @@ Ext.define('Test43.controller.Main', {
                     me.pumpService = {
                         ResourceId: (PumpDataRec.PumpId ? PumpDataRec.PumpId : 001),
                         Name: '',
-                        StartDate: getFormatedDateTime(PumpDataRec.PumpStartDate,PumpDataRec.PumpStartTime),
+                        StartDate: getFormatedDateTime(PumpDataRec.PumpStartDate, PumpDataRec.PumpStartTime),
                         EndDate: getFormatedDateTime(PumpDataRec.PumpEndDate, PumpDataRec.PumpEndTime),
                         Color: '',
                         Group: "Servicio"
@@ -289,200 +289,173 @@ Ext.define('Test43.controller.Main', {
 
         genStore = Ext.getStore("LoadsPerHourStore");
         genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=LoadDetail_List&$format=json";
-        //genStore = Ext.getStore("SessionDataStore");
-        //genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=MEP_List,Chart_Elements,Pump_List,AssignPump_List,LoadDetail_List&$format=json";
 
-         genStore.load({
-        //     callback: function (rec, ob, s) {
+        genStore.load({
+            callback: function (rec, ob, s) {
+                var dataLoads = ob.request.proxy.reader.rawData.d.LoadDetail_List.results;
 
-        //         controllerLoads = Ext.getStore('LoadsPerHourStore');
+                if (dataLoads != undefined) {
 
-        //         data = [];
+                    var lenGenStoreCount = dataLoads.length;
+                    if (lenGenStoreCount) {
+                        for (var i = 0; i < lenGenStoreCount; i++) {
+                            var lenGenStore = dataLoads[i];
 
-        //         if (rec && rec.length > 0) {
-        //             var a;
-        //         }
+                            var orderItem = lenGenStore.Order;
 
-        //     }
-         });
+                            if (orderItem != '') {
+                                var loadDateCom = getFormatedDateShort(lenGenStore.LoadDate);
+                                var reqDateCom = getFormatedDateShort(lenGenStore.ReqDate);
+                                var delDateCom = getFormatedDateShort(lenGenStore.ReqDate);
+                            } else {
+                                var loadDateCom = "";
+                                var reqDateCom = "";
+                                var delDateCom = "";
+                            }
+
+                            var loadTime = lenGenStore.LoadTime;
+                            var hourItem = loadTime.replace('PT', '').split('H')[0];
+                            var minItem = loadTime.replace('PT', '').split('H')[1].split('M')[0];
+
+                            var reqTime = lenGenStore.ReqTime;
+                            var hourReq = reqTime.replace('PT', '').split('H')[0];
+                            var minReq = reqTime.replace('PT', '').split('H')[1].split('M')[0];
+
+                            var TT = lenGenStore.TravelTime;
+                            var hourTT = TT.replace('PT', '').split('H')[0];
+                            var minTT = TT.replace('PT', '').split('H')[1].split('M')[0];
+
+
+                            //Items per hour
+                            if (hourItem == befHour) {
+                                storeLoadsPerHour1.add({
+                                    SessionId: lenGenStore.SessionId,
+                                    Order: lenGenStore.Order,
+                                    Item: lenGenStore.Item,
+                                    SimuLoadflg: lenGenStore.SimuLoadflg,
+                                    LoadDate: loadDateCom,
+                                    LoadTime: hourItem + ':' + minItem,
+                                    Posex: lenGenStore.Posex,
+                                    Quantity: lenGenStore.Quantity,
+                                    Status: lenGenStore.Status,
+                                    MatNum: lenGenStore.MatNum,
+                                    MatDesc: lenGenStore.MatDesc,
+                                    ReqDate: reqDateCom,
+                                    ReqTime: hourReq + ':' + minReq,
+                                    Plant: lenGenStore.Plant,
+                                    Customer: lenGenStore.Customer,
+                                    CustoDesc: lenGenStore.CustoDesc,
+                                    Jobsite: lenGenStore.Jobsite,
+                                    JobstDesc: lenGenStore.JobstDesc,
+                                    StatusDesc: lenGenStore.StatusDesc,
+                                    SimuLoadflg: lenGenStore.SimuLoadflg,
+                                    TravelTime: hourTT + ':' + minTT
+
+                                });
+                            }
+
+                            if (hourItem == hour) {
+                                storeLoadsPerHour2.add({
+                                    SessionId: lenGenStore.SessionId,
+                                    Order: lenGenStore.Order,
+                                    Item: lenGenStore.Item,
+                                    SimuLoadflg: lenGenStore.SimuLoadflg,
+                                    LoadDate: loadDateCom,
+                                    LoadTime: hourItem + ':' + minItem,
+                                    Posex: lenGenStore.Posex,
+                                    Quantity: lenGenStore.Quantity,
+                                    Status: lenGenStore.Status,
+                                    MatNum: lenGenStore.MatNum,
+                                    MatDesc: lenGenStore.MatDesc,
+                                    ReqDate: reqDateCom,
+                                    ReqTime: hourReq + ':' + minReq,
+                                    Plant: lenGenStore.Plant,
+                                    Customer: lenGenStore.Customer,
+                                    CustoDesc: lenGenStore.CustoDesc,
+                                    Jobsite: lenGenStore.Jobsite,
+                                    JobstDesc: lenGenStore.JobstDesc,
+                                    StatusDesc: lenGenStore.StatusDesc,
+                                    SimuLoadflg: lenGenStore.SimuLoadflg,
+                                    TravelTime: hourTT + ':' + minTT
+                                });
+                            }
+
+                            if (hourItem == aftHour) {
+                                storeLoadsPerHour3.add({
+                                    SessionId: lenGenStore.SessionId,
+                                    Order: lenGenStore.Order,
+                                    Item: lenGenStore.Item,
+                                    SimuLoadflg: lenGenStore.SimuLoadflg,
+                                    LoadDate: loadDateCom,
+                                    LoadTime: hourItem + ':' + minItem,
+                                    Posex: lenGenStore.Posex,
+                                    Quantity: lenGenStore.Quantity,
+                                    Status: lenGenStore.Status,
+                                    MatNum: lenGenStore.MatNum,
+                                    MatDesc: lenGenStore.MatDesc,
+                                    ReqDate: reqDateCom,
+                                    ReqTime: hourReq + ':' + minReq,
+                                    Plant: lenGenStore.Plant,
+                                    Customer: lenGenStore.Customer,
+                                    CustoDesc: lenGenStore.CustoDesc,
+                                    Jobsite: lenGenStore.Jobsite,
+                                    JobstDesc: lenGenStore.JobstDesc,
+                                    StatusDesc: lenGenStore.StatusDesc,
+                                    SimuLoadflg: lenGenStore.SimuLoadflg,
+                                    TravelTime: hourTT + ':' + minTT
+                                });
+                            }
+
+
+
+
+                        }
+                    }
+                }
+                objgrid1.getView().bindStore(storeLoadsPerHour1);
+                objgrid2.getView().bindStore(storeLoadsPerHour2);
+                objgrid3.getView().bindStore(storeLoadsPerHour3);
+
+                objgrid1.getView().refresh();
+                objgrid2.getView().refresh();
+                objgrid3.getView().refresh();
+
+            }
+        });
 
 
         var objgrid1 = Ext.getCmp('gridLoadPerHour1');
         var objgrid2 = Ext.getCmp('gridLoadPerHour2');
         var objgrid3 = Ext.getCmp('gridLoadPerHour3');
 
-        if (objgrid1 && objgrid2 && objgrid3 && genStore.proxy.reader.rawData != undefined) {
-            var objLoads = Ext.getCmp('hboxLoads');
-            var objPump = Ext.getCmp('panelPump');
-            //var objbuttonClose = Ext.getCmp('hboxbuttonClose');
+        //if (objgrid1 && objgrid2 && objgrid3 && genStore.proxy.reader.rawData != undefined) {
+        var objLoads = Ext.getCmp('hboxLoads');
+        var objPump = Ext.getCmp('panelPump');
 
-            //Show Controls
-            if (objLoads) { objLoads.setVisible(true); }
-            else { objLoads.setVisible(false); }
+        //Show Controls
+        if (objLoads) { objLoads.setVisible(true); }
+        else { objLoads.setVisible(false); }
 
-            //if(objbuttonClose){objbuttonClose.setVisible(true);}
-            //else{objbuttonClose.setVisible(false);}
+        if (objPump) { objPump.setVisible(false); }
+        else { objPump.setVisible(true); }
 
-            if (objPump) { objPump.setVisible(false); }
-            else { objPump.setVisible(true); }
+        //Clean Store
+        var storeLoadsPerHour1 = createExtStore();
+        var storeLoadsPerHour2 = createExtStore();
+        var storeLoadsPerHour3 = createExtStore();
 
-            //Clean Store
-            var storeLoadsPerHour1 = createExtStore();
-            var storeLoadsPerHour2 = createExtStore();
-            var storeLoadsPerHour3 = createExtStore();
-            // storeLoadsPerHour1.loadData([], false);
-            // storeLoadsPerHour2.loadData([], false);
-            // storeLoadsPerHour3.loadData([], false);
+        objgrid1.store.removeAll(true);
+        objgrid2.store.removeAll(true);
+        objgrid3.store.removeAll(true);
 
-            objgrid1.store.removeAll(true);
-            objgrid2.store.removeAll(true);
-            objgrid3.store.removeAll(true);
-
-            //Rename Grids
-            objgrid1.setTitle('<div style="text-align:center;">' + befHour + ':00 hrs ' + translations.loadA + ' ' + hour + ':00 hrs' + '</div>');
-            objgrid2.setTitle('<div style="text-align:center;">' + hour + ':00 hrs ' + translations.loadA + ' ' + aftHour + ':00 hrs' + '</div>');
-            objgrid3.setTitle('<div style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + aftHour + ':00 hrs ' + translations.loadA + ' ' + aft2Hour + ':00 hrs' + '<a style ="color: gray; text-decoration:none; font-size: 12px" href="#" onclick="closeLoadsPerHour();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + 'x' + '</a></div>');
-
-
-            if (genStore.proxy.reader.rawData != undefined) {
-
-                var lenGenStoreCount = genStore.proxy.reader.rawData.d.LoadDetail_List.results.length;
-                if (lenGenStoreCount) {
-                    for (var i = 0; i < lenGenStoreCount; i++) {
-                        var lenGenStore = genStore.proxy.reader.rawData.d.LoadDetail_List.results[i];
-
-                        var orderItem = lenGenStore.Order;
-
-                        if (orderItem != '') {
-                            var loadDateCom = getFormatedDateShort(lenGenStore.LoadDate);
-                            var reqDateCom = getFormatedDateShort(lenGenStore.ReqDate);
-                            var delDateCom = getFormatedDateShort(lenGenStore.ReqDate);
-                        } else {
-                            var loadDateCom = "";
-                            var reqDateCom = "";
-                            var delDateCom = "";
-                        }
-
-                        var loadTime = lenGenStore.LoadTime;
-                        var hourItem = loadTime.replace('PT', '').split('H')[0];
-                        var minItem = loadTime.replace('PT', '').split('H')[1].split('M')[0];
-
-                        var reqTime = lenGenStore.ReqTime;
-                        var hourReq = reqTime.replace('PT', '').split('H')[0];
-                        var minReq = reqTime.replace('PT', '').split('H')[1].split('M')[0];
-
-                        var TT = lenGenStore.TravelTime;
-                        var hourTT = TT.replace('PT', '').split('H')[0];
-                        var minTT = TT.replace('PT', '').split('H')[1].split('M')[0];
+        //Rename Grids
+        objgrid1.setTitle('<div style="text-align:center;">' + befHour + ':00 hrs ' + translations.loadA + ' ' + hour + ':00 hrs' + '</div>');
+        objgrid2.setTitle('<div style="text-align:center;">' + hour + ':00 hrs ' + translations.loadA + ' ' + aftHour + ':00 hrs' + '</div>');
+        objgrid3.setTitle('<div style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + aftHour + ':00 hrs ' + translations.loadA + ' ' + aft2Hour + ':00 hrs' + '<a style ="color: gray; text-decoration:none; font-size: 12px" href="#" onclick="closeLoadsPerHour();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + 'x' + '</a></div>');
 
 
 
-                        //Items per hour
-                        if (hourItem == befHour) {
-                            storeLoadsPerHour1.add({
-                                SessionId: lenGenStore.SessionId,
-                                Order: lenGenStore.Order,
-                                Item: lenGenStore.Item,
-                                SimuLoadflg: lenGenStore.SimuLoadflg,
-                                //LoadDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadDate,
-                                //LoadTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadTime,
-                                LoadDate: loadDateCom,
-                                LoadTime: hourItem + ':' + minItem,
-                                Posex: lenGenStore.Posex,
-                                Quantity: lenGenStore.Quantity,
-                                Status: lenGenStore.Status,
-                                MatNum: lenGenStore.MatNum,
-                                MatDesc: lenGenStore.MatDesc,
-                                //ReqDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqDate,
-                                //ReqTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqTime,
-                                ReqDate: reqDateCom,
-                                ReqTime: hourReq + ':' + minReq,
-                                Plant: lenGenStore.Plant,
-                                Customer: lenGenStore.Customer,
-                                CustoDesc: lenGenStore.CustoDesc,
-                                Jobsite: lenGenStore.Jobsite,
-                                JobstDesc: lenGenStore.JobstDesc,
-                                StatusDesc: lenGenStore.StatusDesc,
-                                SimuLoadflg: lenGenStore.SimuLoadflg,
-                                TravelTime: hourTT + ':' + minTT
-
-                            });
-                        }
-
-                        if (hourItem == hour) {
-                            storeLoadsPerHour2.add({
-                                SessionId: lenGenStore.SessionId,
-                                Order: lenGenStore.Order,
-                                Item: lenGenStore.Item,
-                                SimuLoadflg: lenGenStore.SimuLoadflg,
-                                //LoadDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadDate,
-                                //LoadTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadTime,
-                                LoadDate: loadDateCom,
-                                LoadTime: hourItem + ':' + minItem,
-                                Posex: lenGenStore.Posex,
-                                Quantity: lenGenStore.Quantity,
-                                Status: lenGenStore.Status,
-                                MatNum: lenGenStore.MatNum,
-                                MatDesc: lenGenStore.MatDesc,
-                                //ReqDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqDate,
-                                //ReqTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqTime,
-                                ReqDate: reqDateCom,
-                                ReqTime: hourReq + ':' + minReq,
-                                Plant: lenGenStore.Plant,
-                                Customer: lenGenStore.Customer,
-                                CustoDesc: lenGenStore.CustoDesc,
-                                Jobsite: lenGenStore.Jobsite,
-                                JobstDesc: lenGenStore.JobstDesc,
-                                StatusDesc: lenGenStore.StatusDesc,
-                                SimuLoadflg: lenGenStore.SimuLoadflg,
-                                TravelTime: hourTT + ':' + minTT
-                            });
-                        }
-
-                        if (hourItem == aftHour) {
-                            storeLoadsPerHour3.add({
-                                SessionId: lenGenStore.SessionId,
-                                Order: lenGenStore.Order,
-                                Item: lenGenStore.Item,
-                                SimuLoadflg: lenGenStore.SimuLoadflg,
-                                //LoadDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadDate,
-                                //LoadTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].LoadTime,
-                                LoadDate: loadDateCom,
-                                LoadTime: hourItem + ':' + minItem,
-                                Posex: lenGenStore.Posex,
-                                Quantity: lenGenStore.Quantity,
-                                Status: lenGenStore.Status,
-                                MatNum: lenGenStore.MatNum,
-                                MatDesc: lenGenStore.MatDesc,
-                                //ReqDate: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqDate,
-                                //ReqTime: genStore.proxy.reader.rawData.d.LoadDetail_List.results[i].ReqTime,
-                                ReqDate: reqDateCom,
-                                ReqTime: hourReq + ':' + minReq,
-                                Plant: lenGenStore.Plant,
-                                Customer: lenGenStore.Customer,
-                                CustoDesc: lenGenStore.CustoDesc,
-                                Jobsite: lenGenStore.Jobsite,
-                                JobstDesc: lenGenStore.JobstDesc,
-                                StatusDesc: lenGenStore.StatusDesc,
-                                SimuLoadflg: lenGenStore.SimuLoadflg,
-                                TravelTime: hourTT + ':' + minTT
-                            });
-                        }
-
-
-
-
-                    }
-                }
-            }
-            objgrid1.getView().bindStore(storeLoadsPerHour1);
-            objgrid2.getView().bindStore(storeLoadsPerHour2);
-            objgrid3.getView().bindStore(storeLoadsPerHour3);
-
-            objgrid1.getView().refresh();
-            objgrid2.getView().refresh();
-            objgrid3.getView().refresh();
-        }
+        //}
     },
 
 
@@ -494,33 +467,8 @@ Ext.define('Test43.controller.Main', {
 
         genStore = Ext.getStore("LoadsPerHourStore");
         genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=LoadDetail_List&$format=json";
-        //genStore = Ext.getStore("SessionDataStore");
-        //genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=MEP_List,Chart_Elements,Pump_List,AssignPump_List,LoadDetail_List&$format=json";
 
-        genStore.load({
-            callback: function (rec, ob, s) {
-
-                // controllerLoads = Ext.getStore('LoadsPerHourStore');
-
-                // data = [];
-
-                // if (rec && rec.length > 0) {
-                //     var a;
-                //     //console.log('alert');
-                // }
-
-            }
-        });
-
-
-        var objgrid1 = Ext.getCmp('gridLoadPerHour1');
-        var objgrid2 = Ext.getCmp('gridLoadPerHour2');
-        var objgrid3 = Ext.getCmp('gridLoadPerHour3');
-
-        // if (objgrid1 && objgrid2 && objgrid3 && genStore.proxy.reader.rawData != undefined) {
-        //     //console.log('loads');
-        //     var b;
-        // }
+        genStore.load();
     },
 
 
@@ -575,12 +523,12 @@ Ext.define('Test43.controller.Main', {
         if (!plant) { plant = me.selPlant; }
 
         genStore = Ext.getStore("GraphStore");
-        sessionStore = Ext.getStore("SessionDataStore");
+        //sessionStore = Ext.getStore("SessionDataStore");
         charData = [];
 
         if (Ext.getStore('SessionDataStore').data.items.length) {
             auxData = Ext.getStore('SessionDataStore').data.items[0].ChartList().data.items;
-            var auxCount=auxData.length;
+            var auxCount = auxData.length;
 
             for (var i = 0; i < auxCount; i++) {
                 if (auxData[i].data.Plant == plant.plant) {
@@ -592,7 +540,7 @@ Ext.define('Test43.controller.Main', {
                     charData.push(
                         {
                             time: timeAux,
-                            loads_per_hour_avail:auxItemData.LoadsPerHourAvail,
+                            loads_per_hour_avail: auxItemData.LoadsPerHourAvail,
                             available_vehicles: auxItemData.VehicleAvail,
                             simulated_loads: auxItemData.SimulatedLoads,
                             existing_loads: auxItemData.ExistingLoads,
@@ -702,9 +650,9 @@ Ext.define('Test43.controller.Main', {
                     for (var i = 0; i < ResLength; i++) {
                         var data = response.Plant_List.results[i];
 
-                        _description =  data.Descr == "" ? _description :
-                                        data.Descr.length > 13 ? data.Descr.substring(0, 13) + "..." :
-                                        ' - ' + data.Descr;                                        
+                        _description = data.Descr == "" ? _description :
+                            data.Descr.length > 13 ? data.Descr.substring(0, 13) + "..." :
+                                ' - ' + data.Descr;
                         plants.push({
                             Id: data.PlantCode,
                             Name: data.PlantCode + _description
@@ -1025,11 +973,11 @@ function closeLoadsPerHour() {
     objgrid3.store.removeAll(true);
 }
 
-function createExtStore(){
+function createExtStore() {
     return Ext.create('Ext.data.Store', {
         alias: 'store.PruebaStore',
-            autoLoad: false,
-            fields:['SessionId', 'Order', 'Item','SimuLoadflg','LoadDate', 'LoadTime', 'Posex','Quantity', 'Status', 'MatNum','MatDesc', 'ReqDate', 'ReqTime', 'Plant', 'Customer', 'CustoDesc', 'Jobsite', 'JobstDesc','TravelTime','StatusDesc','SimuLoadflg'],
+        autoLoad: false,
+        fields: ['SessionId', 'Order', 'Item', 'SimuLoadflg', 'LoadDate', 'LoadTime', 'Posex', 'Quantity', 'Status', 'MatNum', 'MatDesc', 'ReqDate', 'ReqTime', 'Plant', 'Customer', 'CustoDesc', 'Jobsite', 'JobstDesc', 'TravelTime', 'StatusDesc', 'SimuLoadflg'],
         data: []
     });
 }

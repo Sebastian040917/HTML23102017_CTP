@@ -12,11 +12,11 @@
         {
             xtype: 'form',
             layout:
-                {
-                    type: 'fit',
-                    align: 'center',
-                    pack: 'center'
-                },
+            {
+                type: 'fit',
+                align: 'center',
+                pack: 'center'
+            },
             height: '100%',
             minHeight: 305,
             border: false,
@@ -162,8 +162,8 @@
                                     } else if (record.get('Color') == "#E0E0E0") {
                                         return "gris";
                                     } else {
-					                    return "blanco";
-				                    }
+                                        return "blanco";
+                                    }
                                 }
                             }
                         },
@@ -221,7 +221,7 @@
                                     xtype: 'datefield',
                                     id: 'txtFrom',
                                     format: 'd.m.Y',
-				    width: '10%',
+                                    width: '10%',
                                     padding: { left: 5, right: 5 },
                                     flex: 4
                                 },
@@ -261,7 +261,7 @@
                                     format: 'H:i',
                                     increment: 5,
                                     flex: 4,
-    				    width: '5%'
+                                    width: '5%'
                                 },
                                 {
                                     xtype: 'button',
@@ -278,12 +278,12 @@
                                         Ext.getCmp("txtHour").setValue(newTime);
                                     }
                                 },
-				//{
-                	        //    xtype: 'textfield',
-				//    id: 'txtFrecuencia',
- 				//    padding: { left: 0, right: 5 },
-        	                //    width: '10%'
-	                        //},
+                                //{
+                                //    xtype: 'textfield',
+                                //    id: 'txtFrecuencia',
+                                //    padding: { left: 0, right: 5 },
+                                //    width: '10%'
+                                //},
                                 {
                                     xtype: 'button',
                                     text: 'Ok',
@@ -295,7 +295,7 @@
                                         var txtFrom = Ext.getCmp("txtFrom");
                                         var txtHour = Ext.getCmp("txtHour");
                                         var controller = Test43.app.getController('Main');
-					
+
                                         try {
                                             if (txtFrom && txtHour && txtFrom.value && txtHour.value) {
                                                 controller.changeDateTime(txtFrom.value, txtHour.value);
@@ -303,8 +303,8 @@
                                             else if (txtFrom && txtHour && txtFrom.value && txtHour.getRawValue()) {
                                                 controller.changeDateTime(txtFrom.value, getTimeFromRaw(txtHour.getRawValue()));
                                             }
-						
-					    closeLoadsPerHourPanel();
+
+                                            closeLoadsPerHourPanel();
 
                                         }
                                         catch (e) {
@@ -312,7 +312,7 @@
                                         }
                                     }
                                 }
-			    ]
+                            ]
                         }
                     ]
                 }
@@ -327,8 +327,7 @@ function getTimeFromRaw(time) {
     var hour;
     var minute;
 
-    if (!time)
-    {
+    if (!time) {
         return new Date();
     }
 
@@ -361,28 +360,28 @@ function getTimeFromRaw(time) {
 }
 
 function closeLoadsPerHourPanel() {
-   var objLoads = Ext.getCmp('hboxLoads');
-   var objPump = Ext.getCmp('panelPump');
-   var objbuttonClose = Ext.getCmp('hboxbuttonClose');
+    var objLoads = Ext.getCmp('hboxLoads');
+    var objPump = Ext.getCmp('panelPump');
+    var objbuttonClose = Ext.getCmp('hboxbuttonClose');
 
-   if(objLoads){objLoads.setVisible(false);}
-   else{objLoads.setVisible(true);}
-  
-   if(objPump){objPump.setVisible(true);}
-   else{objPump.setVisible(false);}
+    if (objLoads) { objLoads.setVisible(false); }
+    else { objLoads.setVisible(true); }
 
-   var objgrid1 = Ext.getCmp('gridLoadPerHour1');
-   var objgrid2 = Ext.getCmp('gridLoadPerHour2');
-   var objgrid3 = Ext.getCmp('gridLoadPerHour3');
+    if (objPump) { objPump.setVisible(true); }
+    else { objPump.setVisible(false); }
+
+    var objgrid1 = Ext.getCmp('gridLoadPerHour1');
+    var objgrid2 = Ext.getCmp('gridLoadPerHour2');
+    var objgrid3 = Ext.getCmp('gridLoadPerHour3');
 
 
-	//Clean Store
-	storeLoadsPerHour1.loadData([],false);
-        storeLoadsPerHour2.loadData([],false);
-        storeLoadsPerHour3.loadData([],false);
+    //Clean Store
+    storeLoadsPerHour1.loadData([], false);
+    storeLoadsPerHour2.loadData([], false);
+    storeLoadsPerHour3.loadData([], false);
 
-	objgrid1.store.removeAll(true);
-        objgrid2.store.removeAll(true);
-        objgrid3.store.removeAll(true);
+    objgrid1.store.removeAll(true);
+    objgrid2.store.removeAll(true);
+    objgrid3.store.removeAll(true);
 }
 

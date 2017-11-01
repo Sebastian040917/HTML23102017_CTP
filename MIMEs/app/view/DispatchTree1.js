@@ -1,7 +1,7 @@
 ﻿
 Ext.define('Test43.view.DispatchTree', {
     requires: ['Sch.panel.SchedulerGrid',
-    'Sch.plugin.Zones'],
+        'Sch.plugin.Zones'],
     extend: 'Ext.container.Container',
     alias: 'widget.dispatchtree',
     border: false,
@@ -69,105 +69,109 @@ Ext.define('Test43.view.DispatchTree', {
                 forceFit: true
             },
             columns: [
-{ header: translations.mepPlant, width: 130, dataIndex: 'iPlant',items: [
+                {
+                    header: translations.mepPlant, width: 130, dataIndex: 'iPlant', items: [
                         {
                             xtype: 'textfield',
                             text: 'Filtro',
-							listeners : {
-                    change : function (field, newValue, oldValue) {
-						window.filterPlant=newValue;
-                        if (newValue) {
-                            var regexps = Ext.Array.map(newValue.split(/\s+/), function (token) {
-                                return new RegExp(Ext.String.escapeRegex(token), 'i');
-                            });
-                            var length  = regexps.length;
-							var resourceStore=Ext.getStore("ResourceStore");
-							
-								resourceStore.filterBy(function(rec, id) {
-								if((rec.raw['Name'].indexOf(window.filterName)>= 0 && rec.raw['iPlant'].indexOf(window.filterPlant)>=0) || rec.raw['iPlant']=='') {
-									return true;
-								} else {
-									return false;
-								}
-								});
-							
-							  
-                            
-                        } else {
-							var resourceStore=Ext.getStore("ResourceStore");
-                            resourceStore.clearFilter();
-															resourceStore.filterBy(function(rec, id) {
-								if((rec.raw['Name'].indexOf(window.filterName)>= 0 ) || rec.raw['iPlant']=='') {
-									return true;
-								} else {
-									return false;
-								}
-								});
-                        }
-                    },
+                            listeners: {
+                                change: function (field, newValue, oldValue) {
+                                    window.filterPlant = newValue;
+                                    if (newValue) {
+                                        var regexps = Ext.Array.map(newValue.split(/\s+/), function (token) {
+                                            return new RegExp(Ext.String.escapeRegex(token), 'i');
+                                        });
+                                        var length = regexps.length;
+                                        var resourceStore = Ext.getStore("ResourceStore");
 
-                    specialkey : function (field, e, t) {
-                        if (e.keyCode === e.ESC) field.reset();
-                    }
-                }
+                                        resourceStore.filterBy(function (rec, id) {
+                                            if ((rec.raw['Name'].indexOf(window.filterName) >= 0 && rec.raw['iPlant'].indexOf(window.filterPlant) >= 0) || rec.raw['iPlant'] == '') {
+                                                return true;
+                                            } else {
+                                                return false;
+                                            }
+                                        });
+
+
+
+                                    } else {
+                                        var resourceStore = Ext.getStore("ResourceStore");
+                                        resourceStore.clearFilter();
+                                        resourceStore.filterBy(function (rec, id) {
+                                            if ((rec.raw['Name'].indexOf(window.filterName) >= 0) || rec.raw['iPlant'] == '') {
+                                                return true;
+                                            } else {
+                                                return false;
+                                            }
+                                        });
+                                    }
+                                },
+
+                                specialkey: function (field, e, t) {
+                                    if (e.keyCode === e.ESC) field.reset();
+                                }
+                            }
                         }
-                    ],renderer: function (start, end, cfg, index) {
-                       
-                            // Same styling as normal grid column headers
-                            return cfg.raw.iPlant;
-                        
+                    ], renderer: function (start, end, cfg, index) {
+
+                        // Same styling as normal grid column headers
+                        return cfg.raw.iPlant;
+
 
                         //cfg.headerCls += 'ticks-header';
                         //return Ext.String.format('<div class="ticks-outer">&nbsp;<div class="ticks-inner">&nbsp;</div></div>{0} s', index);
-                    }} ,{header: translations.schCamiones, width: 130, dataIndex: 'Name',items: [
+                    }
+                }, {
+                    header: translations.schCamiones, width: 130, dataIndex: 'Name', items: [
                         {
                             xtype: 'textfield',
                             text: 'Filtro',
-			    listeners : {
-                    change : function (field, newValue, oldValue) {
-					window.filterName=newValue;
-                        if (newValue) {
-                            var regexps = Ext.Array.map(newValue.split(/\s+/), function (token) {
-                                return new RegExp(Ext.String.escapeRegex(token), 'i');
-                            });
-                            var length  = regexps.length;
-							var resourceStore=Ext.getStore("ResourceStore");
-							
-								resourceStore.filterBy(function(rec, id) {
-								if((rec.raw['Name'].indexOf(window.filterName)>= 0 && rec.raw['iPlant'].indexOf(window.filterPlant)>=0) || rec.raw['iPlant']=='') {
-									return true;
-								} else {
-									return false;
-								}
-								});
-							
-							  
-                            
-                        } else {
-							var resourceStore=Ext.getStore("ResourceStore");
-                            resourceStore.clearFilter();
-							
-							
-								resourceStore.filterBy(function(rec, id) {
-								if(( rec.raw['iPlant'].indexOf(window.filterPlant)>=0) || rec.raw['iPlant']=='') {
-									return true;
-								} else {
-									return false;
-								}
-								});
-                        }
-                    },
+                            listeners: {
+                                change: function (field, newValue, oldValue) {
+                                    window.filterName = newValue;
+                                    if (newValue) {
+                                        var regexps = Ext.Array.map(newValue.split(/\s+/), function (token) {
+                                            return new RegExp(Ext.String.escapeRegex(token), 'i');
+                                        });
+                                        var length = regexps.length;
+                                        var resourceStore = Ext.getStore("ResourceStore");
 
-                    specialkey : function (field, e, t) {
-                        if (e.keyCode === e.ESC) field.reset();
-                    }
-                }
-                           
+                                        resourceStore.filterBy(function (rec, id) {
+                                            if ((rec.raw['Name'].indexOf(window.filterName) >= 0 && rec.raw['iPlant'].indexOf(window.filterPlant) >= 0) || rec.raw['iPlant'] == '') {
+                                                return true;
+                                            } else {
+                                                return false;
+                                            }
+                                        });
+
+
+
+                                    } else {
+                                        var resourceStore = Ext.getStore("ResourceStore");
+                                        resourceStore.clearFilter();
+
+
+                                        resourceStore.filterBy(function (rec, id) {
+                                            if ((rec.raw['iPlant'].indexOf(window.filterPlant) >= 0) || rec.raw['iPlant'] == '') {
+                                                return true;
+                                            } else {
+                                                return false;
+                                            }
+                                        });
+                                    }
+                                },
+
+                                specialkey: function (field, e, t) {
+                                    if (e.keyCode === e.ESC) field.reset();
+                                }
+                            }
+
                         }
-                    ]}
-          ],
+                    ]
+                }
+            ],
             eventRenderer: function (item, resource, tplData) {
-			
+
                 if (item.data.ResourceId == 1) {
                     tplData.style = "background-color: #CCCCCC;";
                     tplData.cls = 'evt-' + 'Asignable';
@@ -207,7 +211,7 @@ Ext.define('Test43.view.DispatchTree', {
                     if (dragContext.resourceRecord !== dragContext.newResource) {
 
                         var event = Test43.app.getController('Main').pumpService;
-                        var controller = Test43.app.getController('Main');                        
+                        var controller = Test43.app.getController('Main');
 
                         zone.setStartDate(dragContext.startDate);
                         zone.setEndDate(dragContext.endDate);
