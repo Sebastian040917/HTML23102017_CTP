@@ -16,7 +16,7 @@ Ext.define('Test43.view.Main', {
                             xtype: 'mep',
                             id: 'mepView',
                             flex: 3,
-                            closable: false,
+                            //closable: false,
                             width: '40%'
                         },
                         {
