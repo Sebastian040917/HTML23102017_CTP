@@ -40,28 +40,11 @@ Ext.define('Test43.view.GraphView', {
                     steps: 24,
                     label:
                     {
-<<<<<<< HEAD
 			font: '16px Arial',
 			 renderer: function(name) {
         			return '';
     				
 			}
-=======
-                        //padding: 100,
-                        font: '16px Arial',
-                        //'text-anchor': 'middle',
-                        renderer: function (v) {
-                            //var a = '<span style="font-style:italic">abc</span>';
-                            //return String(v).replace(v, '  ' + v + '    ');
-                            //var val1 = v;
-                            //var val2 = val1;
-                            //val3 = Ext.util.Format.htmlDecode(val2);
-                            //return Ext.util.Format.htmlDecode('&nbsp;' + v + '&nbsp;');
-
-                            return String(v).replace(" ");
-
-                        }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                     }
                 }
             ],
@@ -136,7 +119,6 @@ Ext.define('Test43.view.GraphView', {
 
 
         //
-<<<<<<< HEAD
 
 
         {
@@ -152,8 +134,6 @@ Ext.define('Test43.view.GraphView', {
                     id: 'btn0',
                     width: 21,
                     margin: { right: 0, left: 29, top: 0, bottom: 0 },
-=======
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
 
                     scale: 'small',
                     tabIndex: -1,
@@ -172,23 +152,6 @@ Ext.define('Test43.view.GraphView', {
                     width: 21,
                     margin: { right: 0, left: 7, top: 0, bottom: 0 },
 
-<<<<<<< HEAD
-=======
-        {
-            layout: 'hbox',
-            flex: 2,
-            width: 720,
-            border: false,
-            defaultMargins: 20,
-            items: [
-                {
-                    xtype: 'button',
-                    text: '0',
-                    id: 'btn0',
-                    width: 21,
-                    margin: { right: 0, left: 29, top: 0, bottom: 0 },
-
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                     scale: 'small',
                     tabIndex: -1,
                     style:
@@ -196,42 +159,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('01');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('00');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('00');
-                    //     }
-                    // }
-                },
-                {
-                    xtype: 'button',
-                    text: '1',
-                    id: 'btn1',
-                    width: 21,
-                    margin: { right: 0, left: 7, top: 0, bottom: 0 },
-
-                    scale: 'small',
-                    tabIndex: -1,
-                    style:
-                    {
-                        'font-size': '7px'
-                    },
-                    handler: function () {
-                        Test43.app.getController('Main').getLoadPerHour('01');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('01');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -246,19 +175,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('02');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('02');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('02');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -273,19 +191,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('03');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('03');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('03');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -300,19 +207,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('04');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('04');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('04');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -327,19 +223,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('05');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('05');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('05');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -354,19 +239,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('06');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('06');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('06');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -377,19 +251,8 @@ Ext.define('Test43.view.GraphView', {
                     scale: 'small',
                     tabIndex: -1,
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('07');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('07');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('07');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -404,19 +267,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('08');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('08');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('08');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -431,19 +283,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('09');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('09');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('09');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -455,19 +296,8 @@ Ext.define('Test43.view.GraphView', {
                     scale: 'small',
                     tabIndex: -1,
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('10');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('10');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('10');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -483,20 +313,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('11');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('11');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('11');
-                    //     }
-                    // }
-
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -512,19 +330,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('12');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('12');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('12');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -540,19 +347,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('13');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('13');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('13');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -568,19 +364,8 @@ Ext.define('Test43.view.GraphView', {
                     },
                     tabIndex: -1,
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('14');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('14');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('14');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -596,19 +381,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
                         Test43.app.getController('Main').showLoadsPerHour('15');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('15');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('15');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -624,19 +398,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
 			Test43.app.getController('Main').showLoadsPerHour('16');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('16');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('16');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -652,19 +415,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
 			Test43.app.getController('Main').showLoadsPerHour('17');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('17');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('17');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -680,19 +432,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
 			Test43.app.getController('Main').showLoadsPerHour('18');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('18');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('18');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -708,19 +449,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
 			Test43.app.getController('Main').showLoadsPerHour('19');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('19');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('19');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -736,19 +466,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
 			Test43.app.getController('Main').showLoadsPerHour('20');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('20');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('20');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -764,19 +483,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
 			Test43.app.getController('Main').showLoadsPerHour('21');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('21');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('21');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -793,19 +501,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
 			Test43.app.getController('Main').showLoadsPerHour('22');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('22');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('22');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -822,19 +519,8 @@ Ext.define('Test43.view.GraphView', {
                         'font-size': '7px'
                     },
                     handler: function () {
-<<<<<<< HEAD
 			Test43.app.getController('Main').showLoadsPerHour('23');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('23');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('23');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 },
                 {
                     xtype: 'button',
@@ -852,19 +538,8 @@ Ext.define('Test43.view.GraphView', {
                         //,'text-align:left'
                     },
                     handler: function () {
-<<<<<<< HEAD
 			Test43.app.getController('Main').showLoadsPerHour('00');
                     }
-=======
-                        Test43.app.getController('Main').getLoadPerHour('00');
-                    },
-                    // listeners:
-                    // {
-                    //     mouseover: function () {
-                    //         Test43.app.getController('Main').getLoadPerHourSimple('00');
-                    //     }
-                    // }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 }
 
 
@@ -905,15 +580,11 @@ Ext.define('Test43.view.GraphView', {
                     type: 'Numeric',
                     position: 'bottom',
                     fields: ['time'],
-<<<<<<< HEAD
                     steps: 24,
 		    minimum: 0,
         	    adjustMinimumByMajorUnit: 0,
 		    maximum: 24,
         	    adjustMaximumByMajorUnit: 24,
-=======
-                    steps: 23,
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                     label:
                     {
                         renderer: function (v) {

@@ -13,11 +13,11 @@
         {
             xtype: 'form',
             layout:
-            {
-                type: 'fit',
-                align: 'center',
-                pack: 'center'
-            },
+                {
+                    type: 'fit',
+                    align: 'center',
+                    pack: 'center'
+                },
             height: '100%',
             minHeight: 305,
             border: false,
@@ -167,13 +167,8 @@
                                     } else if (record.get('Color') == "#E0E0E0") {
                                         return "gris";
                                     } else {
-<<<<<<< HEAD
 					return "blanco";
 				    }
-=======
-                                        return "blanco";
-                                    }
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                                 }
                             }
                         },
@@ -239,7 +234,7 @@
                                     xtype: 'datefield',
                                     id: 'txtFrom',
                                     format: 'd.m.Y',
-                                    width: '10%',
+				    width: '10%',
                                     padding: { left: 5, right: 5 },
                                     flex: 4
                                 },
@@ -279,7 +274,7 @@
                                     format: 'H:i',
                                     increment: 5,
                                     flex: 4,
-                                    width: '5%'
+    				    width: '5%'
                                 },
                                 {
                                     xtype: 'button',
@@ -296,21 +291,12 @@
                                         Ext.getCmp("txtHour").setValue(newTime);
                                     }
                                 },
-<<<<<<< HEAD
 				{
                 	            xtype: 'textfield',
 				    id: 'txtFrecuencia',
  				    padding: { left: 0, right: 5 },
         	                    width: '10%'
 	                        },
-=======
-                                //{
-                                //    xtype: 'textfield',
-                                //    id: 'txtFrecuencia',
-                                //    padding: { left: 0, right: 5 },
-                                //    width: '10%'
-                                //},
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                                 {
                                     xtype: 'button',
                                     text: 'Ok',
@@ -324,12 +310,8 @@
                                         var txtFrecuencia = Ext.getCmp("txtFrecuencia");
 
                                         var controller = Test43.app.getController('Main');
-<<<<<<< HEAD
 					
 					//TODO FREC
-=======
-
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                                         try {
                                             if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.value && txtFrecuencia.value) {
                                                 controller.changeDateTime(txtFrom.value, txtHour.value, txtFrecuencia.value);
@@ -337,8 +319,8 @@
                                             else if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.getRawValue() && txtFrecuencia.value) {
                                                 controller.changeDateTime(txtFrom.value, getTimeFromRaw(txtHour.getRawValue()), txtFrecuencia.value);
                                             }
-
-                                            closeLoadsPerHourPanel();
+						
+					    closeLoadsPerHourPanel();
 
                                         }
                                         catch (e) {
@@ -346,15 +328,9 @@
                                         }
                                     }
                                 }
-<<<<<<< HEAD
 			    ]
                         },
                    ]
-=======
-                            ]
-                        }
-                    ]
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
                 }
             ]
         }
@@ -367,7 +343,8 @@ function getTimeFromRaw(time) {
     var hour;
     var minute;
 
-    if (!time) {
+    if (!time)
+    {
         return new Date();
     }
 
@@ -400,22 +377,21 @@ function getTimeFromRaw(time) {
 }
 
 function closeLoadsPerHourPanel() {
-    var objLoads = Ext.getCmp('hboxLoads');
-    var objPump = Ext.getCmp('panelPump');
-    var objbuttonClose = Ext.getCmp('hboxbuttonClose');
+   var objLoads = Ext.getCmp('hboxLoads');
+   var objPump = Ext.getCmp('panelPump');
+   var objbuttonClose = Ext.getCmp('hboxbuttonClose');
 
-    if (objLoads) { objLoads.setVisible(false); }
-    else { objLoads.setVisible(true); }
+   if(objLoads){objLoads.setVisible(false);}
+   else{objLoads.setVisible(true);}
+  
+   if(objPump){objPump.setVisible(true);}
+   else{objPump.setVisible(false);}
 
-    if (objPump) { objPump.setVisible(true); }
-    else { objPump.setVisible(false); }
-
-    var objgrid1 = Ext.getCmp('gridLoadPerHour1');
-    var objgrid2 = Ext.getCmp('gridLoadPerHour2');
-    var objgrid3 = Ext.getCmp('gridLoadPerHour3');
+   var objgrid1 = Ext.getCmp('gridLoadPerHour1');
+   var objgrid2 = Ext.getCmp('gridLoadPerHour2');
+   var objgrid3 = Ext.getCmp('gridLoadPerHour3');
 
 
-<<<<<<< HEAD
    var storeLoad1 = Ext.getCmp('toreLoadsPerHour1');
    if (storeLoad1) {
 
@@ -428,15 +404,5 @@ function closeLoadsPerHourPanel() {
         objgrid2.store.removeAll(true);
         objgrid3.store.removeAll(true);
    }
-=======
-    //Clean Store
-    storeLoadsPerHour1.loadData([], false);
-    storeLoadsPerHour2.loadData([], false);
-    storeLoadsPerHour3.loadData([], false);
-
-    objgrid1.store.removeAll(true);
-    objgrid2.store.removeAll(true);
-    objgrid3.store.removeAll(true);
->>>>>>> 441e062610b5719b20a9b5212938c2e7f7729c46
 }
 
