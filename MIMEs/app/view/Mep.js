@@ -1,5 +1,6 @@
 ﻿Ext.define('Test43.view.Mep', {
     requires: ['Ext.form.field.ComboBox'],
+    id: 'pnlMepCTP',
     extend: 'Ext.panel.Panel',
     alias: 'widget.mep',
     defaultType: 'textfield',
@@ -131,6 +132,10 @@
                                             }
 
                                             pstore.loadData(aux);
+
+					    closeLoadsPerHourPanel();
+
+					    Test43.app.getController('Main').getLoadPerHour('00');
                                         }
                                     }
                                 },
@@ -162,8 +167,8 @@
                                     } else if (record.get('Color') == "#E0E0E0") {
                                         return "gris";
                                     } else {
-					                    return "blanco";
-				                    }
+					return "blanco";
+				    }
                                 }
                             }
                         },
@@ -174,7 +179,7 @@
                         },
                         {
                             layout: 'hbox',
-                            flex: 2,
+                            flex: 3,
                             border: false,
                             items: [
                                 {
@@ -183,16 +188,24 @@
                                     layout: {
                                         type: 'center'
                                     },
-                                    padding: { left: 35, right: 5 },
-                                    flex: 2,
+                                    padding: { top: 0, left: 35, bottom: 10, right: 0 },
+                                    flex: 3,
                                     align: "center"
                                 },
 
                                 {
                                     xtype: 'label',
                                     text: translations.mepHora,
-                                    flex: 2,
-                                    padding: { left: 10, right: 5 },
+                                    flex: 3,
+                                    padding: { top: 0, left: 57, bottom: 0, right: 50 },
+                                    align: "center"
+                                },
+
+{
+                                    xtype: 'label',
+                                    text: translations.mepFrecuencia,
+                                    flex: 3,
+                                    padding: { top: 0, left: 48, bottom: 0, right: 50 },
                                     align: "center"
                                 }
                             ]
@@ -278,12 +291,12 @@
                                         Ext.getCmp("txtHour").setValue(newTime);
                                     }
                                 },
-				//{
-                	        //    xtype: 'textfield',
-				//    id: 'txtFrecuencia',
- 				//    padding: { left: 0, right: 5 },
-        	                //    width: '10%'
-	                        //},
+				{
+                	            xtype: 'textfield',
+				    id: 'txtFrecuencia',
+ 				    padding: { left: 0, right: 5 },
+        	                    width: '10%'
+	                        },
                                 {
                                     xtype: 'button',
                                     text: 'Ok',
@@ -294,14 +307,17 @@
                                     handler: function () {
                                         var txtFrom = Ext.getCmp("txtFrom");
                                         var txtHour = Ext.getCmp("txtHour");
+                                        var txtFrecuencia = Ext.getCmp("txtFrecuencia");
+
                                         var controller = Test43.app.getController('Main');
 					
+					//TODO FREC
                                         try {
-                                            if (txtFrom && txtHour && txtFrom.value && txtHour.value) {
-                                                controller.changeDateTime(txtFrom.value, txtHour.value);
+                                            if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.value && txtFrecuencia.value) {
+                                                controller.changeDateTime(txtFrom.value, txtHour.value, txtFrecuencia.value);
                                             }
-                                            else if (txtFrom && txtHour && txtFrom.value && txtHour.getRawValue()) {
-                                                controller.changeDateTime(txtFrom.value, getTimeFromRaw(txtHour.getRawValue()));
+                                            else if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.getRawValue() && txtFrecuencia.value) {
+                                                controller.changeDateTime(txtFrom.value, getTimeFromRaw(txtHour.getRawValue()), txtFrecuencia.value);
                                             }
 						
 					    closeLoadsPerHourPanel();
@@ -313,8 +329,8 @@
                                     }
                                 }
 			    ]
-                        }
-                    ]
+                        },
+                   ]
                 }
             ]
         }
@@ -376,6 +392,9 @@ function closeLoadsPerHourPanel() {
    var objgrid3 = Ext.getCmp('gridLoadPerHour3');
 
 
+   var storeLoad1 = Ext.getCmp('toreLoadsPerHour1');
+   if (storeLoad1) {
+
 	//Clean Store
 	storeLoadsPerHour1.loadData([],false);
         storeLoadsPerHour2.loadData([],false);
@@ -384,5 +403,6 @@ function closeLoadsPerHourPanel() {
 	objgrid1.store.removeAll(true);
         objgrid2.store.removeAll(true);
         objgrid3.store.removeAll(true);
+   }
 }
 

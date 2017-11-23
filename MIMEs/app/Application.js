@@ -107,19 +107,14 @@ function generateMepXML(data) {
         xmlData += '<d:DetailsHour/>';
     }
 
-    //if (data.SetFrecuency) {
-    //    xmlData += '<d:SetFrecuency>X</d:SetFrecuency>';
-    //}
-    //else {
-    //    xmlData += '<d:SetFrecuency/>';
-    //}
+    //TODO Frec
+    if (data.frequency) {
+        xmlData += '<d:Frequency>' + data.frequency + '</d:Frequency>';
+    }
+    else {
+        xmlData += '<d:Frequency>0</d:Frequency>';
+    }
 
-   //if (data.Frecuency) {
-   //     xmlData += '<d:Frecuency>' + data.DetailsHour + '</d:Frecuency>';
-   // }
-   // else {
-   //     xmlData += '<d:Frecuency/>';
-   // }
     
     //xmlData += '<d:HasConcrete/>';
     //xmlData += '<d:HasPumping/>';

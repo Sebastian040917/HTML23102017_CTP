@@ -1,4 +1,5 @@
-﻿
+﻿window.filterPlant="";
+window.filterName="";
 Ext.define('Test43.view.DispatchTree', {
     requires: ['Sch.panel.SchedulerGrid',
     'Sch.plugin.Zones'],
@@ -69,7 +70,7 @@ Ext.define('Test43.view.DispatchTree', {
                 forceFit: true
             },
             columns: [
-{ header: translations.mepPlant, width: 130, dataIndex: 'iPlant',items: [
+{ header: 'Planta', width: 130, dataIndex: 'iPlant',items: [
                         {
                             xtype: 'textfield',
                             text: 'Filtro',
@@ -82,27 +83,22 @@ Ext.define('Test43.view.DispatchTree', {
                             });
                             var length  = regexps.length;
 							var resourceStore=Ext.getStore("ResourceStore");
-							
+							if(newValue==""){
+								resourceStore.clearFilter();
+							} else {
 								resourceStore.filterBy(function(rec, id) {
-								if((rec.raw['Name'].indexOf(window.filterName)>= 0 && rec.raw['iPlant'].indexOf(window.filterPlant)>=0) || rec.raw['iPlant']=='') {
+								if((rec.raw['Name'].indexOf(window.filterName)>= 0 && rec.raw['iPlant'].indexOf(window.filterPlant)>0) || rec.raw['iPlant']=='') {
 									return true;
 								} else {
 									return false;
 								}
 								});
-							
+							}
 							  
                             
                         } else {
 							var resourceStore=Ext.getStore("ResourceStore");
                             resourceStore.clearFilter();
-															resourceStore.filterBy(function(rec, id) {
-								if((rec.raw['Name'].indexOf(window.filterName)>= 0 ) || rec.raw['iPlant']=='') {
-									return true;
-								} else {
-									return false;
-								}
-								});
                         }
                     },
 
@@ -132,29 +128,22 @@ Ext.define('Test43.view.DispatchTree', {
                             });
                             var length  = regexps.length;
 							var resourceStore=Ext.getStore("ResourceStore");
-							
+							if(newValue==""){
+								resourceStore.clearFilter();
+							} else {
 								resourceStore.filterBy(function(rec, id) {
-								if((rec.raw['Name'].indexOf(window.filterName)>= 0 && rec.raw['iPlant'].indexOf(window.filterPlant)>=0) || rec.raw['iPlant']=='') {
+								if((rec.raw['Name'].indexOf(window.filterName)>= 0 && rec.raw['iPlant'].indexOf(window.filterPlant)>0) || rec.raw['iPlant']=='') {
 									return true;
 								} else {
 									return false;
 								}
 								});
-							
+							}
 							  
                             
                         } else {
 							var resourceStore=Ext.getStore("ResourceStore");
                             resourceStore.clearFilter();
-							
-							
-								resourceStore.filterBy(function(rec, id) {
-								if(( rec.raw['iPlant'].indexOf(window.filterPlant)>=0) || rec.raw['iPlant']=='') {
-									return true;
-								} else {
-									return false;
-								}
-								});
                         }
                     },
 

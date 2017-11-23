@@ -28,7 +28,8 @@ Ext.define('params', {
     baseUrl: "",
     schPath: "../../ZCXBS_1045_EXTJ",
     language: "es-MX",
-    isBatcher: false
+    isBatcher: false,
+    laTimer: 0
 })
 
 var app = '';
@@ -69,7 +70,7 @@ Ext.require([
 ]);
 
 
-/* Agrega el Prototipo de Array el método indexOf, ya que en internet Explorer  no lo tiene implementado*/
+/* Agrega el Prototipo de Array el mï¿½todo indexOf, ya que en internet Explorer  no lo tiene implementado*/
 if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (obj, start) {
         for (var i = (start || 0), j = this.length; i < j; i++) {
