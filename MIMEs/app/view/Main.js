@@ -402,12 +402,12 @@ Ext.define('Test43.view.Main', {
                                         return "naranja";
                                     }
 
-                                    //if (record.get('Quantity') > 6) {
-                                    //  return "blanco";
+                                    ////if (record.get('Quantity') > 6) {
+                                    ////  return "blanco";
                                     //}
                                     //else {
                                     //  return "rojo";
-                                    //}
+                                    ////}
                                 }
                             },
 
