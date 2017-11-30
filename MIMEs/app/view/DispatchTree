@@ -1,5 +1,4 @@
-﻿
-Ext.define('Test43.view.DispatchTree', {
+﻿Ext.define('Test43.view.DispatchTree', {
     requires: ['Sch.panel.SchedulerGrid',
     'Sch.plugin.Zones'],
     extend: 'Ext.container.Container',
@@ -28,7 +27,9 @@ Ext.define('Test43.view.DispatchTree', {
             eventBorderWidth: 4,
             maxHeight: 180,
             autoScroll: true,
-	    tooltipTpl : new Ext.Template('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">' + 'Pump Order and Item Service' + '</td><td width="50%"> {headerText}' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Vehicle' + '</td><td width="50%">' + '18' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Volume to be Pump' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Type Description' + '</td><td width="50%">' + 'BOOM PUMP 15M' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Reach' + '</td><td width="50%">' + 'BOOM PUMP 45M-' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Item and Status Description' + '</td><td width="50%">' + 'NOST-Not Started-Itm' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Start Time' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'End Time' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Delivery Time' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Job Site' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Job Site Address' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'POD Address' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Purchaser' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Additional Charges' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Plant' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Information' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr></table></body>'),
+	    showHeaderElements  : true,
+	    //innerHeaderTpl: '<span class="taskTip" title="{FormattedDate} {PlantId}">　</span>',
+	    tooltipTpl : new Ext.Template('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">' + 'Pump Order and Item Service' + '</td><td width="50%"> {iPlant}' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Vehicle' + '</td><td width="50%">' + '18' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Volume to be Pump' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Type Description' + '</td><td width="50%">' + 'BOOM PUMP 15M' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Reach' + '</td><td width="50%">' + 'BOOM PUMP 45M-' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Item and Status Description' + '</td><td width="50%">' + 'NOST-Not Started-Itm' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Start Time' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'End Time' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Delivery Time' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Job Site' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Job Site Address' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'POD Address' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Purchaser' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Additional Charges' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Plant' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Information' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr></table></body>'),
             dragging: true,
             dndValidatorFn: function (dragRecords, targetResourceRecord, date, e) {
                 return true;
@@ -70,7 +71,7 @@ Ext.define('Test43.view.DispatchTree', {
                 forceFit: true
             },
             columns: [
-{ header: translations.mepPlant, width: 130, dataIndex: 'iPlant',items: [
+{ id:'PlantId', header: translations.mepPlant, width: 130, dataIndex: 'iPlant',items: [
                         {
                             xtype: 'textfield',
                             text: 'Filtro',
@@ -177,14 +178,7 @@ Ext.define('Test43.view.DispatchTree', {
                 }
                 else {
                     tplData.style = "background-color: " + item.data.Color + ";";
-                }
-
-		//return {
-            	//	headerText : resource.data.Id,
-            	//	footerText: resource.data.Name
-        	//	};
-
-		
+                }		
             },
             plugins: [
                 {
@@ -199,7 +193,26 @@ Ext.define('Test43.view.DispatchTree', {
                 scroll: true,
                 columnLines: false
             },
+	// Specialized body template with header and footer
+            eventBodyTemplate: new Ext.Template(
+                '<div class="sch-event-header">{headerText}</div>' +
+                '<div class="sch-event-footer">{footerText}</div>'
+            ),
             listeners: {
+		beforetooltipshow: function ( scheduler, eventRecord, eOpts ){
+			var a = eventRecord.raw.ResourceId;
+
+			if (a == '1')
+			{
+				//var tpl = scheduler.tooltipTpl;
+				//tpl.destroy;
+				scheduler.tooltipTpl.set('<div>Prueba</div>',true);
+			}else{
+                scheduler.tooltipTpl.set('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="50%">' + translations.mepPumpOrder + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpVehicle + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpVolumen + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpType + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpReach + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpItemStatus + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpStartTime + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpEndTime + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpDeliveryTime + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpJobSite + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpJobSiteAddress  + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpPODAddress + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + tra.mepPumpPurchaser + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpAdditionalCharges + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpPlant + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpImformation + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr></table></body>', true);
+			}
+
+		},
+
                 beforeeventdrag: function (s, r) {
                     return r.get('Group') == 'Servicio';
                 },

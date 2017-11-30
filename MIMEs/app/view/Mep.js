@@ -219,7 +219,7 @@
                                     xtype: 'button',
                                     text: '-',
                                     id: 'btnMenosMes',
-                                    width: 25,
+                                    width: 20,
                                     margin: { top: 0, right: 0, bottom: 0, left: 5 },
                                     scale: 'small',
                                     tabIndex: -1,
@@ -234,7 +234,7 @@
                                     xtype: 'datefield',
                                     id: 'txtFrom',
                                     format: 'd.m.Y',
-				    width: '10%',
+				    width: 55,
                                     padding: { left: 5, right: 5 },
                                     flex: 4
                                 },
@@ -242,7 +242,7 @@
                                     xtype: 'button',
                                     text: '+',
                                     id: 'btnMasMes',
-                                    width: 25,
+                                    width: 20,
                                     //padding: { left: 5, right: 5 },
                                     scale: 'small',
                                     tabIndex: -1,
@@ -257,7 +257,7 @@
                                     xtype: 'button',
                                     text: '-',
                                     id: 'btnMenosHora',
-                                    width: 25,
+                                    width: 20,
                                     margin: { right: 5, left: 5, top: 0, bottom: 0 },
                                     scale: 'small',
                                     tabIndex: -1,
@@ -274,13 +274,13 @@
                                     format: 'H:i',
                                     increment: 5,
                                     flex: 4,
-    				    width: '5%'
+    				    width: 25
                                 },
                                 {
                                     xtype: 'button',
                                     text: '+',
                                     id: 'btnMasHora',
-                                    width: 25,
+                                    width: 20,
                                     margin: { left: 5, right: 5, top: 0, bottom: 0 },
                                     scale: 'small',
                                     tabIndex: -1,
@@ -295,13 +295,13 @@
                 	            xtype: 'textfield',
 				    id: 'txtFrecuencia',
  				    padding: { left: 0, right: 5 },
-        	                    width: '10%'
+        	                    width: 25
 	                        },
                                 {
                                     xtype: 'button',
                                     text: 'Ok',
                                     id: 'btnCalcular',
-                                    width: 40,
+                                    width: 30,
                                     scale: 'small',
                                     margin: { left: 0, right: 5, top: 0, bottom: 0 },
                                     handler: function () {
@@ -326,6 +326,32 @@
                                         catch (e) {
 
                                         }
+                                    }
+                                },
+                                {
+                                    xtype: 'button',
+                                    text: 'SF',
+                                    id: 'btnGenerarSerie',
+                                    width: 40,
+                                    scale: 'small',
+                                    margin: { left: 0, right: 5, top: 0, bottom: 0 },
+                                    handler: function () {
+                                       
+//******************************
+
+var myForm = new Ext.form.Panel({
+    width: 500,
+    height: 400,
+    title: 'Foo',
+    floating: true,
+    closable : true
+});
+myForm.show();
+
+
+
+//*****************************
+					
                                     }
                                 }
 			    ]
@@ -405,4 +431,3 @@ function closeLoadsPerHourPanel() {
         objgrid3.store.removeAll(true);
    }
 }
-
