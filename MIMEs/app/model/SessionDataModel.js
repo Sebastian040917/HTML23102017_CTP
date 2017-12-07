@@ -5,7 +5,8 @@
     'Test43.model.ChartModel',
     'Test43.model.PumpListModel',
     'Test43.model.AssignPumpModel',
-    'Test43.model.LoadsPerHourModel'],
+    'Test43.model.LoadsPerHourModel',
+    'Test43.model.PumpDetailListModel'],
     fields: [
         { name: 'SessionId', type: 'string' },
         { name: 'Date', type: 'datetime' },
@@ -46,10 +47,15 @@
             model: 'Test43.model.AssignPumpModel',
             associationKey: 'AssignPump_List.results'
         },
-	{
+	    {
             name: 'LoadDetails',
             model: 'Test43.model.LoadsPerHourModel',
             associationKey: 'LoadDetail_List.results'
+        },
+	    {
+            name: 'PumpDetail',
+            model: 'Test43.model.PumpDetailListModel',
+            associationKey: 'PumpDetail_List.results'
         }
     ]
 });

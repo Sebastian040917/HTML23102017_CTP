@@ -1,4 +1,39 @@
-﻿Ext.define('Test43.view.Mep', {
+﻿var myData = [
+    ['1', '07:55', '18', '6', '30', 'Yes']
+    ,
+    ['2', '14:00', '22', '6', '45', 'No']];
+
+var store = new Ext.data.ArrayStore({
+
+    fields: [{
+        name: 'Series',
+        type: 'string'
+    },
+    {
+        name: 'Hour',
+        type: 'string'
+    },
+    {
+        name: 'Volume',
+        type: 'string'
+    },
+    {
+        name: 'Capacity',
+        type: 'string'
+    },
+    {
+        name: 'Frequency',
+        type: 'string'
+    },
+    {
+        name: 'Confirm',
+        type: 'string'
+    }
+    ]
+});
+store.loadData(myData);
+
+Ext.define('Test43.view.Mep', {
     requires: ['Ext.form.field.ComboBox'],
     id: 'pnlMepCTP',
     extend: 'Ext.panel.Panel',
@@ -133,9 +168,9 @@
 
                                             pstore.loadData(aux);
 
-					    closeLoadsPerHourPanel();
+                                            closeLoadsPerHourPanel();
 
-					    Test43.app.getController('Main').getLoadPerHour('00');
+                                            Test43.app.getController('Main').getLoadPerHour('00');
                                         }
                                     }
                                 },
@@ -167,8 +202,8 @@
                                     } else if (record.get('Color') == "#E0E0E0") {
                                         return "gris";
                                     } else {
-					return "blanco";
-				    }
+                                        return "blanco";
+                                    }
                                 }
                             }
                         },
@@ -201,7 +236,7 @@
                                     align: "center"
                                 },
 
-{
+                                {
                                     xtype: 'label',
                                     text: translations.mepFrecuencia,
                                     flex: 3,
@@ -234,7 +269,7 @@
                                     xtype: 'datefield',
                                     id: 'txtFrom',
                                     format: 'd.m.Y',
-				    width: 55,
+                                    width: 55,
                                     padding: { left: 5, right: 5 },
                                     flex: 4
                                 },
@@ -274,7 +309,7 @@
                                     format: 'H:i',
                                     increment: 5,
                                     flex: 4,
-    				    width: 25
+                                    width: 25
                                 },
                                 {
                                     xtype: 'button',
@@ -291,12 +326,12 @@
                                         Ext.getCmp("txtHour").setValue(newTime);
                                     }
                                 },
-				{
-                	            xtype: 'textfield',
-				    id: 'txtFrecuencia',
- 				    padding: { left: 0, right: 5 },
-        	                    width: 25
-	                        },
+                                {
+                                    xtype: 'textfield',
+                                    id: 'txtFrecuencia',
+                                    padding: { left: 0, right: 5 },
+                                    width: 25
+                                },
                                 {
                                     xtype: 'button',
                                     text: 'Ok',
@@ -310,8 +345,8 @@
                                         var txtFrecuencia = Ext.getCmp("txtFrecuencia");
 
                                         var controller = Test43.app.getController('Main');
-					
-					//TODO FREC
+
+                                        //TODO FREC
                                         try {
                                             if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.value && txtFrecuencia.value) {
                                                 controller.changeDateTime(txtFrom.value, txtHour.value, txtFrecuencia.value);
@@ -319,8 +354,8 @@
                                             else if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.getRawValue() && txtFrecuencia.value) {
                                                 controller.changeDateTime(txtFrom.value, getTimeFromRaw(txtHour.getRawValue()), txtFrecuencia.value);
                                             }
-						
-					    closeLoadsPerHourPanel();
+
+                                            closeLoadsPerHourPanel();
 
                                         }
                                         catch (e) {
@@ -336,27 +371,206 @@
                                     scale: 'small',
                                     margin: { left: 0, right: 5, top: 0, bottom: 0 },
                                     handler: function () {
-                                       
-//******************************
 
-var myForm = new Ext.form.Panel({
-    width: 500,
-    height: 400,
-    title: 'Foo',
-    floating: true,
-    closable : true
-});
-myForm.show();
+                                        //******************************
+
+                                        var myForm = new Ext.form.Panel({
+                                            width: 700,
+                                            height: 370,
+                                            title: translations.mepFrequencySeries,
+                                            closeAction: 'destroy',
+                                            floating: true,
+                                            closable: true,
+                                            items: [
+                                                new Ext.form.TextField({
+                                                    id: "FSOrder",
+                                                    fieldLabel: translations.mepFSOrder,
+                                                    width: 275,
+                                                    allowBlank: false,
+                                                    padding: { top: 10, left: 10, right: 10, bottom: 5 },
+                                                    readOnly: true
+                                                }),
+                                                new Ext.grid.GridPanel({
+                                                    store: store,
+                                                    loadMask: true,
+                                                    height: 170,
+                                                    enableColumnHide: false,
+                                                    padding: { top: 5, left: 10, right: 10, bottom: 5 },
+                                                    columns: [
+                                                        { header: translations.mepFSSeries, dataIndex: 'Series' },
+                                                        { header: translations.mepFSHour, dataIndex: 'Hour' },
+                                                        { header: translations.mepFSVolume, dataIndex: 'Volume' },
+                                                        { header: translations.mepFSCapacity, dataIndex: 'Capacity' },
+                                                        { header: translations.mepFSFrequency, dataIndex: 'Frequency' },
+                                                        { header: translations.mepFSConfirm, dataIndex: 'Confirm' }
+                                                    ],
+                                                    viewConfig: {
+                                                        forceFit: true
+                                                    }
+
+                                                }),
+                                                //grid,
+                                                new Ext.form.Panel({
+                                                    padding: { top: 0, left: 40, right: 10, bottom: 0 },
+                                                    //width: 650,
+                                                    height: 30,
+                                                    border: false,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'stretch'
+                                                    },
+                                                    items: [{
+                                                        xtype: 'panel',
+                                                        border: false,
+                                                        flex: 1,
+                                                        items: [
+                                                            new Ext.form.TextField({
+                                                                id: "FSTrucksPerHour22",
+                                                                fieldLabel: translations.mepFSVolume,
+                                                                width: 250,
+                                                                allowBlank: false,
+                                                                padding: { top: 0, left: 25, right: 0, bottom: 0 },
+                                                                readOnly: true,
+                                                                flex: 2
+                                                            })
+                                                        ]
+                                                    }]
+                                                })
+
+                                                ,
+                                                new Ext.form.Panel({
+                                                    padding: { top: 5, left: 10, right: 10, bottom: 5 },
+                                                    //width: 650,
+                                                    height: 150,
+                                                    border: false,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'stretch'
+                                                    },
+                                                    items: [{
+                                                        xtype: 'panel',
+                                                        border: false,
+                                                        flex: 1,
+                                                        items: [
+                                                            new Ext.form.RadioGroup({
+                                                                id: 'myGroupR',
+                                                                xtype: 'radiogroup',
+                                                                columns: 1,
+                                                                vertical: true,
+                                                                padding: { top: 3, left: 30, right: 0, bottom: 0 },
+                                                                items: [
+                                                                    { name: 'rbTruckPerHour', inputValue: '1', checked: true },
+                                                                    { name: 'rbTonsPerHour', inputValue: '2' }
+                                                                ]
+                                                            })
+                                                        ]
+                                                    },
+                                                    {
+                                                        xtype: 'panel',
+                                                        border: false,
+                                                        flex: 5,
+                                                        items: [
+                                                            new Ext.form.TextField({
+                                                                id: "FSTrucksPerHour1",
+                                                                fieldLabel: translations.mepFSTruckPerHour,
+                                                                width: 250,
+                                                                allowBlank: false,
+                                                                padding: { top: 0, left: 0, right: 0, bottom: 0 },
+                                                                readOnly: true,
+                                                                flex: 2
+                                                            })
+                                                            ,
+                                                            new Ext.form.TextField({
+                                                                id: "FSVolumenPerHour1",
+                                                                fieldLabel: translations.mepFSTonsPerHour,
+                                                                width: 250,
+                                                                allowBlank: false,
+                                                                padding: { top: 0, left: 0, right: 0, bottom: 0 },
+                                                                readOnly: true,
+                                                                flex: 2
+                                                            })
+                                                        ]
+                                                    }, {
+                                                        xtype: 'panel',
+                                                        border: false,
+                                                        flex: 1,
+                                                        items: [
+                                                            new Ext.form.RadioGroup({
+                                                                id: 'myGroupL',
+                                                                xtype: 'radiogroup',
+                                                                columns: 1,
+                                                                vertical: true,
+                                                                padding: { top: 3, left: 30, right: 0, bottom: 0 },
+                                                                items: [
+                                                                    { name: 'rbTruckPerHour', inputValue: '1', checked: true },
+                                                                    { name: 'rbTonsPerHour', inputValue: '2' }
+                                                                ]
+                                                            })
+                                                        ]
+                                                    }, {
+                                                        xtype: 'panel',
+                                                        border: false,
+                                                        flex: 5,
+                                                        items: [
+                                                            new Ext.form.TextField({
+                                                                id: "FSTrucksPerHour2",
+                                                                fieldLabel: translations.mepFSVolumePerHour,
+                                                                width: 250,
+                                                                allowBlank: false,
+                                                                padding: { top: 0, left: 0, right: 0, bottom: 0 },
+                                                                readOnly: true,
+                                                                flex: 2
+                                                            }),
+                                                            new Ext.form.TextField({
+                                                                id: "FSVolumenPerHour2",
+                                                                fieldLabel: translations.mepFSHours,
+                                                                width: 250,
+                                                                allowBlank: false,
+                                                                padding: { top: 0, left: 0, right: 0, bottom: 0 },
+                                                                readOnly: true,
+                                                                flex: 2
+                                                            })
+                                                        ]
+                                                    }]
+
+                                                })
+
+                                            ],
+
+                                            bbar: [{
+
+                                                text: translations.mepFSOK,
+
+                                                handler: function (btn) {
+
+                                                    alert('Save!');
+
+                                                }
+
+                                            },
+                                            {
+
+                                                text: translations.mepFSCancel,
+                                                handler: function (btn) {
+
+                                                    alert('Cancel!');
+
+
+                                                }
+                                            }
+                                            ]
+                                        });
+                                        myForm.show();
 
 
 
-//*****************************
-					
+                                        //*****************************
+
                                     }
                                 }
-			    ]
+                            ]
                         },
-                   ]
+                    ]
                 }
             ]
         }
@@ -369,8 +583,7 @@ function getTimeFromRaw(time) {
     var hour;
     var minute;
 
-    if (!time)
-    {
+    if (!time) {
         return new Date();
     }
 
@@ -403,31 +616,31 @@ function getTimeFromRaw(time) {
 }
 
 function closeLoadsPerHourPanel() {
-   var objLoads = Ext.getCmp('hboxLoads');
-   var objPump = Ext.getCmp('panelPump');
-   var objbuttonClose = Ext.getCmp('hboxbuttonClose');
+    var objLoads = Ext.getCmp('hboxLoads');
+    var objPump = Ext.getCmp('panelPump');
+    var objbuttonClose = Ext.getCmp('hboxbuttonClose');
 
-   if(objLoads){objLoads.setVisible(false);}
-   else{objLoads.setVisible(true);}
-  
-   if(objPump){objPump.setVisible(true);}
-   else{objPump.setVisible(false);}
+    if (objLoads) { objLoads.setVisible(false); }
+    else { objLoads.setVisible(true); }
 
-   var objgrid1 = Ext.getCmp('gridLoadPerHour1');
-   var objgrid2 = Ext.getCmp('gridLoadPerHour2');
-   var objgrid3 = Ext.getCmp('gridLoadPerHour3');
+    if (objPump) { objPump.setVisible(true); }
+    else { objPump.setVisible(false); }
+
+    var objgrid1 = Ext.getCmp('gridLoadPerHour1');
+    var objgrid2 = Ext.getCmp('gridLoadPerHour2');
+    var objgrid3 = Ext.getCmp('gridLoadPerHour3');
 
 
-   var storeLoad1 = Ext.getCmp('toreLoadsPerHour1');
-   if (storeLoad1) {
+    var storeLoad1 = Ext.getCmp('toreLoadsPerHour1');
+    if (storeLoad1) {
 
-	//Clean Store
-	storeLoadsPerHour1.loadData([],false);
-        storeLoadsPerHour2.loadData([],false);
-        storeLoadsPerHour3.loadData([],false);
+        //Clean Store
+        storeLoadsPerHour1.loadData([], false);
+        storeLoadsPerHour2.loadData([], false);
+        storeLoadsPerHour3.loadData([], false);
 
-	objgrid1.store.removeAll(true);
+        objgrid1.store.removeAll(true);
         objgrid2.store.removeAll(true);
         objgrid3.store.removeAll(true);
-   }
+    }
 }

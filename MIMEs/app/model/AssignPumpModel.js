@@ -6,6 +6,7 @@
         { name: 'FromTime', type: 'string' },
         { name: 'ToDate', type: 'string' },
         { name: 'ToTime', type: 'string' },
-        { name: 'Color', type: 'string' }
+        { name: 'Color', type: 'string' },
+        { name: 'Order', type: 'string' }
     ]
 });

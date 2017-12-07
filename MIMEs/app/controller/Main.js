@@ -41,31 +41,31 @@ Ext.define('Test43.controller.Main', {
     init: function (application) {
         me = this;
         this.loadUserData(params.sessionId);
-	//me.getLoadPerHour('00');
+        //me.getLoadPerHour('00');
 
-	//var timerRefresh = Number(params.laTimer) * 1000;
-	//var resIndicators = setInterval(function () {me.getLoadPerHourSimple(hourSelect);}, 80000);
-	//var refIndicators = setInterval(function () {me.refreshIndicators(hourSelect);}, timerRefresh);
+        //var timerRefresh = Number(params.laTimer) * 1000;
+        //var resIndicators = setInterval(function () {me.getLoadPerHourSimple(hourSelect);}, 80000);
+        //var refIndicators = setInterval(function () {me.refreshIndicators(hourSelect);}, timerRefresh);
         //var refseg = setInterval(function () {me.change();}, 1000);
 
     },
 
-   change: function () {
-		var txtTimer = translations.mepTimer + ': ' + counter + ' ' + translations.mepSegundos;
-		var titleMep = Ext.getCmp('mepView').title;
+    change: function () {
+        var txtTimer = translations.mepTimer + ': ' + counter + ' ' + translations.mepSegundos;
+        var titleMep = Ext.getCmp('mepView').title;
 
-		//Ext.getCmp('lblTimer').setText(txtTimer);
-		
-                titleMep = '<div>'+ translations.MepTitle + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style ="color: red; text-decoration:none; font-size: 12px">' + txtTimer + '</span></div>'
+        //Ext.getCmp('lblTimer').setText(txtTimer);
 
-		//Ext.getCmp('mepView').setTitle(translations.MepTitle + '        ' + titleMep);
-		Ext.getCmp('mepView').setTitle(titleMep);
+        titleMep = '<div>' + translations.MepTitle + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style ="color: red; text-decoration:none; font-size: 12px">' + txtTimer + '</span></div>'
 
-  		counter--;
-  		if (counter == 0) {
-    			counter = Number(params.laTimer);
-  		}
-	},
+        //Ext.getCmp('mepView').setTitle(translations.MepTitle + '        ' + titleMep);
+        Ext.getCmp('mepView').setTitle(titleMep);
+
+        counter--;
+        if (counter == 0) {
+            counter = Number(params.laTimer);
+        }
+    },
 
     putMEP: function (sessionId, header, isInit, addPlant, selectPlant, morePlants, changeDateTime, pumpId) {
 
@@ -153,7 +153,7 @@ Ext.define('Test43.controller.Main', {
         var genStore;
 
         genStore = Ext.getStore("SessionDataStore");
-        genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + sessionId + "')?$expand=MEP_List,Chart_Elements,Pump_List,AssignPump_List&$format=json";
+        genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + sessionId + "')?$expand=MEP_List,Chart_Elements,Pump_List,AssignPump_List,PumpDetail_List&$format=json";
 
         genStore.load({
             callback: function (rec, ob, s) {
@@ -246,18 +246,18 @@ Ext.define('Test43.controller.Main', {
         var txtFrom = Ext.getCmp("txtFrom");
         var txtHour = Ext.getCmp("txtHour");
         var txtFrecuencia = Ext.getCmp("txtFrecuencia");
-	counter = Number(params.laTimer);
+        counter = Number(params.laTimer);
 
-	if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.value && txtFrecuencia.value) {
-         	me.changeDateTime(txtFrom.value, txtHour.value, txtFrecuencia.value);
+        if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.value && txtFrecuencia.value) {
+            me.changeDateTime(txtFrom.value, txtHour.value, txtFrecuencia.value);
         }
         else if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.getRawValue() && txtFrecuencia.value) {
-        	me.changeDateTime(txtFrom.value, getTimeFromRaw(txtHour.getRawValue()), txtFrecuencia.value);
+            me.changeDateTime(txtFrom.value, getTimeFromRaw(txtHour.getRawValue()), txtFrecuencia.value);
         }
 
-	me.getLoadPerHour('00');
+        me.getLoadPerHour('00');
         me.showLoadsPerHour(hour);
-   },
+    },
 
     getLoadPerHour: function (hour) {
         me.putLoads(hour, me.header);
@@ -270,17 +270,17 @@ Ext.define('Test43.controller.Main', {
 
 
     putLoads: function (hour, header) {
-	var objgrid1 = Ext.getCmp('gridLoadPerHour1');
+        var objgrid1 = Ext.getCmp('gridLoadPerHour1');
         var objgrid2 = Ext.getCmp('gridLoadPerHour2');
         var objgrid3 = Ext.getCmp('gridLoadPerHour3');
-	
+
         var setDetailHours = true;
         data = {
             SetDetailsHour: setDetailHours,
             DetailsHour: hour
         };
 
-	if (objgrid1 && objgrid1 != undefined) {
+        if (objgrid1 && objgrid1 != undefined) {
             objgrid1.setLoading(true);
         }
 
@@ -288,7 +288,7 @@ Ext.define('Test43.controller.Main', {
             objgrid2.setLoading(true);
         }
 
-	 if (objgrid3 && objgrid3 != undefined) {
+        if (objgrid3 && objgrid3 != undefined) {
             objgrid3.setLoading(true);
         }
 
@@ -301,24 +301,24 @@ Ext.define('Test43.controller.Main', {
             headers: headers,
             callback: function (res, o, s) {
                 if (data.SetDetailsHour) {
-		var objgridP1 = Ext.getCmp('gridLoadPerHour1');
-        	var objgridP2 = Ext.getCmp('gridLoadPerHour2');
-        	var objgridP3 = Ext.getCmp('gridLoadPerHour3');
+                    var objgridP1 = Ext.getCmp('gridLoadPerHour1');
+                    var objgridP2 = Ext.getCmp('gridLoadPerHour2');
+                    var objgridP3 = Ext.getCmp('gridLoadPerHour3');
 
                     me.getLoads(hour, header);
                     //me.getLoadsGW(hour, header);
 
-		   if (objgridP1 && objgridP1 != undefined) {
-            		objgridP1.setLoading(false);
-        		}
+                    if (objgridP1 && objgridP1 != undefined) {
+                        objgridP1.setLoading(false);
+                    }
 
-        	   if (objgridP2 && objgridP2 != undefined) {
-            		objgridP2.setLoading(false);
-        		}
+                    if (objgridP2 && objgridP2 != undefined) {
+                        objgridP2.setLoading(false);
+                    }
 
-	 	   if (objgridP3 && objgridP3 != undefined) {
-            		objgridP3.setLoading(false);
-        		}
+                    if (objgridP3 && objgridP3 != undefined) {
+                        objgridP3.setLoading(false);
+                    }
                 }
             }
         });
@@ -356,9 +356,9 @@ Ext.define('Test43.controller.Main', {
         genStore.load({
             callback: function (rec, ob, s) {
                 dataLoads = ob.request.proxy.reader.rawData.d.LoadDetail_List.results;
-		
+
             },
-            success: function(form, action) {
+            success: function (form, action) {
                 Ext.ux.Toast.msg('Callback: success'
                     , 'KundeId: {0} UserId: {1}'
                     , action.params.kundeid, action.params.userid);
@@ -543,33 +543,41 @@ Ext.define('Test43.controller.Main', {
         var objPump = Ext.getCmp('panelPump');
 
         //Show Controls
-        if (objLoads) { objLoads.setVisible(true); }
-        else { objLoads.setVisible(false); }
+        //if (objLoads) { objLoads.setVisible(true); }
+        //else { objLoads.setVisible(false); }
 
-        if (objPump) { objPump.setVisible(false); }
-        else { objPump.setVisible(true); }
+        //if (objPump) { objPump.setVisible(false); }
+        //else { objPump.setVisible(true); }
 
         //Clean Store
         objgrid1.store.removeAll(true);
         objgrid2.store.removeAll(true);
         objgrid3.store.removeAll(true);
-	//Assign parameters
-	me.getLoadPerHour(hour);
+        //Assign parameters
+        me.getLoadPerHour(hour);
 
     },
 
+    showGridLoadsPerHour: function () {
+        var objLoads = Ext.getCmp('hboxLoads');
+        var objPump = Ext.getCmp('panelPump');
+
+        //Show Controls
+        if (objLoads) { objLoads.setVisible(true); }
+        if (objPump) { objPump.setVisible(false); }
+    },
 
     getLoadsSimple: function (hour, header) {
-   	var genStore;
+        var genStore;
         genStore = Ext.getStore("LoadsPerHourStore");
         genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=LoadDetail_List&$format=json";
 
         genStore.load({
             callback: function (rec, ob, s) {
                 dataLoads = ob.request.proxy.reader.rawData.d.LoadDetail_List.results;
-		
+
             },
-            success: function(form, action) {
+            success: function (form, action) {
                 Ext.ux.Toast.msg('Callback: success'
                     , 'KundeId: {0} UserId: {1}'
                     , action.params.kundeid, action.params.userid);
@@ -718,22 +726,21 @@ Ext.define('Test43.controller.Main', {
         this.putMEP(this.sessionId, this.header, false, '', '', false, false, pumpId);
     },
 
-    changeDateTime: function (date, time, freq) {	
-	if (segChDate == 59)
-	{
-	  segChDate = 10
-	}else{
-	  segChDate = segChDate + 1;
-	}
+    changeDateTime: function (date, time, freq) {
+        if (segChDate == 59) {
+            segChDate = 10
+        } else {
+            segChDate = segChDate + 1;
+        }
 
         me.date = date.getFullYear() + '-' +
             ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1).toString()) +
             '-' + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate().toString());
-        me.time = 'PT' + time.getHours() + 'H' + time.getMinutes() + 'M' + segChDate +'S';
+        me.time = 'PT' + time.getHours() + 'H' + time.getMinutes() + 'M' + segChDate + 'S';
 
         me.frequency = freq; //TODO FREC
 
-	this.putMEP(this.sessionId, this.header, false, '', '', false, true);
+        this.putMEP(this.sessionId, this.header, false, '', '', false, true);
     },
 
     selectPlant: function (plant) {
@@ -783,7 +790,7 @@ Ext.define('Test43.controller.Main', {
 
                     params.dateFormat = response.DateFormat;
                     params.isBatcher = response.IsBatcher;
-		    params.laTimer = Number(response.LaTimer);
+                    params.laTimer = Number(response.LaTimer);
 
                     if (response.ShowCost) {
                         me.showCostColumn(response.ShowCost);
@@ -792,12 +799,12 @@ Ext.define('Test43.controller.Main', {
                     me.setBatcherMode(params.isBatcher);
                     me.putMEP(sessionId, header, true);
 
-		    if (Number(params.laTimer) > 0){
+                    if (Number(params.laTimer) > 0) {
                         me.getLoadPerHour('00');
                         var timerRefresh = Number(params.laTimer) * 1000;
-                        var resIndicators = setInterval(function () {me.getLoadPerHourSimple(hourSelect);}, timerRefresh - 10000);
-                        var refIndicators = setInterval(function () {me.refreshIndicators(hourSelect);}, timerRefresh);
-                        var refseg = setInterval(function () {me.change();}, 1000);
+                        var resIndicators = setInterval(function () { me.getLoadPerHourSimple(hourSelect); }, timerRefresh - 10000);
+                        var refIndicators = setInterval(function () { me.refreshIndicators(hourSelect); }, timerRefresh);
+                        var refseg = setInterval(function () { me.change(); }, 1000);
                     }
                 }
             });
@@ -874,6 +881,7 @@ Ext.define('Test43.controller.Main', {
         var node;
         var genStore;
         var aux;
+        var auxPumpDet;
         var data;
         var itemsStore;
         var itemsData;
@@ -930,6 +938,7 @@ Ext.define('Test43.controller.Main', {
 
         aux = genStore.data.items[0].AssignPumpStore.data.items;
 
+        auxPumpDet = genStore.data.items[0].PumpDetailStore != undefined ? genStore.data.items[0].PumpDetailStore.data.items : "";
 
         if (me.pumpService) {
             itemsData.push(me.pumpService);
@@ -948,13 +957,102 @@ Ext.define('Test43.controller.Main', {
 
         if (aux.length) {
             for (var i = 0; i < aux.length; i++) {
+                var OrderId;
+                var pSessionId;
+                var Order;
+                var ServDesc;
+                var Quantity;
+                var PumpId;
+                var PumpDesc;
+                var LicenseNum;
+                var Eqtyp;
+                var LoadLen;
+                var PumpType;
+                var PumpMax;
+                var StatusTx;
+                var StartPdate;
+                var StartPtime;
+                var EndPdate;
+                var EndPtime;
+                var DelivDate;
+                var DelivTime;
+                var Jobsite;
+                var JobstDesc;
+                var Pod;
+                var PodDesc;
+                var PodAddr;
+                var Customer;
+                var CustoDesc;
+
+                OrderId = aux[i].data.Order;
+
+                if (auxPumpDet.length > 0) {
+                    for (var j = 0; j < auxPumpDet.length; j++) {
+                        if (OrderId == auxPumpDet[j].data.Order) {
+                            pSessionId = auxPumpDet[j].data.SessionId;
+                            pOrder = auxPumpDet[j].data.Order;
+                            pServDesc = auxPumpDet[j].data.ServDesc;
+                            pQuantity = auxPumpDet[j].data.Quantity;
+                            pPumpId = auxPumpDet[j].data.PumpId;
+                            pPumpDesc = auxPumpDet[j].data.PumpDesc;
+                            pLicenseNum = auxPumpDet[j].data.LicenseNum;
+                            pEqtyp = auxPumpDet[j].data.Eqtyp;
+                            pLoadLen = auxPumpDet[j].data.LoadLen;
+                            pPumpType = auxPumpDet[j].data.PumpType;
+                            pPumpMax = auxPumpDet[j].data.PumpMax;
+                            pStatusTx = auxPumpDet[j].data.StatusTx;
+                            pStartPdate = getFormatedDateShort(auxPumpDet[j].data.StartPdate);
+                            pStartPtime = auxPumpDet[j].data.StartPtime;
+                            pStartPtime = pStartPtime.replace('PT', '').split('H')[0] + ':' + pStartPtime.replace('PT', '').split('H')[1].split('M')[0];
+                            pEndPdate = getFormatedDateShort(auxPumpDet[j].data.EndPdate);
+                            pEndPtime = auxPumpDet[j].data.EndPtime;
+                            pEndPtime = pEndPtime.replace('PT', '').split('H')[0] + ':' + pEndPtime.replace('PT', '').split('H')[1].split('M')[0];
+                            pDelivDate = getFormatedDateShort(auxPumpDet[j].data.DelivDate);
+                            pDelivTime = auxPumpDet[j].data.DelivTime;
+                            pDelivTime = pDelivTime.replace('PT', '').split('H')[0] + ':' + pDelivTime.replace('PT', '').split('H')[1].split('M')[0];
+                            pJobsite = auxPumpDet[j].data.Jobsite;
+                            pJobstDesc = auxPumpDet[j].data.JobstDesc;
+                            pPod = auxPumpDet[j].data.Pod;
+                            pPodDesc = auxPumpDet[j].data.PodDesc;
+                            pPodAddr = auxPumpDet[j].data.PodAddr;
+                            pCustomer = auxPumpDet[j].data.Customer;
+                            pCustoDesc = auxPumpDet[j].data.CustoDesc;
+                        }
+                    }
+                }
+
                 itemsData.push({
                     ResourceId: aux[i].data.EquipId,
                     Name: '',
                     iPlant: 'OLA',
                     StartDate: getFormatedDateTime(aux[i].data.FromDate, aux[i].data.FromTime),
                     EndDate: getFormatedDateTime(aux[i].data.ToDate, aux[i].data.ToTime),
-                    Color: aux[i].data.Color
+                    Color: aux[i].data.Color,
+                    SessionId: pSessionId,
+                    Order: pOrder,
+                    ServDesc: pServDesc,
+                    Quantity: pQuantity,
+                    PumpId: pPumpId,
+                    PumpDesc: pPumpDesc,
+                    LicenseNum: pLicenseNum,
+                    Eqtyp: pEqtyp,
+                    LoadLen: pLoadLen,
+                    PumpType: pPumpType,
+                    PumpMax: pPumpMax,
+                    StatusTx: pStatusTx,
+                    StartPdate: pStartPdate,
+                    StartPtime: pStartPtime,
+                    EndPdate: pEndPdate,
+                    EndPtime: pEndPtime,
+                    DelivDate: pDelivDate,
+                    DelivTime: pDelivTime,
+                    Jobsite: pJobsite,
+                    JobstDesc: pJobstDesc,
+                    Pod: pPod,
+                    PodDesc: pPodDesc,
+                    PodAddr: pPodAddr,
+                    Customer: pCustomer,
+                    CustoDesc: pCustoDesc
                 })
             }
         }
@@ -1030,11 +1128,11 @@ function getFormatedDateShort(date) {
         var dateAux = new Date(parseInt(date.split('(')[1].split(')')[0]));
 
         localDate = new Date(dateAux.getUTCFullYear(),
-            dateAux.getUTCMonth() + 1,
+            dateAux.getUTCMonth(),
             dateAux.getUTCDate());
     }
 
-    return localDate.getDate() + '/' + localDate.getMonth() + '/' + localDate.getFullYear();
+    return (localDate.getDate() - 1) + '/' + (localDate.getMonth() + 1) + '/' + localDate.getFullYear();
 }
 
 function addMinutes(date, minutes) {
@@ -1100,10 +1198,10 @@ function closeLoadsPerHour() {
 }
 
 function createWaitLoading() {
-	return Ext.LoadMask(Ext.getCmp('hboxLoads'), {
-        msg:"Please wait..."
-	});
-	//myMask.show();
+    return Ext.LoadMask(Ext.getCmp('hboxLoads'), {
+        msg: "Please wait..."
+    });
+    //myMask.show();
 }
 
 function createExtStore() {

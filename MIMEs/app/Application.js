@@ -17,6 +17,7 @@ function generateMepXML(data) {
     xmlData += '<link href="' + "ServerSideObjects('" + data.sessionId + "')" + '/Pump_List" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Pump_List" type="application/atom+xml;type=feed" title="Pump_List"/>';
     xmlData += '<link href="' + "ServerSideObjects('" + data.sessionId + "')" + '/AssignPump_List" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/AssignPump_List" type="application/atom+xml;type=feed" title="AssignPump_List"/>';
     xmlData += '<link href="' + "ServerSideObjects('" + data.sessionId + "')" + '/LoadDetail_List" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/LoadDetail_List" type="application/atom+xml;type=feed" title="LoadDetail_List"/>';
+    xmlData += '<link href="' + "ServerSideObjects('" + data.sessionId + "')" + '/PumpDetail_List" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/PumpDetail_List" type="application/atom+xml;type=feed" title="PumpDetail_List"/>';    
     xmlData += '<content type="application/xml">';
     xmlData += '<m:properties>';
     xmlData += '<d:SessionId>' + data.sessionId + '</d:SessionId>';
@@ -158,6 +159,7 @@ Ext.define('Test43.Application', {
         'PumpListModel',
         'AssignPumpModel',
         'LoadsPerHourModel',
+        'PumpDetailListModel',
         'Zone'
         
     ],
