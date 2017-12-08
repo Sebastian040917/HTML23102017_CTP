@@ -30,10 +30,7 @@
         showHeaderElements : true,
         //innerHeaderTpl: '<span class="taskTip" title="{FormattedDate} {PlantId}">　</span>',
         tooltipTpl: new Ext.Template('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">' + 'Pump Order and Item Service' + '</td><td width="50%"> {iPlant}' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Vehicle' + '</td><td width="50%">' + '18' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Volume to be Pump' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Type Description' + '</td><td width="50%">' + 'BOOM PUMP 15M' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Reach' + '</td><td width="50%">' + 'BOOM PUMP 45M-' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Item and Status Description' + '</td><td width="50%">' + 'NOST-Not Started-Itm' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Start Time' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'End Time' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Delivery Time' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Job Site' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Job Site Address' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'POD Address' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Purchaser' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Additional Charges' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Plant' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr><tr style="color:#084B8A; "><td width="30%">' + 'Pump Information' + '</td><td width="50%">' + '123456' + '</td><td width="20%">&nbsp;</td></tr></table></body>'),
-	tipCfg:
-            {
-                dismissDelay: 0
-            },
+        tipCfg:       {         dismissDelay: 0       },
         dragging: true,
         dndValidatorFn: function(dragRecords, targetResourceRecord, date, e) {
             return true;
@@ -184,7 +181,7 @@
                 xtype: 'actioncolumn',
                 width: 20,
                 items: [{
-                    icon: 'https://www.blueprintfurniture.com/media/wysiwyg/gmap.png',
+                    icon: params.schPath + '/icons/' + 'map.png',
                     tooltip: 'Route',
                     handler: function(grid, rowIndex, colIndex, item, resource, tplData) {
                         var Id = tplData.raw.Id;
@@ -371,13 +368,17 @@ var locationsArr = [{
 
 function onShowRoute(pumpSelected) {
 
+    //locationsArr = Test43.app.getController('Main').loadMapData();
+
+    var _childreen = [];
+    for (var k = 0; k < locationsArr.length; k++) {
+        var child = { text: locationsArr[k].pump, leaf: true }
+        _childreen.push(child);
+    }
+
     var data = {
-        children: [
-            { text: "AAAA", leaf: true },
-            { text: "BBBB", leaf: true },
-            { text: "CCCC", leaf: true },
-            { text: "DDDD", leaf: true }
-        ]
+        children: _childreen
+
     }
 
     Ext.create('Ext.data.TreeStore', {
@@ -385,19 +386,17 @@ function onShowRoute(pumpSelected) {
         root: data
     });
 
-	
-
     var myForm = new Ext.form.Panel({
-        height: 400,
-        width: 600,
-        title: 'Pump routes',
+        height: 546,
+        width: 1184,
+        title: translations.routes,
         closeAction: 'destroy',
         floating: true,
         closable: true,
         items: [
             Ext.create('Ext.panel.Panel', {
-                height: 400,
-                width: 600,
+                height: 546,
+                width: 1184,
                 layout: 'border',
                 items: [{
                         region: 'west',
@@ -417,7 +416,7 @@ function onShowRoute(pumpSelected) {
                                 }
                             },
                             tbar: [{
-                                text: 'Show All',
+                                text: translations.showAll,
                                 scope: this,
                                 width: '100%',
                                 handler: showAllRoutes
@@ -432,12 +431,8 @@ function onShowRoute(pumpSelected) {
                         items: {
                             xtype: 'gmappanel',
                             gmapType: 'map',
-                            center: {
-                                geoCodeAddr: "221B Baker Street",
-                                marker: {
-                                    title: 'Holmes Home'
-                                }
-                            },
+                            center: { lat: 25.704887, lng: -100.297320 },
+                            zoom: 18,
                             mapOptions: {
                                 mapTypeId: google.maps.MapTypeId.ROADMAP
                             }
@@ -448,19 +443,19 @@ function onShowRoute(pumpSelected) {
 
         ]
     });
-   
+
 
     setTimeout(getPumpMatkers, 250, pumpSelected);
     myForm.show();
-   map = myForm.down('gmappanel');
+    map = myForm.down('gmappanel');
+
 }
+
 
 function getPumpMatkers(pump) {
-    // set markers to show the routes.      
-    pump = 'AAAA';
+    //pump = 'AAAA';
     calculateAndDisplayRoute(directionsService, directionsDisplay, pump);
 }
-
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay, pumpSelected) {
 
@@ -478,10 +473,16 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, pumpSele
             }
 
             for (var k = 0; k < locationsArr[i].route.length; k++) {
-                waypts.push({
-                    location: { lat: locationsArr[i].route[k].lat, lng: locationsArr[i].route[k].lng },
-                    stopover: true
-                });
+                var wypnts = locationsArr[i].route[k];
+
+                if (wypnts != undefined) {
+                    waypts.push({
+                        location: { lat: wypnts.lat, lng: wypnts.lng },
+                        stopover: true
+                    });
+                }
+
+
             }
 
         }
@@ -569,23 +570,13 @@ function showAllRoutes() {
             optimizeWaypoints: true,
         };
 
-        setTimeout(da(counter, window['request' + l]), 40000);
+        setTimeout(GetPositions(counter, window['request' + l]), 40000);
         counter = counter + 1;
-
-        //var directionsS = new google.maps.DirectionsService();    
-        //  directionsS.route(request, function(response, status) {
-        //   if (status == google.maps.DirectionsStatus.OK) {               
-        //   da(counter,response);
-
-
-        //   }
-        // });
-
     }
 
 } //end show all routes
 
-function da(position, request) {
+function GetPositions(position, request) {
 
     window['directionsService' + position] = new google.maps.DirectionsService();
 

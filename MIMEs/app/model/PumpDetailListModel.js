@@ -25,6 +25,15 @@
         { name: 'PodDesc', type: 'string' },
         { name: 'PodAddr', type: 'string' },
         { name: 'Customer', type: 'string' },
-        { name: 'CustoDesc', type: 'string' }
+        { name: 'CustoDesc', type: 'string' },
+
+        /* Map properties */
+        { name: 'PlantLatitud', type: 'string' },
+        { name: 'PlantLongitud', type: 'string' },
+        { name: 'JobstLatitud', type: 'string' },
+        { name: 'JobstLongitud', type: 'string' }
+
+
+
     ]
 });

@@ -8,8 +8,7 @@ var counter = 90;
 Ext.define('Test43.controller.Main', {
     extend: 'Ext.app.Controller',
     requires: ["Ext.util.Format", "Sch.panel.SchedulerGrid"],
-    refs: [
-        {
+    refs: [{
             ref: 'DispatchTree',
             selector: 'dispatchTree'
         },
@@ -38,7 +37,7 @@ Ext.define('Test43.controller.Main', {
     hasConcrete: true,
     selPlant: null,
 
-    init: function (application) {
+    init: function(application) {
         me = this;
         this.loadUserData(params.sessionId);
         //me.getLoadPerHour('00');
@@ -50,7 +49,7 @@ Ext.define('Test43.controller.Main', {
 
     },
 
-    change: function () {
+    change: function() {
         var txtTimer = translations.mepTimer + ': ' + counter + ' ' + translations.mepSegundos;
         var titleMep = Ext.getCmp('mepView').title;
 
@@ -67,7 +66,7 @@ Ext.define('Test43.controller.Main', {
         }
     },
 
-    putMEP: function (sessionId, header, isInit, addPlant, selectPlant, morePlants, changeDateTime, pumpId) {
+    putMEP: function(sessionId, header, isInit, addPlant, selectPlant, morePlants, changeDateTime, pumpId) {
 
         var data;
         var headers;
@@ -117,12 +116,11 @@ Ext.define('Test43.controller.Main', {
             params: generateMepXML(data),
             method: 'PUT',
             headers: headers,
-            callback: function (res, o, s) {
+            callback: function(res, o, s) {
                 if (o) {
                     if (o && !selectPlant) {
                         me.getMEP(me.sessionId, me.header, isInit);
-                    }
-                    else if (selectPlant) {
+                    } else if (selectPlant) {
 
                         me.getSimpleMEP(me.sessionId, me.header, isInit);
 
@@ -130,15 +128,13 @@ Ext.define('Test43.controller.Main', {
                             Ext.getCmp('mepView').setLoading(false);
                             Ext.getCmp('schMain').setLoading(false);
                         }
-                    }
-                    else {
+                    } else {
                         if (Ext.getCmp('mepView')) {
                             Ext.getCmp('mepView').setLoading(false);
                             Ext.getCmp('schMain').setLoading(false);
                         }
                     }
-                }
-                else {
+                } else {
 
                     if (s.responseXML.getElementsByTagName('message')[0]) {
                         Ext.MessageBox.alert('Error', s.responseXML.getElementsByTagName('message')[0].text, "");
@@ -149,14 +145,14 @@ Ext.define('Test43.controller.Main', {
         });
     },
 
-    getMEP: function (sessionId, header, isInit) {
+    getMEP: function(sessionId, header, isInit) {
         var genStore;
 
         genStore = Ext.getStore("SessionDataStore");
         genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + sessionId + "')?$expand=MEP_List,Chart_Elements,Pump_List,AssignPump_List,PumpDetail_List&$format=json";
 
         genStore.load({
-            callback: function (rec, ob, s) {
+            callback: function(rec, ob, s) {
                 if (rec && rec.length > 0) {
                     var PumpDataRec = rec[0].data;
                     var dateAux = new Date(parseInt(PumpDataRec.Date.split('(')[1].split(')')[0]));
@@ -194,8 +190,7 @@ Ext.define('Test43.controller.Main', {
                                 me.selPlant = data[i];
                                 //setTimmeout(me.getGrafica, 1, data[i]);
                                 me.getGrafica(me.selPlant);
-                            }
-                            else {
+                            } else {
                                 Ext.getCmp('pnlGrafica').setLoading(false);
                             }
                         }
@@ -205,8 +200,7 @@ Ext.define('Test43.controller.Main', {
                         if (Ext.getCmp('mepView')) {
                             Ext.getCmp('mepView').setLoading(false);
                         }
-                    }
-                    else {
+                    } else {
                         Ext.getCmp('pnlGrafica').setLoading(false);
                     }
 
@@ -242,7 +236,7 @@ Ext.define('Test43.controller.Main', {
         });
     },
 
-    refreshIndicators: function (hour) {
+    refreshIndicators: function(hour) {
         var txtFrom = Ext.getCmp("txtFrom");
         var txtHour = Ext.getCmp("txtHour");
         var txtFrecuencia = Ext.getCmp("txtFrecuencia");
@@ -250,8 +244,7 @@ Ext.define('Test43.controller.Main', {
 
         if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.value && txtFrecuencia.value) {
             me.changeDateTime(txtFrom.value, txtHour.value, txtFrecuencia.value);
-        }
-        else if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.getRawValue() && txtFrecuencia.value) {
+        } else if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.getRawValue() && txtFrecuencia.value) {
             me.changeDateTime(txtFrom.value, getTimeFromRaw(txtHour.getRawValue()), txtFrecuencia.value);
         }
 
@@ -259,17 +252,17 @@ Ext.define('Test43.controller.Main', {
         me.showLoadsPerHour(hour);
     },
 
-    getLoadPerHour: function (hour) {
+    getLoadPerHour: function(hour) {
         me.putLoads(hour, me.header);
     },
 
-    getLoadPerHourSimple: function (hour) {
+    getLoadPerHourSimple: function(hour) {
         me.putLoadsSimple(hour, me.header);
     },
 
 
 
-    putLoads: function (hour, header) {
+    putLoads: function(hour, header) {
         var objgrid1 = Ext.getCmp('gridLoadPerHour1');
         var objgrid2 = Ext.getCmp('gridLoadPerHour2');
         var objgrid3 = Ext.getCmp('gridLoadPerHour3');
@@ -299,7 +292,7 @@ Ext.define('Test43.controller.Main', {
             params: generateMepXML(data),
             method: 'PUT',
             headers: headers,
-            callback: function (res, o, s) {
+            callback: function(res, o, s) {
                 if (data.SetDetailsHour) {
                     var objgridP1 = Ext.getCmp('gridLoadPerHour1');
                     var objgridP2 = Ext.getCmp('gridLoadPerHour2');
@@ -324,7 +317,7 @@ Ext.define('Test43.controller.Main', {
         });
     },
 
-    putLoadsSimple: function (hour, header) {
+    putLoadsSimple: function(hour, header) {
 
         var setDetailHours = true;
         data = {
@@ -339,7 +332,7 @@ Ext.define('Test43.controller.Main', {
             params: generateMepXML(data),
             method: 'PUT',
             headers: headers,
-            callback: function (res, o, s) {
+            callback: function(res, o, s) {
 
                 if (data.SetDetailsHour) {
                     me.getLoadsSimple(hour, header);
@@ -348,26 +341,24 @@ Ext.define('Test43.controller.Main', {
         });
     },
 
-    getLoads: function (hour, header) {
+    getLoads: function(hour, header) {
         var genStore;
         genStore = Ext.getStore("LoadsPerHourStore");
         genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=LoadDetail_List&$format=json";
 
         genStore.load({
-            callback: function (rec, ob, s) {
+            callback: function(rec, ob, s) {
                 dataLoads = ob.request.proxy.reader.rawData.d.LoadDetail_List.results;
 
             },
-            success: function (form, action) {
-                Ext.ux.Toast.msg('Callback: success'
-                    , 'KundeId: {0} UserId: {1}'
-                    , action.params.kundeid, action.params.userid);
+            success: function(form, action) {
+                Ext.ux.Toast.msg('Callback: success', 'KundeId: {0} UserId: {1}', action.params.kundeid, action.params.userid);
             }
         });
 
     },
 
-    showLoadsPerHour: function (hour, header) {
+    showLoadsPerHour: function(hour, header) {
         var storeLoadsPerHour1 = createExtStore();
         var storeLoadsPerHour2 = createExtStore();
         var storeLoadsPerHour3 = createExtStore();
@@ -530,7 +521,7 @@ Ext.define('Test43.controller.Main', {
             }
         }
 
-        //Asignación de listado a grids
+        //Asignaci�n de listado a grids
         objgrid1.getView().bindStore(storeLoadsPerHour1);
         objgrid2.getView().bindStore(storeLoadsPerHour2);
         objgrid3.getView().bindStore(storeLoadsPerHour3);
@@ -558,7 +549,7 @@ Ext.define('Test43.controller.Main', {
 
     },
 
-    showGridLoadsPerHour: function () {
+    showGridLoadsPerHour: function() {
         var objLoads = Ext.getCmp('hboxLoads');
         var objPump = Ext.getCmp('panelPump');
 
@@ -567,33 +558,31 @@ Ext.define('Test43.controller.Main', {
         if (objPump) { objPump.setVisible(false); }
     },
 
-    getLoadsSimple: function (hour, header) {
+    getLoadsSimple: function(hour, header) {
         var genStore;
         genStore = Ext.getStore("LoadsPerHourStore");
         genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + params.sessionId + "')?$expand=LoadDetail_List&$format=json";
 
         genStore.load({
-            callback: function (rec, ob, s) {
+            callback: function(rec, ob, s) {
                 dataLoads = ob.request.proxy.reader.rawData.d.LoadDetail_List.results;
 
             },
-            success: function (form, action) {
-                Ext.ux.Toast.msg('Callback: success'
-                    , 'KundeId: {0} UserId: {1}'
-                    , action.params.kundeid, action.params.userid);
+            success: function(form, action) {
+                Ext.ux.Toast.msg('Callback: success', 'KundeId: {0} UserId: {1}', action.params.kundeid, action.params.userid);
             }
         });
     },
 
 
-    getSimpleMEP: function (sessionId, header, isInit) {
+    getSimpleMEP: function(sessionId, header, isInit) {
         var genStore;
 
         genStore = Ext.getStore("SessionDataStore");
         genStore.proxy.url = params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_ORDER_PLAN/ServerSideObjects('" + sessionId + "')?$expand=MEP_List,Chart_Elements&$format=json";
 
         genStore.load({
-            callback: function (rec, ob, s) {
+            callback: function(rec, ob, s) {
                 var dateAux;
                 if (rec && rec.length > 0) {
                     var simpleData = rec[0].data;
@@ -624,7 +613,7 @@ Ext.define('Test43.controller.Main', {
         });
     },
 
-    getGrafica: function (plant) {
+    getGrafica: function(plant) {
         var genStore;
         var sessionStore;
         var charData;
@@ -653,18 +642,17 @@ Ext.define('Test43.controller.Main', {
                     auxTime = auxItemData.Time.replace('PT', '').split('H');
                     timeAux = parseFloat(auxTime[0]) + (auxTime[1].split('M')[0] * 0.01666);
 
-                    charData.push(
-                        {
-                            time: timeAux,
-                            loads_per_hour_avail: auxItemData.LoadsPerHourAvail,
-                            available_vehicles: auxItemData.VehicleAvail,
-                            simulated_loads: auxItemData.SimulatedLoads,
-                            existing_loads: auxItemData.ExistingLoads,
-                            vehicle_count: auxItemData.VehicleCount,
-                            plant: auxItemData.Plant,
-                            loadAdded: auxItemData.SimultaneousLoads,
-                            baseLine: 0
-                        });
+                    charData.push({
+                        time: timeAux,
+                        loads_per_hour_avail: auxItemData.LoadsPerHourAvail,
+                        available_vehicles: auxItemData.VehicleAvail,
+                        simulated_loads: auxItemData.SimulatedLoads,
+                        existing_loads: auxItemData.ExistingLoads,
+                        vehicle_count: auxItemData.VehicleCount,
+                        plant: auxItemData.Plant,
+                        loadAdded: auxItemData.SimultaneousLoads,
+                        baseLine: 0
+                    });
                 }
             }
 
@@ -680,7 +668,7 @@ Ext.define('Test43.controller.Main', {
         }
     },
 
-    resumeGraphEvents: function () {
+    resumeGraphEvents: function() {
         var genStore;
 
         genStore = Ext.getStore("GraphStore");
@@ -690,15 +678,15 @@ Ext.define('Test43.controller.Main', {
         Ext.getCmp('pnlGrafica').setLoading(false);
     },
 
-    addPlant: function (plant) {
+    addPlant: function(plant) {
         this.putMEP(this.sessionId, this.header, false, plant.split('-')[0].substring(0, 4));
     },
 
-    masPlantas: function () {
+    masPlantas: function() {
         this.putMEP(this.sessionId, this.header, false, '', '', true);
     },
 
-    setHasConcrete: function () {
+    setHasConcrete: function() {
         var cmbPlant;
         var btnAddPlant;
         var btnMorePlants;
@@ -722,11 +710,11 @@ Ext.define('Test43.controller.Main', {
         }
     },
 
-    setPump: function (pumpId) {
+    setPump: function(pumpId) {
         this.putMEP(this.sessionId, this.header, false, '', '', false, false, pumpId);
     },
 
-    changeDateTime: function (date, time, freq) {
+    changeDateTime: function(date, time, freq) {
         if (segChDate == 59) {
             segChDate = 10
         } else {
@@ -743,74 +731,73 @@ Ext.define('Test43.controller.Main', {
         this.putMEP(this.sessionId, this.header, false, '', '', false, true);
     },
 
-    selectPlant: function (plant) {
+    selectPlant: function(plant) {
         this.putMEP(this.sessionId, this.header, false, '', plant, false);
     },
 
-    loadUserData: function (sessionId) {
-        Ext.Ajax.request(
-            {
-                url: params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_INITLOAD/Settings('" + sessionId + "')?$expand=Plant_List&$format=json",
-                method: 'GET',
-                headers: { 'X-CSRF-Token': 'Fetch' },
-                withCredentials: true,
-                callback: function (res, o, s) {
-                    var header;
-                    var response;
-                    var genStore;
-                    var plants;
-                    var _description = "";
+    loadUserData: function(sessionId) {
+        Ext.Ajax.request({
+            url: params.baseUrl + "sap/opu/odata/sap/ZCXGS_CSDSLSBM_LS_INITLOAD/Settings('" + sessionId + "')?$expand=Plant_List&$format=json",
+            method: 'GET',
+            headers: { 'X-CSRF-Token': 'Fetch' },
+            withCredentials: true,
+            callback: function(res, o, s) {
+                var header;
+                var response;
+                var genStore;
+                var plants;
+                var _description = "";
 
-                    if (!o) {
-                        return;
-                    }
-
-                    header = s.getResponseHeader("x-csrf-token");
-                    response = Ext.JSON.decode(s.responseText).d;
-                    genStore = Ext.getStore("PlantStore");
-                    plants = [];
-
-                    var ResLength = response.Plant_List.results.length;
-                    for (var i = 0; i < ResLength; i++) {
-                        var data = response.Plant_List.results[i];
-
-                        _description = data.Descr == "" ? _description :
-                            data.Descr.length > 13 ? data.Descr.substring(0, 13) + "..." :
-                                ' - ' + data.Descr;
-                        plants.push({
-                            Id: data.PlantCode,
-                            Name: data.PlantCode + _description
-                        });
-                    }
-
-                    genStore.loadData(plants);
-
-                    me.sessionId = sessionId;
-                    me.header = header;
-
-                    params.dateFormat = response.DateFormat;
-                    params.isBatcher = response.IsBatcher;
-                    params.laTimer = Number(response.LaTimer);
-
-                    if (response.ShowCost) {
-                        me.showCostColumn(response.ShowCost);
-                    }
-
-                    me.setBatcherMode(params.isBatcher);
-                    me.putMEP(sessionId, header, true);
-
-                    if (Number(params.laTimer) > 0) {
-                        me.getLoadPerHour('00');
-                        var timerRefresh = Number(params.laTimer) * 1000;
-                        var resIndicators = setInterval(function () { me.getLoadPerHourSimple(hourSelect); }, timerRefresh - 10000);
-                        var refIndicators = setInterval(function () { me.refreshIndicators(hourSelect); }, timerRefresh);
-                        var refseg = setInterval(function () { me.change(); }, 1000);
-                    }
+                if (!o) {
+                    return;
                 }
-            });
+
+                header = s.getResponseHeader("x-csrf-token");
+                response = Ext.JSON.decode(s.responseText).d;
+                genStore = Ext.getStore("PlantStore");
+                plants = [];
+
+                var ResLength = response.Plant_List.results.length;
+                for (var i = 0; i < ResLength; i++) {
+                    var data = response.Plant_List.results[i];
+
+                    _description = data.Descr == "" ? _description :
+                        data.Descr.length > 13 ? data.Descr.substring(0, 13) + "..." :
+                        ' - ' + data.Descr;
+                    plants.push({
+                        Id: data.PlantCode,
+                        Name: data.PlantCode + _description
+                    });
+                }
+
+                genStore.loadData(plants);
+
+                me.sessionId = sessionId;
+                me.header = header;
+
+                params.dateFormat = response.DateFormat;
+                params.isBatcher = response.IsBatcher;
+                params.laTimer = Number(response.LaTimer);
+
+                if (response.ShowCost) {
+                    me.showCostColumn(response.ShowCost);
+                }
+
+                me.setBatcherMode(params.isBatcher);
+                me.putMEP(sessionId, header, true);
+
+                if (Number(params.laTimer) > 0) {
+                    me.getLoadPerHour('00');
+                    var timerRefresh = Number(params.laTimer) * 1000;
+                    var resIndicators = setInterval(function() { me.getLoadPerHourSimple(hourSelect); }, timerRefresh - 10000);
+                    var refIndicators = setInterval(function() { me.refreshIndicators(hourSelect); }, timerRefresh);
+                    var refseg = setInterval(function() { me.change(); }, 1000);
+                }
+            }
+        });
     },
 
-    showCostColumn: function (show) {
+    showCostColumn: function(show) {
         if (show) {
             Ext.getCmp('grdUserPlants').columns[5].setVisible(true);
 
@@ -823,20 +810,19 @@ Ext.define('Test43.controller.Main', {
         }
     },
 
-    setBatcherMode: function (isBatcher) {
+    setBatcherMode: function(isBatcher) {
         if (isBatcher) {
             Ext.getCmp('cmbPlants').setDisabled(true);
             Ext.getCmp('btnAddPlant').setDisabled(true);
             Ext.getCmp('btnMorePlants').setDisabled(true);
-        }
-        else {
+        } else {
             Ext.getCmp('cmbPlants').setDisabled(false);
             Ext.getCmp('btnAddPlant').setDisabled(false);
             Ext.getCmp('btnMorePlants').setDisabled(false);
         }
     },
 
-    setModeReadOnly: function (isReadOnly) {
+    setModeReadOnly: function(isReadOnly) {
         if (isReadOnly) {
             Ext.getCmp('cmbPlants').setDisabled(true);
             Ext.getCmp('btnAddPlant').setDisabled(true);
@@ -851,8 +837,7 @@ Ext.define('Test43.controller.Main', {
             Ext.getCmp('btnMasHora').setDisabled(true);
 
             Ext.getCmp('txtFrecuencia').setDisabled(true);
-        }
-        else {
+        } else {
             Ext.getCmp('cmbPlants').setDisabled(false);
             Ext.getCmp('btnAddPlant').setDisabled(false);
             Ext.getCmp('btnMorePlants').setDisabled(false);
@@ -869,7 +854,7 @@ Ext.define('Test43.controller.Main', {
         }
     },
 
-    setGraphTitle: function (plant) {
+    setGraphTitle: function(plant) {
         var title;
 
         title = translations.GraphTitle + ': ' + plant;
@@ -877,7 +862,7 @@ Ext.define('Test43.controller.Main', {
         Ext.getCmp('pnlGrafica').setTitle(title);
     },
 
-    loadSch: function () {
+    loadSch: function() {
         var node;
         var genStore;
         var aux;
@@ -926,7 +911,7 @@ Ext.define('Test43.controller.Main', {
         if (window.filterName == "" && window.filterPlant == "") {
             resourceStorev.clearFilter();
         } else {
-            resourceStorev.filterBy(function (rec, id) {
+            resourceStorev.filterBy(function(rec, id) {
                 if ((rec.raw['Name'].indexOf(window.filterName) >= 0 && rec.raw['iPlant'].indexOf(window.filterPlant) >= 0) || rec.raw['iPlant'] == '') {
                     return true;
                 } else {
@@ -942,8 +927,7 @@ Ext.define('Test43.controller.Main', {
 
         if (me.pumpService) {
             itemsData.push(me.pumpService);
-        }
-        else {
+        } else {
             itemsData.push({
                 ResourceId: 001,
                 Name: '',
@@ -959,30 +943,33 @@ Ext.define('Test43.controller.Main', {
             for (var i = 0; i < aux.length; i++) {
                 var OrderId;
                 var pSessionId;
-                var Order;
-                var ServDesc;
-                var Quantity;
-                var PumpId;
-                var PumpDesc;
-                var LicenseNum;
-                var Eqtyp;
-                var LoadLen;
-                var PumpType;
-                var PumpMax;
-                var StatusTx;
-                var StartPdate;
-                var StartPtime;
-                var EndPdate;
-                var EndPtime;
-                var DelivDate;
-                var DelivTime;
-                var Jobsite;
-                var JobstDesc;
-                var Pod;
-                var PodDesc;
-                var PodAddr;
-                var Customer;
-                var CustoDesc;
+                var pOrder;
+                var pServDesc;
+                var pQuantity;
+                var pPumpId;
+                var pPumpDesc;
+                var pLicenseNum;
+                var pEqtyp;
+                var pLoadLen;
+                var pPumpType;
+                var pPumpMax;
+                var pStatusTx;
+                var pStartPdate;
+                var pStartPtime;
+                var pStartPtime;
+                var pEndPdate;
+                var pEndPtime;
+                var pEndPtime;
+                var pDelivDate;
+                var pDelivTime;
+                var pDelivTime;
+                var pJobsite;
+                var pJobstDesc;
+                var pPod;
+                var pPodDesc;
+                var pPodAddr;
+                var pCustomer;
+                var pCustoDesc;
 
                 OrderId = aux[i].data.Order;
 
@@ -1063,8 +1050,7 @@ Ext.define('Test43.controller.Main', {
                 sched.switchViewPreset('hourAndDay',
                     new Date(itemsData[0].StartDate.getFullYear(), itemsData[0].StartDate.getMonth(), itemsData[0].StartDate.getDate(), 0),
                     new Date(itemsData[0].StartDate.getFullYear(), itemsData[0].StartDate.getMonth(), itemsData[0].StartDate.getDate() + 1, 0));
-            }
-            else {
+            } else {
                 sched.switchViewPreset('hourAndDay',
                     new Date(me.dateTime.getFullYear(), me.dateTime.getMonth(), me.dateTime.getDate(), 0),
                     new Date(me.dateTime.getFullYear(), me.dateTime.getMonth(), me.dateTime.getDate() + 1, 0));
@@ -1082,19 +1068,62 @@ Ext.define('Test43.controller.Main', {
 
         Ext.getCmp('sldSchedule').setValue(((itemsData[0].StartDate.getHours() - 1) * 12) + (itemsData[0].StartDate.getMinutes() / 5));
 
-        zone.push(
-            {
-                StartDate: itemsData[0].StartDate,
-                EndDate: itemsData[0].EndDate,
-                Type: "",
-                Cls: 'myZoneStyle'
-            });
+        zone.push({
+            StartDate: itemsData[0].StartDate,
+            EndDate: itemsData[0].EndDate,
+            Type: "",
+            Cls: 'myZoneStyle'
+        });
 
         zoneStore.loadData(zone);
         Ext.getCmp("txtSchHour").setValue(itemsData[0].StartDate);
 
         sched.scrollEventIntoView(itemsStore.data.items[0], true);
+    },
+    loadMapData: function() {
+        var genStore;
+        genStore = Ext.getStore("SessionDataStore");
+
+        var parentOject = genStore.data.items[0].PumpDetailStore != undefined ? genStore.data.items[0].PumpDetailStore.data.items : null;
+        var objTotal = parentOject != null ? parentOject.length : 0;
+
+        var locationsArr = [];
+        var added = false;
+        var pump = "";
+        for (var k = 0; k < objTotal; k++) {
+            var item = parentOject[k].data;
+            added = false;
+            for (var d = 0; d < locationsArr.length; d++) {
+                if (item.PumpId == locationsArr[d].pump) {
+                    added = true;
+                }
+            }
+
+            if (added === false) {
+                var itemArr = {
+                    pump: item.PumpId,
+                    origin: { lat: parseFloat(item.PlantLatitud), lng: parseFloat(item.PlantLongitud) },
+                    destination: { lat: parseFloat(item.PlantLatitud), lng: parseFloat(item.PlantLongitud) },
+                    route: []
+                };
+                for (var m = 0; m < objTotal; m++) {
+                    var it = parentOject[m].data;
+                    if (item.PumpId == it.PumpId) {
+                        var _route = {
+                            lat: parseFloat(it.JobstLatitud),
+                            lng: parseFloat(it.JobstLongitud),
+                            StartPdate: new Date(parseInt(it.StartPdate.substr(6)))
+                        };
+                        itemArr.route.push(_route);
+                    }
+                }
+                locationsArr.push(itemArr);
+            }
+        }
+
+        return locationsArr;
     }
+
 });
 
 
@@ -1176,11 +1205,9 @@ function closeLoadsPerHour() {
     var objPump = Ext.getCmp('panelPump');
     var objbuttonClose = Ext.getCmp('hboxbuttonClose');
 
-    if (objLoads) { objLoads.setVisible(false); }
-    else { objLoads.setVisible(true); }
+    if (objLoads) { objLoads.setVisible(false); } else { objLoads.setVisible(true); }
 
-    if (objPump) { objPump.setVisible(true); }
-    else { objPump.setVisible(false); }
+    if (objPump) { objPump.setVisible(true); } else { objPump.setVisible(false); }
 
     var objgrid1 = Ext.getCmp('gridLoadPerHour1');
     var objgrid2 = Ext.getCmp('gridLoadPerHour2');
@@ -1212,6 +1239,3 @@ function createExtStore() {
         data: []
     });
 }
-
-
-
