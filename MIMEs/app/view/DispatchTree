@@ -188,7 +188,7 @@
                         var iPlant = tplData.raw.iPlant;
                         var Name = tplData.raw.Name;
                         var Status = tplData.raw.Status;
-                        onShowRoute(iPlant);
+                        onShowRoute(Id);
                     }
                 }]
             }
@@ -320,47 +320,49 @@ var directionsDisplay = new google.maps.DirectionsRenderer({
 
 });
 
-var locationsArr = [{
-        pump: "AAAA",
-        origin: { lat: 25.683421, lng: -100.308871 },
-        destination: { lat: 25.683421, lng: -100.308871 },
-        route: [
-            { lat: 25.649654, lng: -100.727157 },
-            { lat: 25.541305, lng: -100.945926 },
-            { lat: 25.429964, lng: -100.994776 },
 
-        ]
-    },
-    {
-        pump: "BBBB",
-        origin: { lat: 25.649654, lng: -100.727157 },
-        destination: { lat: 25.649654, lng: -100.727157 },
-        route: [
-            { lat: 25.269833, lng: -100.577096 }
-        ]
-    },
-    {
-        pump: "CCCC",
-        origin: { lat: 25.739687, lng: -100.243657 },
-        destination: { lat: 25.739687, lng: -100.243657 },
-        route: [
-            { lat: 25.192946, lng: -99.831860 },
-            { lat: 24.907664, lng: -99.683059 },
-            { lat: 24.502716, lng: -99.498266 },
-            { lat: 23.759113, lng: -99.136126 },
-        ]
-    },
-    {
-        pump: "DDDD",
-        origin: { lat: 22.175379, lng: -100.983862 },
-        destination: { lat: 22.175379, lng: -100.983862 },
-        route: [
-            { lat: 22.453293, lng: -100.300735 },
-            { lat: 21.939837, lng: -99.983961 },
-            { lat: 22.016987, lng: -99.670755 },
-            { lat: 22.057813, lng: -99.078598 },
-        ]
-    }
+var locationsArr = [
+//     {
+//     pump: "AAAA",
+//     origin: { lat: 25.683421, lng: -100.308871 },
+//     destination: { lat: 25.683421, lng: -100.308871 },
+//     route: [
+//         { lat: 25.649654, lng: -100.727157 },
+//         { lat: 25.541305, lng: -100.945926 },
+//         { lat: 25.429964, lng: -100.994776 },
+
+//     ]
+// },
+// {
+//     pump: "BBBB",
+//     origin: { lat: 25.649654, lng: -100.727157 },
+//     destination: { lat: 25.649654, lng: -100.727157 },
+//     route: [
+//         { lat: 25.269833, lng: -100.577096 }
+//     ]
+// },
+// {
+//     pump: "CCCC",
+//     origin: { lat: 25.739687, lng: -100.243657 },
+//     destination: { lat: 25.739687, lng: -100.243657 },
+//     route: [
+//         { lat: 25.192946, lng: -99.831860 },
+//         { lat: 24.907664, lng: -99.683059 },
+//         { lat: 24.502716, lng: -99.498266 },
+//         { lat: 23.759113, lng: -99.136126 },
+//     ]
+// },
+// {
+//     pump: "DDDD",
+//     origin: { lat: 22.175379, lng: -100.983862 },
+//     destination: { lat: 22.175379, lng: -100.983862 },
+//     route: [
+//         { lat: 22.453293, lng: -100.300735 },
+//         { lat: 21.939837, lng: -99.983961 },
+//         { lat: 22.016987, lng: -99.670755 },
+//         { lat: 22.057813, lng: -99.078598 },
+//     ]
+// }
 
 ];
 
@@ -368,7 +370,7 @@ var locationsArr = [{
 
 function onShowRoute(pumpSelected) {
 
-    //locationsArr = Test43.app.getController('Main').loadMapData();
+    locationsArr = Test43.app.getController('Main').loadMapData();
 
     var _childreen = [];
     for (var k = 0; k < locationsArr.length; k++) {
@@ -519,6 +521,8 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, pumpSele
 
 
         } else {
+	    directionsDisplay.setMap(null);
+	    clearMarks();
             Ext.Msg.alert('Directions request failed due to ' + status);
         }
     });
