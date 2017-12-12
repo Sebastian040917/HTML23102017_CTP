@@ -66,46 +66,46 @@ Ext.define('Test43.view.Main', {
                                 return ((thumb.value * 5) / 60).toFixed(0) + ":" + (mins < 10 ? ("0" + mins) : mins);
                             },
                             listeners:
-                            {
-                                changecomplete: function (s, newValue, thumb, ops) {
-                                    var mins;
-                                    var newDate;
-                                    var oldDate;
-                                    var mainCont;
-                                    var newStopDate;
-                                    var minDiff;
-                                    var oldEndDate;
-                                    var zone = Ext.getStore("ZoneStore").data.items[0];
+                                {
+                                    changecomplete: function (s, newValue, thumb, ops) {
+                                        var mins;
+                                        var newDate;
+                                        var oldDate;
+                                        var mainCont;
+                                        var newStopDate;
+                                        var minDiff;
+                                        var oldEndDate;
+                                        var zone = Ext.getStore("ZoneStore").data.items[0];
 
-                                    mainCont = Test43.app.getController('Main');
+                                        mainCont = Test43.app.getController('Main');
 
-                                    oldDate = mainCont.pumpService.data.StartDate;
-                                    oldEndDate = mainCont.pumpService.data.EndDate;
+                                        oldDate = mainCont.pumpService.data.StartDate;
+                                        oldEndDate = mainCont.pumpService.data.EndDate;
 
-                                    mins = thumb.value * 5;
+                                        mins = thumb.value * 5;
 
-                                    while (mins >= 60) {
-                                        mins -= 60;
+                                        while (mins >= 60) {
+                                            mins -= 60;
+                                        }
+
+                                        newDate = new Date(oldDate.getFullYear(), oldDate.getMonth(), oldDate.getDate(), ((thumb.value * 5) / 60).toFixed(0), mins);
+
+                                        mainCont.pumpService.setStartDate(newDate);
+
+                                        minDiff = (((newDate.getHours() - oldDate.getHours()) * 60) + (newDate.getMinutes() - oldDate.getMinutes()));
+
+                                        newStopDate = addMinutes(oldEndDate, minDiff);
+
+                                        mainCont.pumpService.setEndDate(newStopDate);
+
+                                        mainCont.setPump(mainCont.pumpService.data.ResourceId);
+
+                                        zone.setStartDate(newDate);
+                                        zone.setEndDate(newStopDate);
+
+                                        Ext.getCmp("txtSchHour").setValue(newDate);
                                     }
-
-                                    newDate = new Date(oldDate.getFullYear(), oldDate.getMonth(), oldDate.getDate(), ((thumb.value * 5) / 60).toFixed(0), mins);
-
-                                    mainCont.pumpService.setStartDate(newDate);
-
-                                    minDiff = (((newDate.getHours() - oldDate.getHours()) * 60) + (newDate.getMinutes() - oldDate.getMinutes()));
-
-                                    newStopDate = addMinutes(oldEndDate, minDiff);
-
-                                    mainCont.pumpService.setEndDate(newStopDate);
-
-                                    mainCont.setPump(mainCont.pumpService.data.ResourceId);
-
-                                    zone.setStartDate(newDate);
-                                    zone.setEndDate(newStopDate);
-
-                                    Ext.getCmp("txtSchHour").setValue(newDate);
                                 }
-                            }
                         },
                         {
                             xtype: 'timefield',
@@ -237,32 +237,31 @@ Ext.define('Test43.view.Main', {
                             },
 
                             listeners:
-                            {
-                                itemmouseenter: function (view, record, item, index, e, options) {
-                                    var remarks = record.get('remarks');
-                                    var view = this.getView();
-                                    var tip = Ext.create('Ext.tip.ToolTip', {
-                                        delegate: view.itemSelector,
-                                        trackMouse: true,
-                                        renderTo: Ext.getBody(),
-                                        target: view.el,
-                                        dismissDelay: 0,
-					destroyAfterHide: true,
-                                        listeners:
-                                        {
-                                            beforeshow: function updateTipBody(tip) {
-                                                tip.update('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">' + translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">' + translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">' + translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">' + translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">' + translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">' + translations.loadCliente + '</td><td width="50%">' + record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">' + translations.loadObra + '</td><td width="50%">' + record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>');
-                                            },
-                                            hide: function (tip)
-                                            { 
-                                                tip.destroy;
-                                            }
+                                {
+                                    itemmouseenter: function (view, record, item, index, e, options) {
+                                        var remarks = record.get('remarks');
+                                        var view = this.getView();
+                                        var tip = Ext.create('Ext.tip.ToolTip', {
+                                            delegate: view.itemSelector,
+                                            trackMouse: true,
+                                            renderTo: Ext.getBody(),
+                                            target: view.el,
+                                            dismissDelay: 0,
+                                            destroyAfterHide: true,
+                                            listeners:
+                                                {
+                                                    beforeshow: function updateTipBody(tip) {
+                                                        tip.update('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">' + translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">' + translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">' + translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">' + translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">' + translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">' + translations.loadCliente + '</td><td width="50%">' + record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">' + translations.loadObra + '</td><td width="50%">' + record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>');
+                                                    },
+                                                    hide: function (tip) {
+                                                        tip.destroy;
+                                                    }
+                                                }
                                         }
+                                        );
+                                        view.tip = tip
                                     }
-                                    );
-                                    view.tip = tip
                                 }
-                            }
                         },
                         {
                             xtype: 'gridpanel',
@@ -305,7 +304,7 @@ Ext.define('Test43.view.Main', {
                             ],
                             viewConfig: {
                                 enableTextSelection: true,
-				loadMask: true,
+                                loadMask: true,
                                 getRowClass: function (record, index) {
                                     if (record.get('SimuLoadflg') == "") {
                                         return "dashed";
@@ -324,32 +323,31 @@ Ext.define('Test43.view.Main', {
                             },
 
                             listeners:
-                            {
-                                itemmouseenter: function (view, record, item, index, e, options) {
-                                    var remarks = record.get('remarks');
-                                    var view = this.getView();
-                                    var tip = Ext.create('Ext.tip.ToolTip', {
-                                        delegate: view.itemSelector,
-                                        trackMouse: true,
-                                        renderTo: Ext.getBody(),
-                                        target: view.el,
-                                        dismissDelay: 0,
-					destroyAfterHide: true,
-                                        listeners:
-                                        {
-                                            beforeshow: function updateTipBody(tip) {
-                                                tip.update('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">' + translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">' + translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">' + translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">' + translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">' + translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">' + translations.loadCliente + '</td><td width="50%">' + record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">' + translations.loadObra + '</td><td width="50%">' + record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>');
-                                            },
-                                            hide: function (tip)
-                                            { 
-                                                tip.destroy;
-                                            }
+                                {
+                                    itemmouseenter: function (view, record, item, index, e, options) {
+                                        var remarks = record.get('remarks');
+                                        var view = this.getView();
+                                        var tip = Ext.create('Ext.tip.ToolTip', {
+                                            delegate: view.itemSelector,
+                                            trackMouse: true,
+                                            renderTo: Ext.getBody(),
+                                            target: view.el,
+                                            dismissDelay: 0,
+                                            destroyAfterHide: true,
+                                            listeners:
+                                                {
+                                                    beforeshow: function updateTipBody(tip) {
+                                                        tip.update('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">' + translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">' + translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">' + translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">' + translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">' + translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">' + translations.loadCliente + '</td><td width="50%">' + record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">' + translations.loadObra + '</td><td width="50%">' + record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>');
+                                                    },
+                                                    hide: function (tip) {
+                                                        tip.destroy;
+                                                    }
+                                                }
                                         }
+                                        );
+                                        view.tip = tip
                                     }
-                                    );
-                                    view.tip = tip
                                 }
-                            }
 
                         },
                         {
@@ -412,32 +410,31 @@ Ext.define('Test43.view.Main', {
                             },
 
                             listeners:
-                            {
-                                itemmouseenter: function (view, record, item, index, e, options) {
-                                    var remarks = record.get('remarks');
-                                    var view = this.getView();
-                                    var tip = Ext.create('Ext.tip.ToolTip', {
-                                        delegate: view.itemSelector,
-                                        trackMouse: true,
-                                        renderTo: Ext.getBody(),
-                                        target: view.el,
-                                        dismissDelay: 0,
-					destroyAfterHide: true,
-                                        listeners:
-                                        {
-                                            beforeshow: function updateTipBody(tip) {
-                                                tip.update('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">' + translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">' + translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">' + translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">' + translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">' + translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">' + translations.loadCliente + '</td><td width="50%">' + record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">' + translations.loadObra + '</td><td width="50%">' + record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>');
-                                            },
-                                            hide: function (tip)
-                                            { 
-                                                tip.destroy;
-                                            }
+                                {
+                                    itemmouseenter: function (view, record, item, index, e, options) {
+                                        var remarks = record.get('remarks');
+                                        var view = this.getView();
+                                        var tip = Ext.create('Ext.tip.ToolTip', {
+                                            delegate: view.itemSelector,
+                                            trackMouse: true,
+                                            renderTo: Ext.getBody(),
+                                            target: view.el,
+                                            dismissDelay: 0,
+                                            destroyAfterHide: true,
+                                            listeners:
+                                                {
+                                                    beforeshow: function updateTipBody(tip) {
+                                                        tip.update('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="30%">' + translations.loadNumeroOrden + '</td><td width="50%">' + record.data.Order + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadCarga + '</td><td width="50%">' + record.data.Posex + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadEstatus + '</td><td width="50%">' + record.data.StatusDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%">' + translations.loadProducto + '</td><td  width="50%">' + record.data.MatNum + '</td><td width="20%">&nbsp;</td></tr></table><br /><table width="100%"><tr><td width="30%">' + translations.loadEntrega + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span>' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span>' + record.data.ReqTime + '</td></tr><tr><td width="30%">' + translations.loadCarga + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span>' + record.data.LoadDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span>' + record.data.LoadTime + '</td></tr><tr><td width="30%">' + translations.loadRequerida + '</td><td width="30%"><span style="font-style:italic">' + translations.loadDate + ': ' + '</span> ' + record.data.ReqDate + '</td><td width="40%"><span style="font-style:italic">' + translations.loadTime + ': ' + '</span> ' + record.data.ReqTime + '</td></tr></table><br /><table width="100%"><tr><td width="30%">' + translations.loadPlanta + '</td><td width="50%">' + record.data.Plant + '</td><td width="20%"></td></tr><tr><td width="30%" style="vertical-align:text-top">' + translations.loadCliente + '</td><td width="50%">' + record.data.Customer + ' - ' + record.data.CustoDesc + '</td><td width="20%">&nbsp;</td></tr><tr><td width="30%" style="vertical-align:text-top">' + translations.loadObra + '</td><td width="50%">' + record.data.Jobsite + ' - ' + record.data.JobstDesc + '</td><td width="20%">&nbsp;</td></tr></table></body>');
+                                                    },
+                                                    hide: function (tip) {
+                                                        tip.destroy;
+                                                    }
+                                                }
                                         }
+                                        );
+                                        view.tip = tip
                                     }
-                                    );
-                                    view.tip = tip
                                 }
-                            }
                         }
                     ]
                 }

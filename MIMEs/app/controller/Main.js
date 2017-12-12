@@ -959,30 +959,33 @@ Ext.define('Test43.controller.Main', {
             for (var i = 0; i < aux.length; i++) {
                 var OrderId;
                 var pSessionId;
-                var Order;
-                var ServDesc;
-                var Quantity;
-                var PumpId;
-                var PumpDesc;
-                var LicenseNum;
-                var Eqtyp;
-                var LoadLen;
-                var PumpType;
-                var PumpMax;
-                var StatusTx;
-                var StartPdate;
-                var StartPtime;
-                var EndPdate;
-                var EndPtime;
-                var DelivDate;
-                var DelivTime;
-                var Jobsite;
-                var JobstDesc;
-                var Pod;
-                var PodDesc;
-                var PodAddr;
-                var Customer;
-                var CustoDesc;
+                var pOrder;
+                var pServDesc;
+                var pQuantity;
+                var pPumpId;
+                var pPumpDesc;
+                var pLicenseNum;
+                var pEqtyp;
+                var pLoadLen;
+                var pPumpType;
+                var pPumpMax;
+                var pStatusTx;
+                var pStartPdate;
+                var pStartPtime;
+                var pStartPtime;
+                var pEndPdate;
+                var pEndPtime;
+                var pEndPtime;
+                var pDelivDate;
+                var pDelivTime;
+                var pDelivTime;
+                var pJobsite;
+                var pJobstDesc;
+                var pPod;
+                var pPodDesc;
+                var pPodAddr;
+                var pCustomer;
+                var pCustoDesc;
 
                 OrderId = aux[i].data.Order;
 
@@ -1094,7 +1097,54 @@ Ext.define('Test43.controller.Main', {
         Ext.getCmp("txtSchHour").setValue(itemsData[0].StartDate);
 
         sched.scrollEventIntoView(itemsStore.data.items[0], true);
+
+        /**test */
+        var datax2145 = me.loadMapData();
+    },
+    loadMapData: function () {
+        var genStore;
+        genStore = Ext.getStore("SessionDataStore");
+
+        var parentOject = genStore.data.items[0].PumpDetailStore != undefined ? genStore.data.items[0].PumpDetailStore.data.items : null;
+        var objTotal = parentOject != null ? parentOject.length : 0;
+
+        var locationsArr = [];
+        var added = false;
+        var pump = "";
+        for (var k = 0; k < objTotal; k++) {
+            var item = parentOject[k].data;
+            added = false;
+            for (var d = 0; d < locationsArr.length; d++) {
+                if (item.PumpId == locationsArr[d].pump) {
+                    added = true;
+                }
+            }
+
+            if (added === false) {
+                var itemArr = {
+                    pump: item.PumpId,
+                    origin: { lat: parseFloat(item.PlantLatitud), lng: parseFloat(item.PlantLongitud) },
+                    destination: { lat: parseFloat(item.PlantLatitud), lng: parseFloat(item.PlantLongitud) },
+                    route: []
+                };
+                for (var m = 0; m < objTotal; m++) {
+                    var it = parentOject[m].data;
+                    if (item.PumpId == it.PumpId) {
+                        var _route = {
+                            lat: parseFloat(it.JobstLatitud),
+                            lng: parseFloat(it.JobstLongitud),
+                            StartPdate: new Date(parseInt(it.StartPdate.substr(6)))
+                        };
+                        itemArr.route.push(_route);
+                    }
+                }
+                locationsArr.push(itemArr);
+            }
+        }
+
+        return locationsArr;
     }
+
 });
 
 
