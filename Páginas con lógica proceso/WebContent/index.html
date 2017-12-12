@@ -1,4 +1,5 @@
 <html>
+
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=8">
     <meta charset="UTF-8">
@@ -6,22 +7,22 @@
     <!-- <x-compile> -->
     <!-- <x-bootstrap> -->
     <!--<link rel="stylesheet" href="bootstrap.css">
-    <link rel="stylesheet" href="resources/css/sch-all.css" />
-    <script src="ext/ext-dev.js"></script>
-    <script src="bootstrap.js"></script>-->
+        <link rel="stylesheet" href="resources/css/sch-all.css" />
+        <script src="ext/ext-dev.js"></script>
+        <script src="bootstrap.js"></script>-->
     <!-- </x-bootstrap> -->
     <!--<script src="Scripts/excanvas.min.js"></script>
-    <script src="Scripts/jquery-1.11.3.min.js"></script>
-    <script src="Scripts/jquery.jqplot.min.js"></script>
-
-    <link rel="stylesheet" href="resources/jquery.jqplot.min.css" />-->
+        <script src="Scripts/jquery-1.11.3.min.js"></script>
+        <script src="Scripts/jquery.jqplot.min.js"></script>
+    
+        <link rel="stylesheet" href="resources/jquery.jqplot.min.css" />-->
     <!-- </x-compile> -->
 
     <script type="text/javascript">
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\[").replace(/[\]]/, "\]");
             var regex = new RegExp("[\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
+                results = regex.exec(location.search);
             return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
 
@@ -31,7 +32,10 @@
         var appScript;
         var schScript;
         var extLocale;
-        var appLocale
+        var appLocale;
+
+        var gScripts;
+        var gPanelScript;
 
         if (!lang) {
             lang = "en";
@@ -42,39 +46,55 @@
             document.writeln('<link rel="stylesheet" type="text/css" href="../../ZCXBS_1045_EXTJ/Sch/resources/css/sch-all.css">');
             document.writeln('<!-- LIBS -->');
 
+
             extScript = document.createElement("script");
             extScript.src = "../../ZCXBS_1045_EXTJ/ext-4.2.2.1144/ext-all.js";
             extScript.type = "text/javascript";
-            extScript.async = true;
+            extScript.async = false;
             document.writeln(extScript.outerHTML);
 
             document.writeln('<!-- APP -->');
 
-            appScript = document.createElement("script");
-            appScript.src = "../app.js";
-            appScript.type = "text/javascript";
-            appScript.async = true;
-            document.writeln(appScript.outerHTML);
-
             schScript = document.createElement("script");
             schScript.src = "../../ZCXBS_1045_EXTJ/Sch/sch-all.js";
             schScript.type = "text/javascript";
-            schScript.async = true;
+            schScript.async = false;
             document.writeln(schScript.outerHTML);
+
 
             extLocale = document.createElement("script");
             extLocale.src = "../../ZCXBS_1045_EXTJ/ext-4.2.2.1144/locale/ext-lang-" + lang + ".js";
             extLocale.type = "text/javascript";
-            extLocale.async = true;
+            extLocale.async = false;
             document.writeln(extLocale.outerHTML);
 
             appLocale = document.createElement("script");
             appLocale.src = "../locale/" + lang + ".js";
             appLocale.type = "text/javascript";
-            appLocale.async = true;
+            appLocale.async = false;
             document.writeln(appLocale.outerHTML);
-        }
-        else {
+
+            gScripts = document.createElement("script");
+            gScripts.src = "https://maps.googleapis.com/maps/api/js";
+            gScripts.type = "text/javascript";
+            gScripts.async = false;
+            document.writeln(gScripts.outerHTML);
+
+            gPanelScript = document.createElement("script");
+            gPanelScript.src = "http://docs.sencha.com/extjs/4.2.6/extjs-build/examples/ux/GMapPanel.js";
+            gPanelScript.type = "text/javascript";
+            gPanelScript.async = false;
+            document.writeln(gPanelScript.outerHTML);
+
+
+            appScript = document.createElement("script");
+            appScript.src = "../app.js";
+            appScript.type = "text/javascript";
+            appScript.async = false;
+            document.writeln(appScript.outerHTML);
+
+
+        } else {
             document.writeln('<link rel="stylesheet" type="text/css" href="resources/css/sch-all.css">');
             document.writeln('<link rel="stylesheet" type="text/css" href="bootstrap.css">');
             document.writeln('<!-- LIBS -->');
@@ -111,38 +131,36 @@
             appLocale.async = true;
             document.writeln(appLocale.outerHTML);
         }
-
     </script>
     <style type="text/css">
         .blanco .x-grid-cell {
             background-color: #FFFFFF;
         }
-
+        
         .azul .x-grid-cell {
             background-color: #30a0d0;
         }
-
-
+        
         .naranja .x-grid-cell {
             background-color: #ffb000;
         }
-
+        
         .amarillo .x-grid-cell {
-            background-color:  #ffff40;
+            background-color: #ffff40;
         }
-
+        
         .rojo .x-grid-cell {
             background-color: #FF4040;
         }
-
+        
         .gris .x-grid-cell {
             background-color: #E0E0E0;
         }
-
+        
         .some-row-class {
             font-size: 9px;
         }
-
+        
         .sch-event {
             -webkit-box-shadow: 1px 1px 1px rgba(150, 150, 150, 0.7) !important;
             -moz-box-shadow: 1px 1px 1px rgba(150, 150, 150, 0.7) !important;
@@ -150,17 +168,19 @@
             text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.7) !important;
             opacity: 0.9 !important;
         }
-
+        
         .sch-timelineview .myZoneStyle {
             box-shadow: 1px 1px 1px rgba(100, 100, 255, 0.7) !important;
-            background : #F2DDDC !important;
-            background-color : rgba(50, 50, 134, 0.9) !important;
+            background: #F2DDDC !important;
+            background-color: rgba(50, 50, 134, 0.9) !important;
             opacity: 0.5 !important;
-            border-bottom-color : #555588 !important
+            border-bottom-color: #555588 !important
         }
     </style>
 
 </head>
+
 <body>
 </body>
+
 </html>

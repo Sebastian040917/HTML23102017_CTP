@@ -1,4 +1,4 @@
-﻿translations =
+translations =
     {
         MepTitle: "MEP y CTP",
         GraphTitle: "Programación de Cargas",
