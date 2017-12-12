@@ -1,4 +1,4 @@
-﻿Ext.define('Test43.view.DispatchTree', {
+Ext.define('Test43.view.DispatchTree', {
     requires: ['Sch.panel.SchedulerGrid',
         'Sch.plugin.Zones'
     ],

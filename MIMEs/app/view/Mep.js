@@ -232,7 +232,8 @@ Ext.define('Test43.view.Mep', {
                                     xtype: 'label',
                                     text: translations.mepHora,
                                     flex: 3,
-                                    padding: { top: 0, left: 57, bottom: 0, right: 50 },
+                                    //padding: { top: 0, left: 57, bottom: 0, right: 50 },
+                                    padding: { top: 0, left: 60, bottom: 0, right: 50 },
                                     align: "center"
                                 },
 
@@ -240,7 +241,8 @@ Ext.define('Test43.view.Mep', {
                                     xtype: 'label',
                                     text: translations.mepFrecuencia,
                                     flex: 3,
-                                    padding: { top: 0, left: 48, bottom: 0, right: 50 },
+                                    //padding: { top: 0, left: 48, bottom: 0, right: 50 },
+                                    padding: { top: 0, left: 62, bottom: 0, right: 50 },
                                     align: "center"
                                 }
                             ]
@@ -346,16 +348,22 @@ Ext.define('Test43.view.Mep', {
 
                                         var controller = Test43.app.getController('Main');
 
-                                        //TODO FREC
                                         try {
-                                            if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.value && txtFrecuencia.value) {
-                                                controller.changeDateTime(txtFrom.value, txtHour.value, txtFrecuencia.value);
-                                            }
-                                            else if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.getRawValue() && txtFrecuencia.value) {
-                                                controller.changeDateTime(txtFrom.value, getTimeFromRaw(txtHour.getRawValue()), txtFrecuencia.value);
+                                            if (txtFrom.value && txtHour.value && txtFrecuencia.value) {
+                                                if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.value && txtFrecuencia.value) {
+                                                    controller.changeDateTime(txtFrom.value, txtHour.value, txtFrecuencia.value);
+                                                }
+                                                else if (txtFrom && txtHour && txtFrecuencia && txtFrom.value && txtHour.getRawValue() && txtFrecuencia.value) {
+                                                    controller.changeDateTime(txtFrom.value, getTimeFromRaw(txtHour.getRawValue()), txtFrecuencia.value);
+                                                }
+
+                                                closeLoadsPerHourPanel();
+
+                                            } else {
+
+                                                Ext.MessageBox.alert('Error', translations.mepInfoMEP, "");
                                             }
 
-                                            closeLoadsPerHourPanel();
 
                                         }
                                         catch (e) {
@@ -368,6 +376,7 @@ Ext.define('Test43.view.Mep', {
                                     text: 'SF',
                                     id: 'btnGenerarSerie',
                                     width: 40,
+                                    hidden: true,
                                     scale: 'small',
                                     margin: { left: 0, right: 5, top: 0, bottom: 0 },
                                     handler: function () {
@@ -397,19 +406,67 @@ Ext.define('Test43.view.Mep', {
                                                     enableColumnHide: false,
                                                     padding: { top: 5, left: 10, right: 10, bottom: 5 },
                                                     columns: [
-                                                        { header: translations.mepFSSeries, dataIndex: 'Series' },
-                                                        { header: translations.mepFSHour, dataIndex: 'Hour' },
-                                                        { header: translations.mepFSVolume, dataIndex: 'Volume' },
-                                                        { header: translations.mepFSCapacity, dataIndex: 'Capacity' },
-                                                        { header: translations.mepFSFrequency, dataIndex: 'Frequency' },
-                                                        { header: translations.mepFSConfirm, dataIndex: 'Confirm' }
+                                                        {
+                                                            header: translations.mepFSSeries, dataIndex: 'Series',
+                                                            editor: {
+                                                                xtype: 'textfield',
+                                                                allowBlank: false,
+                                                                selectOnFocus: true
+                                                            }
+                                                        },
+                                                        {
+                                                            header: translations.mepFSHour, dataIndex: 'Hour',
+                                                            editor: {
+                                                                xtype: 'textfield',
+                                                                allowBlank: false,
+                                                                selectOnFocus: true
+                                                            }
+                                                        },
+                                                        {
+                                                            header: translations.mepFSVolume, dataIndex: 'Volume',
+                                                            editor: {
+                                                                xtype: 'textfield',
+                                                                allowBlank: false,
+                                                                selectOnFocus: true
+                                                            }
+                                                        },
+                                                        {
+                                                            header: translations.mepFSCapacity, dataIndex: 'Capacity',
+                                                            editor: {
+                                                                xtype: 'textfield',
+                                                                allowBlank: false,
+                                                                selectOnFocus: true
+                                                            }
+                                                        },
+                                                        {
+                                                            header: translations.mepFSFrequency, dataIndex: 'Frequency',
+                                                            editor: {
+                                                                xtype: 'textfield',
+                                                                allowBlank: false,
+                                                                selectOnFocus: true
+                                                            }
+                                                        },
+                                                        {
+                                                            header: translations.mepFSConfirm, dataIndex: 'Confirm',
+                                                            editor: {
+                                                                xtype: 'textfield',
+                                                                allowBlank: false,
+                                                                selectOnFocus: true
+                                                            }
+                                                        }
                                                     ],
+                                                    selType: 'cellmodel',
+                                                    plugins: [
+                                                        Ext.create('Ext.grid.plugin.CellEditing', {
+                                                            clicksToEdit: 1
+                                                        })
+                                                    ],
+
                                                     viewConfig: {
                                                         forceFit: true
                                                     }
 
                                                 }),
-                                                //grid,
                                                 new Ext.form.Panel({
                                                     padding: { top: 0, left: 40, right: 10, bottom: 0 },
                                                     //width: 650,
@@ -536,36 +593,38 @@ Ext.define('Test43.view.Mep', {
                                                 })
 
                                             ],
+                                            dockedItems: [{
+                                                xtype: 'toolbar',
+                                                dock: 'bottom',
+                                                items: [
+                                                    {
+                                                        xtype: 'tbspacer',
+                                                        flex: 1
+                                                    },
+                                                    {
 
-                                            bbar: [{
+                                                        text: translations.mepFSOK,
 
-                                                text: translations.mepFSOK,
+                                                        handler: function (btn) {
 
-                                                handler: function (btn) {
+                                                            alert('Save!');
 
-                                                    alert('Save!');
+                                                        }
 
-                                                }
+                                                    },
+                                                    {
 
-                                            },
-                                            {
+                                                        text: translations.mepFSCancel,
+                                                        handler: function (btn) {
 
-                                                text: translations.mepFSCancel,
-                                                handler: function (btn) {
-
-                                                    alert('Cancel!');
+                                                            alert('Cancel!');
 
 
-                                                }
-                                            }
-                                            ]
+                                                        }
+                                                    }]
+                                            }],
                                         });
                                         myForm.show();
-
-
-
-                                        //*****************************
-
                                     }
                                 }
                             ]

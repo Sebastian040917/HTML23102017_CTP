@@ -190,7 +190,7 @@
                         var Status = tplData.raw.Status;
                         onShowRoute(Id);
                     }
-                }],
+                }],                
                 hidden: true
             }
 
@@ -230,7 +230,7 @@
                 if (eventRecord.raw.Order == undefined) {
                     //var tpl = scheduler.tooltipTpl;
                     //tpl.destroy;
-                    scheduler.tooltipTpl.set('<div>Pump Undefined</div>', true);
+                    scheduler.tooltipTpl.set('<div>'+ translations.mepPumpUndefined +'</div>', true);
                 } else {
                     scheduler.tooltipTpl.set('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="50%">' + translations.mepPumpOrder + '</td><td width="50%">' + eventRecord.raw.Order + '</td></tr><tr><td width="50%">' + translations.mepPumpService + '</td><td width="50%">' + eventRecord.raw.ServDesc + '</td></tr><tr><td width="50%">' + translations.mepPumpVolumen + '</td><td width="50%">' + eventRecord.raw.Quantity + '</td></tr><tr><td width="50%">' + translations.mepPumpDescription + '</td><td width="50%">' + eventRecord.raw.PumpDesc + '</td></tr><tr><td width="50%">' + translations.mepPumpRangeMin + '</td><td width="50%">' + eventRecord.raw.PumpType + '</td></tr><tr><td width="50%">' + translations.mepPumpRangeMax + '</td><td width="50%">' + eventRecord.raw.PumpMax + '</td></tr><tr><td width="50%">' + translations.mepPumpStatusItem + '</td><td width="50%">' + eventRecord.raw.StatusTx + '</td></tr><tr><td width="50%">' + translations.mepPumpStartDateTime + '</td><td width="50%">' + eventRecord.raw.StartPdate + ' ' + eventRecord.raw.StartPtime + '</td></tr><tr><td width="50%">' + translations.mepPumpEndServiceDateTime + '</td><td width="50%">' + eventRecord.raw.EndPdate + ' ' + eventRecord.raw.EndPtime + '</td></tr><tr><td width="50%">' + translations.mepPumpEndDeliveryDateTime + '</td><td width="50%">' + eventRecord.raw.DelivDate + ' ' + eventRecord.raw.DelivTime + '</td></tr><tr><td width="50%">' + translations.mepPumpJobSiteNumber + '</td><td width="50%">' + eventRecord.raw.Jobsite + '/' + eventRecord.raw.JobstDesc + '</td></tr><tr><td width="50%">' + translations.mepPumpPODNumberDesc + '</td><td width="50%">' + eventRecord.raw.Pod + '/' + eventRecord.raw.PodDesc + '</td></tr><tr><td width="50%">' + translations.mepPumpPODAddress + '</td><td width="50%">' + eventRecord.raw.PodAddr + '</td></tr><tr><td width="50%">' + translations.mepPumpOrderContact + '</td><td width="50%">' + eventRecord.raw.Customer + '/' + eventRecord.raw.CustoDesc + '</td></tr></table></body>', true);
                 }
