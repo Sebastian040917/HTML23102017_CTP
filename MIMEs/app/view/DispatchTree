@@ -190,7 +190,8 @@
                         var Status = tplData.raw.Status;
                         onShowRoute(Id);
                     }
-                }]
+                }],
+                hidden: true
             }
 
 
@@ -231,9 +232,7 @@
                     //tpl.destroy;
                     scheduler.tooltipTpl.set('<div>Pump Undefined</div>', true);
                 } else {
-                    //scheduler.tooltipTpl.set('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="50%">' + translations.mepPumpOrder + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpVehicle + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpVolumen + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpType + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpReach + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpItemStatus + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpStartTime + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpEndTime + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpDeliveryTime + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpJobSite + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpJobSiteAddress + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpPODAddress + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpPurchaser + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpAdditionalCharges + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpPlant + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr><tr style="color:#084B8A; "><td width="50%">' + translations.mepPumpImformation + '</td><td width="50%">' + eventRecord.raw.ResourceId + '</td></tr></table></body>', true);
-
-                    scheduler.tooltipTpl.set('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="50%">' + translations.mepPumpOrder + '</td><td width="50%">' + eventRecord.raw.Order + '</td></tr><tr><td width="50%">' + translations.mepPumpService + '</td><td width="50%">' + eventRecord.raw.ServDesc + '</td></tr><tr><td width="50%">' + translations.mepPumpVolumen + '</td><td width="50%">' + eventRecord.raw.Quantity + '</td></tr><tr><td width="50%">' + translations.mepPumpDescription + '</td><td width="50%">' + eventRecord.raw.PumpDesc + '</td></tr><tr><td width="50%">' + translations.mepPumpType + '</td><td width="50%">' + eventRecord.raw.PumpType + '</td></tr><tr><td width="50%">' + translations.mepPumpRange + '</td><td width="50%">' + eventRecord.raw.PumpMax + '</td></tr><tr><td width="50%">' + translations.mepPumpStatusItem + '</td><td width="50%">' + eventRecord.raw.StatusTx + '</td></tr><tr><td width="50%">' + translations.mepPumpStartDateTime + '</td><td width="50%">' + eventRecord.raw.StartPdate + ' ' + eventRecord.raw.StartPtime + '</td></tr><tr><td width="50%">' + translations.mepPumpEndServiceDateTime + '</td><td width="50%">' + eventRecord.raw.EndPdate + ' ' + eventRecord.raw.EndPtime + '</td></tr><tr><td width="50%">' + translations.mepPumpEndDeliveryDateTime + '</td><td width="50%">' + eventRecord.raw.DelivDate + ' ' + eventRecord.raw.DelivTime + '</td></tr><tr><td width="50%">' + translations.mepPumpJobSiteNumber + '</td><td width="50%">' + eventRecord.raw.Jobsite + '/' + eventRecord.raw.JobstDesc + '</td></tr><tr><td width="50%">' + translations.mepPumpPODNumberDesc + '</td><td width="50%">' + eventRecord.raw.Pod + '/' + eventRecord.raw.PodDesc + '</td></tr><tr><td width="50%">' + translations.mepPumpPODAddress + '</td><td width="50%">' + eventRecord.raw.PodAddr + '</td></tr><tr><td width="50%">' + translations.mepPumpOrderContact + '</td><td width="50%">' + eventRecord.raw.Customer + '/' + eventRecord.raw.CustoDesc + '</td></tr></table></body>', true);
+                    scheduler.tooltipTpl.set('<body><table width="350px" eight="250px"><tr style="color:#084B8A; font-weight: bold"><td width="50%">' + translations.mepPumpOrder + '</td><td width="50%">' + eventRecord.raw.Order + '</td></tr><tr><td width="50%">' + translations.mepPumpService + '</td><td width="50%">' + eventRecord.raw.ServDesc + '</td></tr><tr><td width="50%">' + translations.mepPumpVolumen + '</td><td width="50%">' + eventRecord.raw.Quantity + '</td></tr><tr><td width="50%">' + translations.mepPumpDescription + '</td><td width="50%">' + eventRecord.raw.PumpDesc + '</td></tr><tr><td width="50%">' + translations.mepPumpRangeMin + '</td><td width="50%">' + eventRecord.raw.PumpType + '</td></tr><tr><td width="50%">' + translations.mepPumpRangeMax + '</td><td width="50%">' + eventRecord.raw.PumpMax + '</td></tr><tr><td width="50%">' + translations.mepPumpStatusItem + '</td><td width="50%">' + eventRecord.raw.StatusTx + '</td></tr><tr><td width="50%">' + translations.mepPumpStartDateTime + '</td><td width="50%">' + eventRecord.raw.StartPdate + ' ' + eventRecord.raw.StartPtime + '</td></tr><tr><td width="50%">' + translations.mepPumpEndServiceDateTime + '</td><td width="50%">' + eventRecord.raw.EndPdate + ' ' + eventRecord.raw.EndPtime + '</td></tr><tr><td width="50%">' + translations.mepPumpEndDeliveryDateTime + '</td><td width="50%">' + eventRecord.raw.DelivDate + ' ' + eventRecord.raw.DelivTime + '</td></tr><tr><td width="50%">' + translations.mepPumpJobSiteNumber + '</td><td width="50%">' + eventRecord.raw.Jobsite + '/' + eventRecord.raw.JobstDesc + '</td></tr><tr><td width="50%">' + translations.mepPumpPODNumberDesc + '</td><td width="50%">' + eventRecord.raw.Pod + '/' + eventRecord.raw.PodDesc + '</td></tr><tr><td width="50%">' + translations.mepPumpPODAddress + '</td><td width="50%">' + eventRecord.raw.PodAddr + '</td></tr><tr><td width="50%">' + translations.mepPumpOrderContact + '</td><td width="50%">' + eventRecord.raw.Customer + '/' + eventRecord.raw.CustoDesc + '</td></tr></table></body>', true);
                 }
 
             },
@@ -322,47 +321,47 @@ var directionsDisplay = new google.maps.DirectionsRenderer({
 
 
 var locationsArr = [
-//     {
-//     pump: "AAAA",
-//     origin: { lat: 25.683421, lng: -100.308871 },
-//     destination: { lat: 25.683421, lng: -100.308871 },
-//     route: [
-//         { lat: 25.649654, lng: -100.727157 },
-//         { lat: 25.541305, lng: -100.945926 },
-//         { lat: 25.429964, lng: -100.994776 },
+    //     {
+    //     pump: "AAAA",
+    //     origin: { lat: 25.683421, lng: -100.308871 },
+    //     destination: { lat: 25.683421, lng: -100.308871 },
+    //     route: [
+    //         { lat: 25.649654, lng: -100.727157 },
+    //         { lat: 25.541305, lng: -100.945926 },
+    //         { lat: 25.429964, lng: -100.994776 },
 
-//     ]
-// },
-// {
-//     pump: "BBBB",
-//     origin: { lat: 25.649654, lng: -100.727157 },
-//     destination: { lat: 25.649654, lng: -100.727157 },
-//     route: [
-//         { lat: 25.269833, lng: -100.577096 }
-//     ]
-// },
-// {
-//     pump: "CCCC",
-//     origin: { lat: 25.739687, lng: -100.243657 },
-//     destination: { lat: 25.739687, lng: -100.243657 },
-//     route: [
-//         { lat: 25.192946, lng: -99.831860 },
-//         { lat: 24.907664, lng: -99.683059 },
-//         { lat: 24.502716, lng: -99.498266 },
-//         { lat: 23.759113, lng: -99.136126 },
-//     ]
-// },
-// {
-//     pump: "DDDD",
-//     origin: { lat: 22.175379, lng: -100.983862 },
-//     destination: { lat: 22.175379, lng: -100.983862 },
-//     route: [
-//         { lat: 22.453293, lng: -100.300735 },
-//         { lat: 21.939837, lng: -99.983961 },
-//         { lat: 22.016987, lng: -99.670755 },
-//         { lat: 22.057813, lng: -99.078598 },
-//     ]
-// }
+    //     ]
+    // },
+    // {
+    //     pump: "BBBB",
+    //     origin: { lat: 25.649654, lng: -100.727157 },
+    //     destination: { lat: 25.649654, lng: -100.727157 },
+    //     route: [
+    //         { lat: 25.269833, lng: -100.577096 }
+    //     ]
+    // },
+    // {
+    //     pump: "CCCC",
+    //     origin: { lat: 25.739687, lng: -100.243657 },
+    //     destination: { lat: 25.739687, lng: -100.243657 },
+    //     route: [
+    //         { lat: 25.192946, lng: -99.831860 },
+    //         { lat: 24.907664, lng: -99.683059 },
+    //         { lat: 24.502716, lng: -99.498266 },
+    //         { lat: 23.759113, lng: -99.136126 },
+    //     ]
+    // },
+    // {
+    //     pump: "DDDD",
+    //     origin: { lat: 22.175379, lng: -100.983862 },
+    //     destination: { lat: 22.175379, lng: -100.983862 },
+    //     route: [
+    //         { lat: 22.453293, lng: -100.300735 },
+    //         { lat: 21.939837, lng: -99.983961 },
+    //         { lat: 22.016987, lng: -99.670755 },
+    //         { lat: 22.057813, lng: -99.078598 },
+    //     ]
+    // }
 
 ];
 
@@ -521,8 +520,8 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, pumpSele
 
 
         } else {
-	    directionsDisplay.setMap(null);
-	    clearMarks();
+            directionsDisplay.setMap(null);
+            clearMarks();
             Ext.Msg.alert('Directions request failed due to ' + status);
         }
     });
