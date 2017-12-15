@@ -9,6 +9,25 @@ Ext.define('Test43.view.Main', {
                 {
                     layout: 'hbox',
                     border: false,
+                    height: 20,
+                    padding: { top: 5, left: 1030, right: 0, bottom: 0 },
+                    items: [
+                        {
+                            xtype: 'label',
+                            text: translations.mepTimer + ': 00 ' + translations.mepSegundos,
+                            id: 'lblTimer',
+                            aling: 'center',
+                            flex: 1,
+                            style: {
+                                'color': 'red',
+                                'font-size': '12px'
+                            }
+                        }
+                    ]
+                },
+                {
+                    layout: 'hbox',
+                    border: false,
                     height: '35%',
                     minHeight: 300,
                     items: [
@@ -180,7 +199,7 @@ Ext.define('Test43.view.Main', {
                             //title: "8:00 hrs to 9:00 hrs",
                             title: 'GridPanel <span style ="margin-left: 620px"><img class="Some class" src> Accept</span>',
                             width: '33%',
-                            height: 223,
+                            height: 203,
                             enableColumnHide: false,
                             //store: 'Load1',
                             margins: { top: 0, left: 0, right: 0, bottom: 0 },
@@ -268,7 +287,7 @@ Ext.define('Test43.view.Main', {
                             id: 'gridLoadPerHour2',
                             title: "9:00 hrs to 10:00 hrs",
                             width: '34%',
-                            height: 223,
+                            height: 203,
                             enableColumnHide: false,
                             //store: 'Load2',
                             margins: { top: 0, left: 0, right: 0, bottom: 0 },
@@ -355,7 +374,7 @@ Ext.define('Test43.view.Main', {
                             id: 'gridLoadPerHour3',
                             title: "10:00 hrs to 11:00 hrs",
                             width: '33%',
-                            height: 223,
+                            height: 203,
                             enableColumnHide: false,
                             //store: 'Load3',
                             margins: { top: 0, left: 0, right: 0, bottom: 0 },

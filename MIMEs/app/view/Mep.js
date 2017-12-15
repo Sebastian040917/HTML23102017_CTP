@@ -634,6 +634,15 @@ Ext.define('Test43.view.Mep', {
             ]
         }
     ]
+
+    //,
+    //listeners : {
+    //  afterrender : function(panel) {
+    //     var header = panel.header;
+    //    header.setHeight(31);
+    //}
+    //}
+
 });
 
 function getTimeFromRaw(time) {
